@@ -128,15 +128,6 @@ export function Footer() {
                 <Mail className="w-4 h-4 text-accent flex-shrink-0" />
                 {contactInfo.email}
               </a>
-              <div className="flex items-start gap-3 text-sm text-white/70">
-                <MapPin className="w-4 h-4 text-accent flex-shrink-0 mt-0.5" />
-                <span>
-                  {contactInfo.address},
-                  <br />
-                  {contactInfo.city}, {contactInfo.state}{" "}
-                  {contactInfo.pincode}
-                </span>
-              </div>
             </div>
           </div>
 
