@@ -39,3 +39,12 @@ export const contactFormSchema = z.object({
 });
 
 export type ContactFormValues = z.infer<typeof contactFormSchema>;
+
+export const footerFormSchema = z.object({
+  fullName: z.string().min(2, "Name must be at least 2 characters").max(100),
+  phoneNumber: z.string().min(10, "Phone number must be at least 10 digits").max(15),
+  emailAddress: z.string().email("Please enter a valid email address").optional().or(z.literal("")),
+  projectDetails: z.string().min(5, "Please provide some details about your project").max(1000),
+});
+
+export type FooterFormValues = z.infer<typeof footerFormSchema>;

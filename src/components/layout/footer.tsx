@@ -8,9 +8,22 @@ import {
   MapPin,
   ArrowRight,
 } from "lucide-react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { footerFormSchema, FooterFormValues } from "@/lib/validations/contact";
+import { submitFooterForm } from "@/actions/contact";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
+import { CheckCircle2 } from "lucide-react";
 
 function WhatsAppIcon({ className }: { className?: string }) {
   return (
@@ -42,6 +55,38 @@ function InstagramIcon({ className }: { className?: string }) {
 }
 
 export function Footer() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [serverError, setServerError] = useState<string | null>(null);
+
+  const form = useForm<FooterFormValues>({
+    resolver: zodResolver(footerFormSchema),
+    defaultValues: {
+      fullName: "",
+      phoneNumber: "",
+      emailAddress: "",
+      projectDetails: "",
+    },
+  });
+
+  async function onSubmit(data: FooterFormValues) {
+    setIsSubmitting(true);
+    setServerError(null);
+    try {
+      const response = await submitFooterForm(data);
+      if (response.success) {
+        setIsSuccess(true);
+        form.reset();
+      } else {
+        setServerError(response.message);
+      }
+    } catch (error) {
+      setServerError("An unexpected error occurred. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
   return (
     <footer id="contact-footer" className="bg-surface-dark text-white">
       {/* Main Footer */}
@@ -97,47 +142,114 @@ export function Footer() {
 
           {/* Right — Contact Form */}
           <div>
-            <form
-              onSubmit={(e) => e.preventDefault()}
-              className="space-y-3"
-            >
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <Input
-                  type="text"
-                  placeholder="Your Name"
-                  aria-label="Your Name"
-                  className="h-12 bg-white/5 border-white/10 text-white placeholder:text-white/30 focus-visible:ring-accent rounded-sm"
-                  required
-                />
-                <Input
-                  type="tel"
-                  placeholder="Phone Number"
-                  aria-label="Phone Number"
-                  className="h-12 bg-white/5 border-white/10 text-white placeholder:text-white/30 focus-visible:ring-accent rounded-sm"
-                  required
-                />
+            {isSuccess ? (
+              <div className="bg-white/5 border border-white/10 p-8 rounded-lg text-center flex flex-col items-center justify-center h-full min-h-[300px]">
+                <div className="w-12 h-12 bg-[#25D366]/20 rounded-full flex items-center justify-center mb-4">
+                  <CheckCircle2 className="w-6 h-6 text-[#25D366]" />
+                </div>
+                <h3 className="text-xl font-heading mb-2">Message Sent</h3>
+                <p className="text-white/70 text-sm mb-6">
+                  Thank you. We will get back to you shortly.
+                </p>
+                <Button 
+                  variant="outline" 
+                  className="border-white/20 hover:bg-white/10 text-white h-9 px-4 text-xs"
+                  onClick={() => setIsSuccess(false)}
+                >
+                  Send another message
+                </Button>
               </div>
-              <Input
-                type="email"
-                placeholder="Email Address"
-                aria-label="Email Address"
-                className="h-12 bg-white/5 border-white/10 text-white placeholder:text-white/30 focus-visible:ring-accent rounded-sm"
-              />
-              <Textarea
-                placeholder="Tell us about your project"
-                aria-label="Project Details"
-                rows={3}
-                className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus-visible:ring-accent resize-none rounded-sm"
-              />
-              <Button
-                type="submit"
-                variant="default"
-                className="gap-2 bg-accent text-white hover:bg-accent-dark rounded-sm group mt-2"
-              >
-                Send Enquiry
-                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-              </Button>
-            </form>
+            ) : (
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="space-y-3"
+                >
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <FormField
+                      control={form.control}
+                      name="fullName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input
+                              placeholder="Your Name"
+                              className="h-12 bg-white/5 border-white/10 text-white placeholder:text-white/30 focus-visible:ring-accent rounded-sm"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage className="text-xs text-red-400" />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="phoneNumber"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input
+                              placeholder="Phone Number"
+                              className="h-12 bg-white/5 border-white/10 text-white placeholder:text-white/30 focus-visible:ring-accent rounded-sm"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage className="text-xs text-red-400" />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <FormField
+                    control={form.control}
+                    name="emailAddress"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input
+                            placeholder="Email Address (Optional)"
+                            className="h-12 bg-white/5 border-white/10 text-white placeholder:text-white/30 focus-visible:ring-accent rounded-sm"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage className="text-xs text-red-400" />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="projectDetails"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Textarea
+                            placeholder="Tell us about your project"
+                            rows={3}
+                            className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus-visible:ring-accent resize-none rounded-sm"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage className="text-xs text-red-400" />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  {serverError && (
+                    <div className="p-3 bg-red-500/10 border border-red-500/20 text-red-400 rounded-md text-sm">
+                      {serverError}
+                    </div>
+                  )}
+
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="gap-2 bg-accent text-white hover:bg-accent-dark rounded-sm group mt-2"
+                  >
+                    {isSubmitting ? "Sending..." : "Send Enquiry"}
+                    {!isSubmitting && <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />}
+                  </Button>
+                </form>
+              </Form>
+            )}
           </div>
         </div>
       </div>
