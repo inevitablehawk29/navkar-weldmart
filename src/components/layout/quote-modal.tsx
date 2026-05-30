@@ -23,7 +23,11 @@ export function QuoteModal({ children }: QuoteModalProps) {
       <DialogTrigger asChild>
         {children}
       </DialogTrigger>
-      <DialogContent className="w-[95vw] sm:max-w-2xl max-h-[95vh] overflow-y-auto p-5 sm:p-8 rounded-xl bg-surface border-border">
+      <DialogContent 
+        className="w-[95vw] sm:max-w-2xl max-h-[95vh] overflow-y-auto p-5 sm:p-8 rounded-xl bg-surface border-border"
+        onOpenAutoFocus={(e) => e.preventDefault()}
+        onInteractOutside={(e) => e.preventDefault()}
+      >
         <DialogHeader className="mb-4 sm:mb-6 text-left">
           <DialogTitle className="text-2xl sm:text-3xl font-heading text-foreground uppercase tracking-tight">Get A Quote</DialogTitle>
           <DialogDescription className="text-muted-foreground text-sm">

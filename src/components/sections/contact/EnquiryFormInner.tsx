@@ -87,12 +87,12 @@ export function EnquiryFormInner({ onSuccess }: { onSuccess?: () => void }) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4">
           <FormField
             control={form.control}
             name="fullName"
             render={({ field }) => (
-              <FormItem className="sm:col-span-1">
+              <FormItem className="col-span-1">
                 <FormLabel className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                   Full Name <span className="text-red-500">*</span>
                 </FormLabel>
@@ -111,7 +111,7 @@ export function EnquiryFormInner({ onSuccess }: { onSuccess?: () => void }) {
             control={form.control}
             name="phoneNumber"
             render={({ field }) => (
-              <FormItem className="sm:col-span-1">
+              <FormItem className="col-span-1">
                 <FormLabel className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                   Phone Number <span className="text-red-500">*</span>
                 </FormLabel>
@@ -130,7 +130,7 @@ export function EnquiryFormInner({ onSuccess }: { onSuccess?: () => void }) {
             control={form.control}
             name="emailAddress"
             render={({ field }) => (
-              <FormItem className="sm:col-span-1">
+              <FormItem className="col-span-2">
                 <FormLabel className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                   Email Address <span className="text-muted-foreground/60 normal-case tracking-normal ml-1">(Optional)</span>
                 </FormLabel>
@@ -150,7 +150,7 @@ export function EnquiryFormInner({ onSuccess }: { onSuccess?: () => void }) {
             control={form.control}
             name="projectLocation"
             render={({ field }) => (
-              <FormItem className="sm:col-span-1">
+              <FormItem className="col-span-1">
                 <FormLabel className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                   Project Location <span className="text-red-500">*</span>
                 </FormLabel>
@@ -169,7 +169,7 @@ export function EnquiryFormInner({ onSuccess }: { onSuccess?: () => void }) {
             control={form.control}
             name="projectType"
             render={({ field }) => (
-              <FormItem className="sm:col-span-1">
+              <FormItem className="col-span-1">
                 <FormLabel className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                   Project Type <span className="text-red-500">*</span>
                 </FormLabel>
@@ -197,7 +197,7 @@ export function EnquiryFormInner({ onSuccess }: { onSuccess?: () => void }) {
             control={form.control}
             name="estimatedBudget"
             render={({ field }) => (
-              <FormItem className="sm:col-span-1">
+              <FormItem className="col-span-1">
                 <FormLabel className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                   Estimated Budget <span className="text-red-500">*</span>
                 </FormLabel>
@@ -222,7 +222,7 @@ export function EnquiryFormInner({ onSuccess }: { onSuccess?: () => void }) {
             control={form.control}
             name="source"
             render={({ field }) => (
-              <FormItem className="sm:col-span-2">
+              <FormItem className="col-span-1">
                 <FormLabel className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                   How did you hear about us? <span className="text-muted-foreground/60 normal-case tracking-normal ml-1">(Optional)</span>
                 </FormLabel>

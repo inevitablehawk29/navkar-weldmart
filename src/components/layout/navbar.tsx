@@ -17,7 +17,8 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <motion.header
+    <>
+      <motion.header
       initial={{ y: "-100%" }}
       animate={{ y: 0 }}
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
@@ -125,8 +126,10 @@ export function Navbar() {
         </div>
       </nav>
 
+      </motion.header>
+
       {/* Mobile Navigation */}
       <MobileNav open={mobileOpen} onClose={() => setMobileOpen(false)} />
-    </motion.header>
+    </>
   );
 }
