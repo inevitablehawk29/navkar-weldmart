@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_IN",
-    url: "https://navkarweldmart.com",
+    url: "https://navkarweldmart.vercel.app",
     siteName: "Navkar Weldmart",
     title: "Navkar Weldmart — Steel Fabrication & Structural Solutions",
     description:
@@ -85,7 +85,7 @@ export default function RootLayout({
               name: "Navkar Weldmart",
               description:
                 "Trusted provider of steel fabrication, structural solutions, and material supply in Indore, Madhya Pradesh.",
-              url: "https://navkarweldmart.com",
+              url: "https://navkarweldmart.vercel.app",
               telephone: "+919669769760",
               email: "navkarweldmart@gmail.com",
               address: {
