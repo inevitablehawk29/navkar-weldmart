@@ -153,7 +153,7 @@ export function Footer() {
                 </p>
                 <Button 
                   variant="outline" 
-                  className="border-white/20 hover:bg-white/10 text-white h-9 px-4 text-xs"
+                  className="bg-transparent border-white/20 hover:bg-white/10 hover:text-white text-white h-9 px-4 text-xs"
                   onClick={() => setIsSuccess(false)}
                 >
                   Send another message

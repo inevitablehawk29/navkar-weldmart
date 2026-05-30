@@ -72,22 +72,24 @@ export function ProjectEnquiryForm() {
 
   if (isSuccess) {
     return (
-      <div className="bg-surface-dark text-white p-12 rounded-xl text-center flex flex-col items-center justify-center min-h-[400px]">
-        <div className="w-16 h-16 bg-[#25D366]/20 rounded-full flex items-center justify-center mb-6">
-          <CheckCircle2 className="w-8 h-8 text-[#25D366]" />
-        </div>
-        <h3 className="text-3xl font-heading mb-4">Thank you.</h3>
-        <p className="text-gray-300 text-lg max-w-md mx-auto">
-          Our team will review your enquiry and get in touch shortly.
-        </p>
-        <Button 
-          variant="outline" 
-          className="mt-8 border-white/20 hover:bg-white/10 text-white"
-          onClick={() => setIsSuccess(false)}
-        >
-          Submit another enquiry
-        </Button>
-      </div>
+      <Card className="bg-card rounded-xl border border-border shadow-sm max-w-4xl mx-auto">
+        <CardContent className="p-12 text-center flex flex-col items-center justify-center min-h-[400px]">
+          <div className="w-16 h-16 bg-[#25D366]/10 rounded-full flex items-center justify-center mb-6 mx-auto">
+            <CheckCircle2 className="w-8 h-8 text-[#25D366]" />
+          </div>
+          <h3 className="text-3xl font-heading text-foreground mb-4">Thank you.</h3>
+          <p className="text-muted-foreground text-lg max-w-md mx-auto">
+            Our team will review your enquiry and get in touch shortly.
+          </p>
+          <Button 
+            variant="outline" 
+            className="mt-8"
+            onClick={() => setIsSuccess(false)}
+          >
+            Submit another enquiry
+          </Button>
+        </CardContent>
+      </Card>
     );
   }
 
