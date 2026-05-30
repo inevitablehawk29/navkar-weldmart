@@ -68,7 +68,7 @@ export function ContactHero() {
           >
             <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-500 z-10" />
             <Image
-              src="/images/portfolio/gates-1.webp"
+              src="/images/contact-hero.png"
               alt="Navkar Weldmart Project"
               fill
               className="object-cover transition-transform duration-700 group-hover:scale-105"
