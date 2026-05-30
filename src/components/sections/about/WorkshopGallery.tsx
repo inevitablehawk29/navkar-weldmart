@@ -4,10 +4,10 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 
 const images = [
-  "/images/portfolio/custom-8.webp",
-  "/images/portfolio/warehouse-6.webp",
-  "/images/portfolio/elevation-2.webp",
-  "/images/portfolio/gates-2.webp",
+  { src: "/images/portfolio/custom-8.webp", alt: "Custom structural steel fabrication workshop process in Indore" },
+  { src: "/images/portfolio/warehouse-6.webp", alt: "Industrial warehouse shed steel framework assembly" },
+  { src: "/images/portfolio/elevation-2.webp", alt: "Building elevation architectural metalwork fabrication" },
+  { src: "/images/portfolio/gates-2.webp", alt: "Heavy-duty residential gate precision welding and fabrication" },
 ];
 
 export function WorkshopGallery() {
@@ -28,7 +28,7 @@ export function WorkshopGallery() {
         </motion.div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6 max-w-5xl mx-auto">
-          {images.map((src, index) => (
+          {images.map((img, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, scale: 0.95 }}
@@ -42,8 +42,8 @@ export function WorkshopGallery() {
               className="relative aspect-[4/5] w-full overflow-hidden bg-muted/10 rounded-sm"
             >
               <Image
-                src={src}
-                alt="Navkar Weldmart fabrication execution"
+                src={img.src}
+                alt={img.alt}
                 fill
                 className="object-cover hover:scale-105 transition-transform duration-700"
                 sizes="(max-width: 768px) 100vw, 50vw"

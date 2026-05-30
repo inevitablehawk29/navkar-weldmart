@@ -12,8 +12,26 @@ export const metadata = {
 };
 
 export default function MaterialSupplyPage() {
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "itemListElement": materialCategories.map((category, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "item": {
+        "@type": "Thing",
+        "name": category.title,
+        "description": `Supplying premium grade ${category.title.toLowerCase()} including ${category.items.join(", ")}.`
+      }
+    }))
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
+      />
       <section className="pt-32 pb-16 lg:pt-40 lg:pb-24 bg-surface border-b border-border">
         <div className="container-wide">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
@@ -25,7 +43,7 @@ export default function MaterialSupplyPage() {
                 <span className="text-muted">for every build.</span>
               </h1>
               <p className="text-lg text-muted leading-relaxed mb-10">
-                As a trusted supplier, we provide high-grade iron and steel materials directly from top manufacturers. Whether you need structural steel, pipes, or fabrication consumables, we ensure quality and competitive pricing.
+                Navkar Weldmart supplies premium grade structural steel, pipes, plates, and fabrication consumables directly from top manufacturers. Our comprehensive inventory ensures high-quality raw materials are ready for rapid dispatch to construction and industrial sites across Madhya Pradesh.
               </p>
               
               <div className="pt-8 border-t border-border">

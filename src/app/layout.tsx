@@ -85,35 +85,54 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${bebasNeue.variable}`}>
       <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "LocalBusiness",
-              name: "Navkar Weldmart",
-              description:
-                "Trusted provider of steel fabrication, structural solutions, and material supply in Indore, Madhya Pradesh.",
-              url: "https://navkarweldmart.vercel.app",
-              telephone: "+919669769760",
-              email: "navkarweldmart@gmail.com",
-              address: {
-                "@type": "PostalAddress",
-                addressLocality: "Indore",
-                addressRegion: "Madhya Pradesh",
-                addressCountry: "IN",
-              },
-              geo: {
-                "@type": "GeoCoordinates",
-                latitude: 22.7196,
-                longitude: 75.8577,
-              },
-              foundingDate: "2012",
-              areaServed: ["Indore", "Bhopal", "Madhya Pradesh"],
-              sameAs: [],
-            }),
-          }}
-        />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify([
+                {
+                  "@context": "https://schema.org",
+                  "@type": "Organization",
+                  "@id": "https://navkarweldmart.vercel.app/#organization",
+                  name: "Navkar Weldmart",
+                  url: "https://navkarweldmart.vercel.app",
+                  logo: "https://navkarweldmart.vercel.app/icon.png",
+                  contactPoint: {
+                    "@type": "ContactPoint",
+                    telephone: "+919669769760",
+                    contactType: "customer service",
+                    email: "navkarweldmart@gmail.com",
+                    availableLanguage: ["English", "Hindi"]
+                  }
+                },
+                {
+                  "@context": "https://schema.org",
+                  "@type": "LocalBusiness",
+                  "@id": "https://navkarweldmart.vercel.app/#localbusiness",
+                  parentOrganization: { "@id": "https://navkarweldmart.vercel.app/#organization" },
+                  name: "Navkar Weldmart",
+                  description:
+                    "Trusted provider of steel fabrication, structural solutions, and material supply in Indore, Madhya Pradesh.",
+                  url: "https://navkarweldmart.vercel.app",
+                  telephone: "+919669769760",
+                  email: "navkarweldmart@gmail.com",
+                  image: "https://navkarweldmart.vercel.app/og-image.jpg",
+                  address: {
+                    "@type": "PostalAddress",
+                    addressLocality: "Indore",
+                    addressRegion: "Madhya Pradesh",
+                    addressCountry: "IN",
+                  },
+                  geo: {
+                    "@type": "GeoCoordinates",
+                    latitude: 22.7196,
+                    longitude: 75.8577,
+                  },
+                  foundingDate: "2012",
+                  areaServed: ["Indore", "Bhopal", "Madhya Pradesh"]
+                }
+              ]),
+            }}
+          />
       </head>
       <body className="min-h-screen flex flex-col antialiased">
         <TooltipProvider>

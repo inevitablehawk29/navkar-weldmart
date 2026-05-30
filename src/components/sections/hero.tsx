@@ -15,7 +15,7 @@ export function Hero() {
       <div className="absolute inset-0 z-0">
         <Image
           src="/images/homepage_hero_bg.webp"
-          alt="Industrial steel structure fabricated by Navkar Weldmart"
+          alt="Heavy industrial warehouse steel structure fabricated by Navkar Weldmart in Madhya Pradesh"
           fill
           className="object-cover object-center"
           priority

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, Package, Factory, Ruler, Home } from "lucide-react";
-import { services } from "@/content";
+import { services, faqs } from "@/content";
 import { SectionLabel } from "@/components/shared/section-label";
 import { ContactCTA } from "@/components/sections/contact/ContactCTA";
 import { Card, CardContent, CardTitle, CardDescription } from "@/components/ui/card";
@@ -19,8 +19,25 @@ export const metadata = {
 };
 
 export default function ServicesPage() {
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <section className="pt-32 pb-20 lg:pt-40 lg:pb-32 bg-background border-b border-border">
         <div className="container-wide">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-20 items-start">
@@ -32,7 +49,7 @@ export default function ServicesPage() {
                 <span className="text-muted">one roof.</span>
               </h1>
               <p className="text-lg text-muted leading-relaxed mb-8">
-                From sourcing premium materials to precision fabrication and safe on-site erection, we provide end-to-end structural solutions tailored to your project requirements.
+                Navkar Weldmart provides industrial steel fabrication, warehouse structures, mezzanine floors, and custom metalwork projects across Madhya Pradesh. From sourcing premium materials to precision fabrication and safe on-site erection, we deliver end-to-end structural solutions.
               </p>
               <div className="hidden lg:block accent-line" />
             </FadeIn>
