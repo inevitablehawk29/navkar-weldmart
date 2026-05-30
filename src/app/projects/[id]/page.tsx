@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, CheckCircle2, MapPin } from "lucide-react";
+import { ArrowLeft, MapPin } from "lucide-react";
 import { projects } from "@/content";
 import { SectionLabel } from "@/components/shared/section-label";
 import { ContactCTA } from "@/components/sections/contact/ContactCTA";

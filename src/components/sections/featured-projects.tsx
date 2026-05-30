@@ -70,12 +70,12 @@ export function FeaturedProjects() {
               }}
             >
               <Carousel
-                opts={{ align: "start", dragFree: true }}
+                opts={{ align: "start" }}
                 className="w-full"
               >
-                <CarouselContent className="ml-0 gap-5 pb-4">
+                <CarouselContent className="-ml-5 pb-4">
                   {featuredProjects.map((project) => (
-                    <CarouselItem key={project.id} className="pl-0 basis-auto">
+                    <CarouselItem key={project.id} className="pl-5 basis-auto">
                       <ProjectCard project={project} />
                     </CarouselItem>
                   ))}

@@ -27,6 +27,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://navkarweldmart.vercel.app"),
   title: {
     default: "Navkar Weldmart — Steel Fabrication & Structural Solutions",
     template: "%s | Navkar Weldmart",

@@ -4,7 +4,18 @@ import { contactFormSchema, footerFormSchema } from "@/lib/validations/contact";
 import { ContactResponse } from "@/types/contact";
 import { Resend } from "resend";
 
-async function sendResendEmail(parsedData: any, formType: "Main" | "Footer"): Promise<ContactResponse> {
+export type EmailData = {
+  fullName: string;
+  phoneNumber: string;
+  emailAddress?: string;
+  projectLocation?: string;
+  estimatedBudget?: string;
+  source?: string;
+  projectDetails?: string;
+  projectType?: string;
+};
+
+async function sendResendEmail(parsedData: EmailData, formType: "Main" | "Footer"): Promise<ContactResponse> {
   const apiKey = process.env.RESEND_API_KEY;
 
   if (!apiKey) {

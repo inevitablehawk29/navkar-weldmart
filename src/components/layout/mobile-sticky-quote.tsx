@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { QuoteModal } from "./quote-modal";
-import { ArrowRight, ClipboardEdit } from "lucide-react";
+import { ClipboardEdit } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function MobileStickyQuote() {

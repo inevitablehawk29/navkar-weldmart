@@ -57,7 +57,7 @@ export function EnquiryFormInner({ onSuccess }: { onSuccess?: () => void }) {
       } else {
         setServerError(response.message);
       }
-    } catch (error) {
+    } catch {
       setServerError("An unexpected error occurred. Please try again.");
     } finally {
       setIsSubmitting(false);

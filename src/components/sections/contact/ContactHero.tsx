@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+
 import { motion } from "framer-motion";
 import { Phone, MessageCircle, Mail, MapPin } from "lucide-react";
 import { contactInfo } from "@/content";
