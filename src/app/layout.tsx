@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Bebas_Neue } from "next/font/google";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
+import { MobileStickyQuote } from "@/components/layout/mobile-sticky-quote";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import "./globals.css";
 
@@ -90,10 +91,8 @@ export default function RootLayout({
               email: "navkarweldmart@gmail.com",
               address: {
                 "@type": "PostalAddress",
-                streetAddress: "Plot No. 484, Bicholi Mardana",
                 addressLocality: "Indore",
                 addressRegion: "Madhya Pradesh",
-                postalCode: "452016",
                 addressCountry: "IN",
               },
               geo: {
@@ -113,6 +112,7 @@ export default function RootLayout({
           <Navbar />
           <main className="flex-1">{children}</main>
           <Footer />
+          <MobileStickyQuote />
         </TooltipProvider>
       </body>
     </html>

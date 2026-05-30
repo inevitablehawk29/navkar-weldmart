@@ -89,10 +89,8 @@ export interface TrustMetric {
 export interface ContactInfo {
   phones: string[];
   email: string;
-  address: string;
   city: string;
   state: string;
-  pincode: string;
   owner: string;
 }
 

@@ -3,7 +3,7 @@ import * as z from "zod";
 export const contactFormSchema = z.object({
   fullName: z.string().min(2, "Name must be at least 2 characters").max(100),
   phoneNumber: z.string().min(10, "Phone number must be at least 10 digits").max(15),
-  emailAddress: z.string().email("Please enter a valid email address"),
+  emailAddress: z.string().email("Please enter a valid email address").optional().or(z.literal("")),
   projectType: z.enum([
     "Material Supply",
     "Structural Fabrication",
@@ -32,9 +32,7 @@ export const contactFormSchema = z.object({
     "Google Search",
     "Social Media",
     "Other"
-  ], {
-    message: "Please let us know how you heard about us.",
-  }),
+  ]).optional(),
   projectDetails: z.string().min(10, "Please provide some details about your project").max(1000),
 });
 

@@ -7,6 +7,7 @@ import { useScroll } from "@/hooks/use-scroll";
 import { cn } from "@/lib/utils";
 import { navigation, contactInfo } from "@/content";
 import { MobileNav } from "./mobile-nav";
+import { QuoteModal } from "./quote-modal";
 import { Menu, Phone, ArrowRight, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
@@ -46,9 +47,10 @@ export function Navbar() {
           {navigation.map((item) =>
             item.children ? (
               <div key={item.label} className="relative group z-50">
-                <button 
+                <Link
+                  href={item.href || "#"} 
                   className={cn(
-                    "inline-flex items-center gap-1 h-9 px-4 py-2 text-sm font-medium transition-colors rounded-sm focus:outline-none cursor-default",
+                    "inline-flex items-center gap-1 h-9 px-4 py-2 text-sm font-medium transition-colors rounded-sm focus:outline-none",
                     scrolled
                       ? "text-foreground group-hover:text-primary"
                       : "text-foreground/90 group-hover:text-foreground"
@@ -56,7 +58,7 @@ export function Navbar() {
                 >
                   {item.label}
                   <ChevronDown className="w-3 h-3 opacity-70 transition-transform duration-200 group-hover:-rotate-180" />
-                </button>
+                </Link>
                 <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0">
                   <ul className="w-[240px] p-2 bg-surface shadow-lg rounded-sm border border-border">
                     {item.children.map((child: { label: string; href: string }) => (
@@ -101,13 +103,14 @@ export function Navbar() {
           </a>
 
           {/* CTA Button */}
-          <Link
-            href="/contact"
-            className="hidden md:inline-flex items-center gap-2 bg-primary text-white px-5 py-2.5 text-sm font-medium hover:bg-primary-dark transition-colors"
-          >
-            Get A Quote
-            <ArrowRight className="w-4 h-4" />
-          </Link>
+          <QuoteModal>
+            <button
+              className="hidden md:inline-flex items-center gap-2 bg-primary text-white px-5 py-2.5 text-sm font-medium hover:bg-primary/90 transition-colors cursor-pointer rounded-sm"
+            >
+              Get A Quote
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </QuoteModal>
 
           {/* Mobile Hamburger */}
           <Button

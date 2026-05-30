@@ -12,6 +12,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
 
 export function ClientsPartners() {
   const ref = useRef<HTMLDivElement>(null);
@@ -73,7 +74,11 @@ export function ClientsPartners() {
             {/* Testimonial */}
             <div className="relative bg-surface/5 p-8 rounded-lg border border-white/5">
               <Quote className="w-8 h-8 text-accent mb-6" />
-              <Carousel opts={{ align: "start", loop: true }} className="w-full">
+              <Carousel 
+                opts={{ align: "start", loop: true }} 
+                plugins={[Autoplay({ delay: 5000, stopOnInteraction: true })]}
+                className="w-full"
+              >
                 <CarouselContent>
                   {testimonials.map((testimonial, idx) => (
                     <CarouselItem key={idx}>
@@ -81,7 +86,7 @@ export function ClientsPartners() {
                         <blockquote className="text-base sm:text-lg text-white/90 leading-relaxed mb-8 min-h-[120px]">
                           {testimonial.quote}
                         </blockquote>
-                        <div className="flex items-center justify-between border-t border-white/10 pt-6">
+                        <div className="flex items-center justify-between">
                           <div>
                             <p className="text-sm font-semibold text-white">
                               — {testimonial.author}

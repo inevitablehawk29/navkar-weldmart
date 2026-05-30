@@ -14,6 +14,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { useState } from "react";
+import { QuoteModal } from "./quote-modal";
 import { Button } from "@/components/ui/button";
 
 interface MobileNavProps {
@@ -153,20 +154,20 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
             <div className="flex items-start gap-3">
               <MapPin className="w-4 h-4 mt-0.5 shrink-0" />
               <span>
-                {contactInfo.address}, {contactInfo.city},{" "}
-                {contactInfo.state} {contactInfo.pincode}
+                {contactInfo.city}, {contactInfo.state}
               </span>
             </div>
           </div>
 
-          <Link
-            href="/contact"
-            onClick={onClose}
-            className="flex items-center justify-center gap-2 w-full bg-primary text-white py-3 text-sm font-medium hover:bg-primary-dark transition-colors"
-          >
-            Get A Quote
-            <ArrowRight className="w-4 h-4" />
-          </Link>
+          <QuoteModal>
+            <button
+              onClick={onClose}
+              className="flex items-center justify-center gap-2 w-full bg-primary text-white py-3 text-sm font-medium hover:bg-primary-dark transition-colors rounded-sm"
+            >
+              Get A Quote
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </QuoteModal>
         </div>
       </div>
     </>

@@ -3,10 +3,8 @@ import { ContactInfo, TimelineEvent, TrustMetric } from '@/types';
 export const contactInfo: ContactInfo = {
   phones: ["+91 96697 69760", "+91 62637 21818"],
   email: "navkarweldmart@gmail.com",
-  address: "Plot No. 484, Bicholi Mardana",
   city: "Indore",
   state: "Madhya Pradesh",
-  pincode: "452016",
   owner: "Jinesh Jain",
 };
 

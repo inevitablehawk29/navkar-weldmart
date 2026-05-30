@@ -48,20 +48,20 @@ export function Hero() {
               and scale<span className="text-primary">.</span>
             </h1>
 
-            <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 mb-6 text-sm font-medium text-foreground">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-5 mb-6 text-xs font-medium text-foreground">
               <div className="flex flex-col">
-                <span className="text-2xl font-bold text-primary">13+</span>
+                <span className="text-xl font-bold text-primary">13+</span>
                 <span className="text-muted">Years Experience</span>
               </div>
               <div className="hidden sm:block w-px bg-border"></div>
               <div className="flex flex-col">
-                <span className="text-2xl font-bold text-primary">50+</span>
+                <span className="text-xl font-bold text-primary">50+</span>
                 <span className="text-muted">Projects Delivered</span>
               </div>
               <div className="hidden sm:block w-px bg-border"></div>
               <div className="flex flex-col">
-                <span className="text-2xl font-bold text-primary">MP</span>
-                <span className="text-muted">Across Madhya Pradesh</span>
+                <span className="text-xl font-bold text-primary">100%</span>
+                <span className="text-muted">Custom Fabrication</span>
               </div>
             </div>
 
