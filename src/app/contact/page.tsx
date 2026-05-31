@@ -17,18 +17,9 @@ export default function ContactPage() {
     <>
       <ContactHero />
       
-      <section className="py-12 lg:py-16 bg-background border-t border-border" id="enquiry">
+      <section className="py-12 lg:py-16 bg-background border-t border-border" id="why-us">
         <div className="container-wide">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24">
-            <div className="lg:col-span-8">
-              <ProjectEnquiryForm />
-            </div>
-            <div className="lg:col-span-4">
-              <div className="sticky top-32">
-                <WhyWorkWithUs />
-              </div>
-            </div>
-          </div>
+          <WhyWorkWithUs />
         </div>
       </section>
 

@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { navigation, contactInfo } from "@/content";
 import {
@@ -23,6 +24,7 @@ interface MobileNavProps {
 }
 
 export function MobileNav({ open, onClose }: MobileNavProps) {
+  const pathname = usePathname();
   const [servicesExpanded, setServicesExpanded] = useState(false);
 
   // Lock body scroll when open
@@ -85,13 +87,18 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
         {/* Nav Links */}
         <div className="flex-1 overflow-y-auto py-6">
           <nav className="flex flex-col">
-            {navigation.map((item) =>
-              item.children ? (
+            {navigation.map((item) => {
+              const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
+              
+              return item.children ? (
                 <div key={item.label}>
                   <Button
                     variant="ghost"
                     onClick={() => setServicesExpanded(!servicesExpanded)}
-                    className="w-full flex items-center justify-between px-6 py-4 h-auto text-lg font-medium text-foreground hover:text-primary transition-colors hover:bg-transparent rounded-none"
+                    className={cn(
+                      "w-full flex items-center justify-between px-6 py-4 h-auto text-lg font-medium transition-colors hover:bg-transparent rounded-none",
+                      isActive ? "text-primary" : "text-foreground hover:text-primary"
+                    )}
                     aria-expanded={servicesExpanded}
                   >
                     {item.label}
@@ -108,16 +115,24 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
                       servicesExpanded ? "max-h-96" : "max-h-0"
                     )}
                   >
-                    {item.children.map((child: { label: string; href: string }) => (
-                      <Link
-                        key={child.href}
-                        href={child.href}
-                        onClick={onClose}
-                        className="block pl-10 pr-6 py-3 text-base text-muted hover:text-primary transition-colors"
-                      >
-                        {child.label}
-                      </Link>
-                    ))}
+                    {item.children.map((child: { label: string; href: string }) => {
+                      const isChildActive = pathname === child.href;
+                      return (
+                        <Link
+                          key={child.href}
+                          href={child.href}
+                          onClick={onClose}
+                          className={cn(
+                            "block pl-10 pr-6 py-3 text-base transition-colors",
+                            isChildActive
+                              ? "text-primary font-medium"
+                              : "text-muted hover:text-primary"
+                          )}
+                        >
+                          {child.label}
+                        </Link>
+                      );
+                    })}
                   </div>
                 </div>
               ) : (
@@ -125,12 +140,15 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
                   key={item.href}
                   href={item.href}
                   onClick={onClose}
-                  className="px-6 py-4 text-lg font-medium text-foreground hover:text-primary transition-colors"
+                  className={cn(
+                    "px-6 py-4 text-lg font-medium transition-colors",
+                    isActive ? "text-primary" : "text-foreground hover:text-primary"
+                  )}
                 >
                   {item.label}
                 </Link>
               )
-            )}
+            })}
           </nav>
         </div>
 

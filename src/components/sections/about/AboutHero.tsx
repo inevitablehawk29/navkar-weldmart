@@ -44,10 +44,10 @@ export function AboutHero() {
           >
             <div className="relative z-0 aspect-[4/5] w-full max-w-sm ml-auto lg:mr-0">
               <Image
-                src="/images/jinesh_portrait.webp"
+                src="/images/jinesh-portrait-contact.jpg"
                 alt="Jinesh Jain, Founder of Navkar Weldmart"
                 fill
-                className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                className="object-cover object-[center_10%] grayscale hover:grayscale-0 transition-all duration-700"
                 sizes="(max-width: 768px) 100vw, 50vw"
                 priority
               />

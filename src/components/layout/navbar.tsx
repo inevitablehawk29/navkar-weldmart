@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useScroll } from "@/hooks/use-scroll";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { navigation, contactInfo } from "@/content";
 import { MobileNav } from "./mobile-nav";
@@ -14,6 +15,7 @@ import { motion } from "framer-motion";
 
 export function Navbar() {
   const scrolled = useScroll(50);
+  const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
@@ -45,33 +47,56 @@ export function Navbar() {
 
         {/* Desktop Navigation */}
         <div className="hidden lg:flex items-center gap-1">
-          {navigation.map((item) =>
-            item.children ? (
-              <div key={item.label} className="relative group z-50">
+          {navigation.map((item) => {
+            const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
+            
+            return item.children ? (
+              <div 
+                key={item.label} 
+                className="relative group z-50"
+                onKeyDown={(e) => {
+                  if (e.key === "Escape") {
+                    (document.activeElement as HTMLElement)?.blur();
+                  }
+                }}
+              >
                 <Link
                   href={item.href || "#"} 
                   className={cn(
-                    "inline-flex items-center gap-1 h-9 px-4 py-2 text-sm font-medium transition-colors rounded-sm focus:outline-none",
-                    scrolled
-                      ? "text-foreground group-hover:text-primary"
-                      : "text-foreground/90 group-hover:text-foreground"
+                    "inline-flex items-center gap-1 h-9 px-4 py-2 text-sm font-medium transition-colors rounded-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-primary",
+                    isActive 
+                      ? "text-primary" 
+                      : scrolled
+                        ? "text-foreground group-hover:text-primary focus-within:text-primary"
+                        : "text-foreground/90 group-hover:text-foreground focus-within:text-foreground"
                   )}
+                  aria-expanded="false"
+                  aria-haspopup="true"
                 >
                   {item.label}
-                  <ChevronDown className="w-3 h-3 opacity-70 transition-transform duration-200 group-hover:-rotate-180" />
+                  <ChevronDown className="w-3 h-3 opacity-70 transition-transform duration-200 group-hover:-rotate-180 group-focus-within:-rotate-180" />
                 </Link>
-                <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0">
-                  <ul className="w-[240px] p-2 bg-surface shadow-lg rounded-sm border border-border">
-                    {item.children.map((child: { label: string; href: string }) => (
-                      <li key={child.href}>
-                        <Link
-                          href={child.href}
-                          className="block w-full select-none rounded-sm px-4 py-2 text-sm text-muted hover:text-primary hover:bg-muted/10 transition-colors"
-                        >
-                          {child.label}
-                        </Link>
-                      </li>
-                    ))}
+                <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0 group-focus-within:translate-y-0">
+                  <ul className="w-[240px] p-2 bg-surface shadow-lg rounded-sm border border-border" role="menu">
+                    {item.children.map((child: { label: string; href: string }) => {
+                      const isChildActive = pathname === child.href;
+                      return (
+                        <li key={child.href} role="none">
+                          <Link
+                            href={child.href}
+                            role="menuitem"
+                            className={cn(
+                              "block w-full select-none rounded-sm px-4 py-2 text-sm transition-colors focus:outline-none focus:bg-muted/10",
+                              isChildActive
+                                ? "text-primary bg-muted/10 font-medium"
+                                : "text-muted hover:text-primary hover:bg-muted/10 focus:text-primary"
+                            )}
+                          >
+                            {child.label}
+                          </Link>
+                        </li>
+                      );
+                    })}
                   </ul>
                 </div>
               </div>
@@ -81,15 +106,17 @@ export function Navbar() {
                 href={item.href}
                 className={cn(
                   "px-4 py-2 text-sm font-medium transition-colors rounded-sm",
-                  scrolled
-                    ? "text-foreground hover:text-primary"
-                    : "text-foreground/90 hover:text-foreground"
+                  isActive
+                    ? "text-primary"
+                    : scrolled
+                      ? "text-foreground hover:text-primary"
+                      : "text-foreground/90 hover:text-foreground"
                 )}
               >
                 {item.label}
               </Link>
             )
-          )}
+          })}
         </div>
 
         {/* Right Side */}

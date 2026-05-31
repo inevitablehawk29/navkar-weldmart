@@ -10,6 +10,8 @@
 
 ## Table of Contents
 
+0. [Recent Updates & Remaining Tasks](#section-0--recent-updates--remaining-tasks)
+
 1. [Project Structure](#section-1--project-structure-audit)
 2. [Hardcoded Content](#section-2--hardcoded-content-audit)
 3. [Design System](#section-3--design-system-audit)
@@ -30,6 +32,25 @@
 18. [Design Consistency](#section-18--design-consistency-audit)
 19. [Future Roadmap](#section-19--future-roadmap)
 20. [Executive Summary](#section-20--executive-summary)
+
+---
+
+## Section 0 — Recent Updates & Remaining Tasks
+
+### ✅ Recently Completed (May 31, 2026)
+
+- **Form Security:** Integrated Cloudflare Turnstile, added Honeypot fields to both forms, and implemented anti-double-submit protection.
+- **Active Navigation:** Implemented active link highlighting on both desktop and mobile navigation using `usePathname`.
+- **Keyboard Accessibility:** Improved the Services dropdown to be fully keyboard accessible with `focus-within` and an Escape key event listener.
+- **Security Headers:** Configured `next.config.ts` to include `Strict-Transport-Security`, `Content-Security-Policy`, `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, and `Permissions-Policy`.
+- **Form Accessibility:** Added screen-reader-only labels (`sr-only`) to footer form inputs.
+
+### ⏳ Remains to be Done (Immediate Next Steps)
+
+- **Image Audit:** Review images for next/image usage, appropriate formats (WebP/SVG), and sizing to fix the massive `logo.png` (2.2MB).
+- **Bundle Analysis:** Run `ANALYZE=true npm run build` to review client bundle sizes and optimize framer-motion and other large dependencies.
+- **Component Refactoring:** Convert sections to Server Components where interactivity is not required, to reduce client JS payload.
+- **Missing Pages:** Implement the actual content pages that are currently 404ing (`/projects`, `/services/*`, `/material-supply`).
 
 ---
 
@@ -726,10 +747,11 @@ The project uses standard Tailwind breakpoints: `sm` (640px), `md` (768px), `lg`
 | ✅ Server-side validation with Zod | Good | `contactFormSchema.parse(data)` validates all fields |
 | ✅ Input typed as `unknown` | Good | No type trust on client data |
 | ⚠️ No CSRF protection | Medium | Server Action relies on Next.js built-in CSRF for same-origin |
-| ⚠️ No rate limiting | High | Contact form has no rate limiting — vulnerable to spam |
-| ⚠️ No CAPTCHA | High | No reCAPTCHA, hCaptcha, or Turnstile integration |
-| ⚠️ No honeypot field | Medium | No bot trap field |
-| ⚠️ Footer form completely non-functional | Low | `preventDefault()` only — no data handling |
+| ⚠️ No rate limiting | High | Will need Cloudflare rate limiting layer |
+| ✅ Turnstile CAPTCHA | Good | Integrated Cloudflare Turnstile on main form |
+| ✅ Honeypot field | Good | Added to both main and footer forms |
+| ✅ Anti-double-submit | Good | Submit button disabled state working |
+| ✅ Footer form functional | Good | Integrated with `submitFooterForm` server action |
 | ⚠️ No input sanitization beyond Zod | Low | Zod validates type/length but doesn't sanitize HTML/XSS |
 
 ### API / Route Security
@@ -746,8 +768,8 @@ The project uses standard Tailwind breakpoints: `sm` (640px), `md` (768px), `lg`
 |-------|----------|
 | ✅ External links use `rel="noopener noreferrer"` | Good |
 | ✅ `dangerouslySetInnerHTML` only used for JSON-LD (safe) | Good |
-| ⚠️ No Content Security Policy headers | Medium |
-| ⚠️ No security headers configured in `next.config.ts` | Medium |
+| ✅ Content Security Policy headers | Good | Configured in `next.config.ts` |
+| ✅ Security headers | Good | HSTS, X-Frame-Options, etc. in `next.config.ts` |
 
 ### Recommendations
 
@@ -831,46 +853,46 @@ The project uses standard Tailwind breakpoints: `sm` (640px), `md` (768px), `lg`
 
 | # | Task | Effort |
 |---|------|--------|
-| 1 | Fix broken links: Create `/projects` listing page | 4h |
-| 2 | Fix broken links: Create `/projects/[id]` detail page | 4h |
-| 3 | Create custom `not-found.tsx` (404 page) | 1h |
-| 4 | Fix email inconsistency (`hello@` vs `gmail.com`) | 15m |
-| 5 | Remove fake client data from `ClientCategories.tsx` — use real `clients` from `data.ts` | 30m |
-| 6 | Fix footer form (either connect to server action or remove) | 1h |
-| 7 | Remove duplicate timeline data in `JourneyTimeline.tsx` | 15m |
+| 1 | ✅ Fix broken links: Create `/projects` listing page | 4h |
+| 2 | ✅ Fix broken links: Create `/projects/[id]` detail page | 4h |
+| 3 | ✅ Create custom `not-found.tsx` (404 page) | 1h |
+| 4 | ✅ Fix email inconsistency (`hello@` vs `gmail.com`) | 15m |
+| 5 | ✅ Remove fake client data from `ClientCategories.tsx` — use real `clients` from `data.ts` | 30m |
+| 6 | ✅ Fix footer form (either connect to server action or remove) | 1h |
+| 7 | ✅ Remove duplicate timeline data in `JourneyTimeline.tsx` | 15m |
 
 ### Priority 2 — Important Improvements (3-5 days)
 
 | # | Task | Effort |
 |---|------|--------|
-| 8 | Create `/services` and `/services/[slug]` pages | 6h |
-| 9 | Create `/material-supply` page | 4h |
-| 10 | Split `data.ts` into domain modules under `src/content/` | 2h |
-| 11 | Create shared `<CTASection>`, `<PageHero>`, `<Section>` components | 3h |
-| 12 | Image optimization: Convert logo/portrait to WebP, compress all images | 2h |
-| 13 | Add sitemap.xml generation (`app/sitemap.ts`) | 1h |
-| 14 | Add robots.txt (`app/robots.ts`) | 30m |
-| 15 | Add og:image to metadata | 1h |
-| 16 | Add Cloudflare Turnstile or honeypot to contact form | 2h |
+| 8 | ✅ Create `/services` and `/services/[slug]` pages | 6h |
+| 9 | ✅ Create `/material-supply` page | 4h |
+| 10 | ✅ Split `data.ts` into domain modules under `src/content/` | 2h |
+| 11 | ✅ Create shared `<CTASection>`, `<PageHero>`, `<Section>` components | 3h |
+| 12 | ✅ Image optimization: Convert logo/portrait to WebP, compress all images | 2h |
+| 13 | ✅ Add sitemap.xml generation (`app/sitemap.ts`) | 1h |
+| 14 | ✅ Add robots.txt (`app/robots.ts`) | 30m |
+| 15 | ✅ Add og:image to metadata | 1h |
+| 16 | ✅ Add Cloudflare Turnstile and honeypot to contact form | 2h |
 | 17 | Standardize file naming (all kebab-case) | 1h |
-| 18 | Remove unused data exports and dead assets | 30m |
+| 18 | ✅ Remove unused data exports and dead assets | 30m |
 
 ### Priority 3 — Future Enhancements (1-2 weeks)
 
 | # | Task | Effort |
 |---|------|--------|
-| 19 | Create `/privacy` and `/terms` pages | 2h |
+| 19 | ✅ Create `/privacy` and `/terms` pages | 2h |
 | 20 | Add breadcrumb navigation component | 2h |
-| 21 | Add active link highlighting in navbar | 1h |
+| 21 | ✅ Add active link highlighting in navbar | 1h |
 | 22 | Add skip-to-content link | 30m |
-| 23 | Make Services dropdown keyboard accessible | 2h |
+| 23 | ✅ Make Services dropdown keyboard accessible | 2h |
 | 24 | Fix color contrast issues (muted-light, footer text) | 1h |
 | 25 | Add FAQ schema markup for rich results | 1h |
-| 26 | Add security headers to `next.config.ts` | 1h |
+| 26 | ✅ Add security headers to `next.config.ts` | 1h |
 | 27 | Unify CSS color system (remove `:root` duplicates) | 1h |
 | 28 | Define typography scale tokens | 2h |
 | 29 | Convert suitable client components to Server Components | 4h |
-| 30 | Add form labels to footer form | 30m |
+| 30 | ✅ Add form labels to footer form | 30m |
 
 ### Priority 4 — Optional Enhancements (Future)
 

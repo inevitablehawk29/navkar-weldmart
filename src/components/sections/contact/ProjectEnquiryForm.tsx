@@ -9,15 +9,10 @@ import { EnquiryFormInner } from "./EnquiryFormInner";
 
 export function ProjectEnquiryForm() {
   return (
-    <Card className="bg-card rounded-xl border border-border shadow-sm max-w-4xl mx-auto">
-      <CardHeader className="p-5 md:p-8 pb-0 md:pb-0 mb-6">
-        <CardTitle className="text-2xl font-heading text-foreground mb-2">Project Enquiry</CardTitle>
-        <CardDescription className="text-muted text-sm md:text-base">
-          Please provide details about your project to help us understand your requirements.
-        </CardDescription>
-      </CardHeader>
+    <Card className="w-full bg-card rounded-2xl border border-border shadow-sm mx-auto">
 
-      <CardContent className="p-5 md:p-8 pt-0 md:pt-0">
+
+      <CardContent className="p-4 md:p-6">
         <EnquiryFormInner />
       </CardContent>
     </Card>

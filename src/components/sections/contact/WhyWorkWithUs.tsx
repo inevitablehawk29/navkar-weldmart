@@ -26,14 +26,14 @@ export function WhyWorkWithUs() {
 
   return (
     <div className="space-y-8">
-      <div>
+      <div className="max-w-2xl">
         <h3 className="text-3xl font-heading text-foreground mb-6">Why work with us?</h3>
         <p className="text-base text-muted">
           We bring structural integrity, transparent pricing, and seamless execution to every project we undertake.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {benefits.map((benefit, index) => {
           const Icon = benefit.icon;
           return (

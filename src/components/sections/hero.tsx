@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { CountUp } from "@/components/ui/count-up";
 
 export function Hero() {
   return (
@@ -50,18 +51,18 @@ export function Hero() {
 
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-5 mb-6 text-xs font-medium text-foreground">
               <div className="flex flex-col">
-                <span className="text-xl font-bold text-primary">13+</span>
+                <CountUp target="13+" className="text-xl font-bold text-primary" />
                 <span className="text-muted">Years Experience</span>
               </div>
               <div className="hidden sm:block w-px bg-border"></div>
               <div className="flex flex-col">
-                <span className="text-xl font-bold text-primary">50+</span>
+                <CountUp target="200+" className="text-xl font-bold text-primary" />
                 <span className="text-muted">Projects Delivered</span>
               </div>
               <div className="hidden sm:block w-px bg-border"></div>
               <div className="flex flex-col">
-                <span className="text-xl font-bold text-primary">100%</span>
-                <span className="text-muted">Custom Fabrication</span>
+                <CountUp target="20+" className="text-xl font-bold text-primary" />
+                <span className="text-muted">Cities Served</span>
               </div>
             </div>
 

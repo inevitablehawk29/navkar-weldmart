@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { ProjectEnquiryForm } from "./ProjectEnquiryForm";
 
 import { motion } from "framer-motion";
 import { Phone, MessageCircle, Mail, MapPin } from "lucide-react";
@@ -16,65 +16,71 @@ export function ContactHero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="w-full max-w-2xl"
+            className="w-full max-w-3xl pr-0 lg:pr-8"
           >
             <p className="section-label mb-4">GET IN TOUCH</p>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading text-foreground leading-[1] tracking-tight mb-6">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-heading text-foreground leading-[1] tracking-tight mb-6">
               Let&apos;s discuss your project.
             </h1>
             <div className="accent-line mb-6" />
-            <p className="text-base md:text-lg text-muted mb-8 leading-relaxed font-medium">
+            <p className="text-sm md:text-base text-muted mb-3 leading-relaxed max-w-2xl">
               Whether you&apos;re planning a warehouse structure, architectural metalwork, residential fabrication, or material procurement, we&apos;re ready to help.
             </p>
+            <p className="text-[11px] font-bold text-primary uppercase tracking-[0.15em] mb-6">
+              Trusted by contractors, builders, and manufacturers across Central India.
+            </p>
             
-            <div className="flex flex-wrap gap-2 lg:gap-3 pt-6">
-              <a href={`tel:${contactInfo.phones[0].replace(/\s/g, "")}`} className="flex flex-col gap-0.5 group bg-background border border-border px-3 py-2 rounded-lg shadow-sm hover:shadow-md hover:border-accent/50 transition-all">
-                <div className="flex items-center gap-1.5 text-muted group-hover:text-foreground transition-colors">
-                  <Phone className="w-3.5 h-3.5 text-accent" />
-                  <span className="text-[10px] font-bold uppercase tracking-wider">Phone</span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6 max-w-2xl">
+              <a href={`tel:${contactInfo.phones[0].replace(/\s/g, "")}`} className="group flex items-start gap-4">
+                <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center group-hover:bg-accent transition-colors duration-300 shrink-0 mt-1">
+                  <Phone className="w-4 h-4 text-accent group-hover:text-white transition-colors duration-300" />
                 </div>
-                <span className="text-xs font-medium text-foreground">{contactInfo.phones[0]}</span>
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mb-1">Direct Line</p>
+                  <p className="text-sm font-medium text-foreground group-hover:text-accent transition-colors">{contactInfo.phones[0]}</p>
+                </div>
               </a>
-              <a href={`https://wa.me/${contactInfo.phones[0].replace(/\s/g, "").replace("+", "")}`} target="_blank" rel="noopener noreferrer" className="flex flex-col gap-0.5 group bg-background border border-border px-3 py-2 rounded-lg shadow-sm hover:shadow-md hover:border-[#25D366]/50 transition-all">
-                <div className="flex items-center gap-1.5 text-muted group-hover:text-foreground transition-colors">
-                  <MessageCircle className="w-3.5 h-3.5 text-[#25D366]" />
-                  <span className="text-[10px] font-bold uppercase tracking-wider">WhatsApp</span>
+              
+              <a href={`https://wa.me/${contactInfo.phones[0].replace(/\s/g, "").replace("+", "")}`} target="_blank" rel="noopener noreferrer" className="group flex items-start gap-4">
+                <div className="w-10 h-10 rounded-full bg-[#25D366]/10 flex items-center justify-center group-hover:bg-[#25D366] transition-colors duration-300 shrink-0 mt-1">
+                  <MessageCircle className="w-4 h-4 text-[#25D366] group-hover:text-white transition-colors duration-300" />
                 </div>
-                <span className="text-xs font-medium text-foreground">{contactInfo.phones[0]}</span>
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mb-1">WhatsApp</p>
+                  <p className="text-sm font-medium text-foreground group-hover:text-[#25D366] transition-colors">{contactInfo.phones[0]}</p>
+                </div>
               </a>
-              <a href={`mailto:${contactInfo.email}`} className="flex flex-col gap-0.5 group bg-background border border-border px-3 py-2 rounded-lg shadow-sm hover:shadow-md hover:border-accent/50 transition-all">
-                <div className="flex items-center gap-1.5 text-muted group-hover:text-foreground transition-colors">
-                  <Mail className="w-3.5 h-3.5 text-accent" />
-                  <span className="text-[10px] font-bold uppercase tracking-wider">Email</span>
+
+              <a href={`mailto:${contactInfo.email}`} className="group flex items-start gap-4">
+                <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center group-hover:bg-accent transition-colors duration-300 shrink-0 mt-1">
+                  <Mail className="w-4 h-4 text-accent group-hover:text-white transition-colors duration-300" />
                 </div>
-                <span className="text-xs font-medium text-foreground">{contactInfo.email}</span>
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mb-1">Email Support</p>
+                  <p className="text-sm font-medium text-foreground group-hover:text-accent transition-colors">{contactInfo.email}</p>
+                </div>
               </a>
-              <a href="https://maps.google.com/?q=Navkar+Weldmart+Indore" target="_blank" rel="noopener noreferrer" className="flex flex-col gap-0.5 group bg-background border border-border px-3 py-2 rounded-lg shadow-sm hover:shadow-md hover:border-accent/50 transition-all">
-                <div className="flex items-center gap-1.5 text-muted group-hover:text-foreground transition-colors">
-                  <MapPin className="w-3.5 h-3.5 text-accent" />
-                  <span className="text-[10px] font-bold uppercase tracking-wider">Location</span>
+
+              <a href="https://maps.google.com/?q=Navkar+Weldmart+Indore" target="_blank" rel="noopener noreferrer" className="group flex items-start gap-4">
+                <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center group-hover:bg-accent transition-colors duration-300 shrink-0 mt-1">
+                  <MapPin className="w-4 h-4 text-accent group-hover:text-white transition-colors duration-300" />
                 </div>
-                <span className="text-xs font-medium text-foreground">Indore, MP</span>
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mb-1">Office Location</p>
+                  <p className="text-sm font-medium text-foreground group-hover:text-accent transition-colors">Indore, MP</p>
+                </div>
               </a>
             </div>
           </motion.div>
 
-          {/* Right Image */}
+          {/* Right Form */}
           <motion.div 
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="relative h-[250px] lg:h-[350px] w-full max-w-md mx-auto lg:ml-auto rounded-lg overflow-hidden group"
+            className="w-full max-w-xl mx-auto lg:ml-auto"
           >
-            <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-500 z-10" />
-            <Image
-              src="/images/contact-hero.png"
-              alt="Navkar Weldmart Project"
-              fill
-              className="object-cover transition-transform duration-700 group-hover:scale-105"
-              priority
-              sizes="(max-width: 1024px) 100vw, 50vw"
-            />
+            <ProjectEnquiryForm />
           </motion.div>
         </div>
       </div>

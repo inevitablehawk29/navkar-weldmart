@@ -34,6 +34,8 @@ export const contactFormSchema = z.object({
     "Other"
   ]).optional(),
   projectDetails: z.string().min(10, "Please provide some details about your project").max(1000),
+  turnstileToken: z.string().optional(),
+  faxNumber: z.string().optional(),
 });
 
 export type ContactFormValues = z.infer<typeof contactFormSchema>;
@@ -43,6 +45,8 @@ export const footerFormSchema = z.object({
   phoneNumber: z.string().min(10, "Phone number must be at least 10 digits").max(15),
   emailAddress: z.string().email("Please enter a valid email address").optional().or(z.literal("")),
   projectDetails: z.string().min(5, "Please provide some details about your project").max(1000),
+  faxNumber: z.string().optional(),
+  turnstileToken: z.string().optional(),
 });
 
 export type FooterFormValues = z.infer<typeof footerFormSchema>;

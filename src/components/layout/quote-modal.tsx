@@ -9,7 +9,7 @@ import {
   DialogDescription,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { EnquiryFormInner } from "@/components/sections/contact/EnquiryFormInner";
+import { ProjectEnquiryForm } from "@/components/sections/contact/ProjectEnquiryForm";
 
 interface QuoteModalProps {
   children: ReactNode;
@@ -24,19 +24,13 @@ export function QuoteModal({ children }: QuoteModalProps) {
         {children}
       </DialogTrigger>
       <DialogContent 
-        className="w-[95vw] sm:max-w-2xl max-h-[95vh] overflow-y-auto p-5 sm:p-8 rounded-xl bg-surface border-border"
+        className="w-[95vw] sm:max-w-xl max-h-[95vh] overflow-y-auto p-0 bg-transparent border-none shadow-none"
         onOpenAutoFocus={(e) => e.preventDefault()}
         onInteractOutside={(e) => e.preventDefault()}
       >
-        <DialogHeader className="mb-4 sm:mb-6 text-left">
-          <DialogTitle className="text-2xl sm:text-3xl font-heading text-foreground uppercase tracking-tight">Get A Quote</DialogTitle>
-          <DialogDescription className="text-muted-foreground text-sm">
-            Tell us about your project requirements and our team will get back to you shortly.
-          </DialogDescription>
-        </DialogHeader>
-        <div className="pb-2">
-          {open && <EnquiryFormInner />}
-        </div>
+        <DialogTitle className="sr-only">Get A Quote</DialogTitle>
+        <DialogDescription className="sr-only">Request a project estimate.</DialogDescription>
+        {open && <ProjectEnquiryForm />}
       </DialogContent>
     </Dialog>
   );

@@ -81,9 +81,34 @@ async function sendResendEmail(parsedData: EmailData, formType: "Main" | "Footer
   };
 }
 
+async function verifyTurnstile(token: string | undefined): Promise<boolean> {
+  const secret = process.env.TURNSTILE_SECRET_KEY || "1x0000000000000000000000000000000AA";
+  const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+    method: "POST",
+    body: `secret=${encodeURIComponent(secret)}&response=${encodeURIComponent(token || "")}`,
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+  });
+  
+  const turnstileData = await res.json();
+  return turnstileData.success === true;
+}
+
 export async function submitContactForm(data: unknown): Promise<ContactResponse> {
   try {
     const parsedData = contactFormSchema.parse(data);
+
+    // Honeypot check
+    if (parsedData.faxNumber) {
+      console.warn("Bot detected via honeypot");
+      return { success: false, message: "Validation failed or something went wrong. Please try again." };
+    }
+
+    // Turnstile verification
+    const isValidToken = await verifyTurnstile(parsedData.turnstileToken);
+    if (!isValidToken) {
+      return { success: false, message: "Security check failed. Please try again." };
+    }
+
     return await sendResendEmail(parsedData, "Main");
   } catch (error) {
     console.error("Form submission error:", error);
@@ -97,6 +122,19 @@ export async function submitContactForm(data: unknown): Promise<ContactResponse>
 export async function submitFooterForm(data: unknown): Promise<ContactResponse> {
   try {
     const parsedData = footerFormSchema.parse(data);
+
+    // Honeypot check
+    if (parsedData.faxNumber) {
+      console.warn("Bot detected via honeypot");
+      return { success: false, message: "Validation failed or something went wrong. Please try again." };
+    }
+
+    // Turnstile verification
+    const isValidToken = await verifyTurnstile(parsedData.turnstileToken);
+    if (!isValidToken) {
+      return { success: false, message: "Security check failed. Please try again." };
+    }
+
     return await sendResendEmail(parsedData, "Footer");
   } catch (error) {
     console.error("Footer form submission error:", error);
