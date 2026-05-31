@@ -8,6 +8,8 @@ const images = [
   { src: "/images/portfolio/warehouse-6.webp", alt: "Industrial warehouse shed steel framework assembly" },
   { src: "/images/portfolio/elevation-2.webp", alt: "Building elevation architectural metalwork fabrication" },
   { src: "/images/portfolio/gates-2.webp", alt: "Heavy-duty residential gate precision welding and fabrication" },
+  { src: "/images/portfolio/railings-3.webp", alt: "Precision steel railings fabrication" },
+  { src: "/images/portfolio/grills-2.webp", alt: "Custom safety grills welding and assembly" },
 ];
 
 export function WorkshopGallery() {
@@ -27,7 +29,7 @@ export function WorkshopGallery() {
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6 max-w-5xl mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-4 lg:gap-6 max-w-7xl mx-auto">
           {images.map((img, index) => (
             <motion.div
               key={index}
@@ -46,7 +48,7 @@ export function WorkshopGallery() {
                 alt={img.alt}
                 fill
                 className="object-cover hover:scale-105 transition-transform duration-700"
-                sizes="(max-width: 768px) 100vw, 50vw"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 16vw"
               />
             </motion.div>
           ))}

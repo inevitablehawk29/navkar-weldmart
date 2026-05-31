@@ -8,6 +8,18 @@ import { BlueprintToReality } from "@/components/sections/blueprint-to-reality";
 export const metadata = {
   title: "Our Projects",
   description: "Explore our portfolio of structural fabrication, architectural metalwork, and industrial sheds across Madhya Pradesh.",
+  alternates: {
+    canonical: "/projects",
+  },
+  openGraph: {
+    url: "/projects",
+    title: "Our Projects | Navkar Weldmart",
+    description: "Explore our portfolio of structural fabrication, architectural metalwork, and industrial sheds across Madhya Pradesh.",
+  },
+  twitter: {
+    title: "Our Projects | Navkar Weldmart",
+    description: "Explore our portfolio of structural fabrication, architectural metalwork, and industrial sheds across Madhya Pradesh.",
+  },
 };
 
 export default function ProjectsPage() {

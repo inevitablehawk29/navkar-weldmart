@@ -11,6 +11,18 @@ import { AboutCTA } from "@/components/sections/about/AboutCTA";
 export const metadata: Metadata = {
   title: "About Us",
   description: "Learn about Navkar Weldmart's history, mission, and the robust processes behind our premium steel fabrication and structural solutions across Madhya Pradesh.",
+  alternates: {
+    canonical: "/about",
+  },
+  openGraph: {
+    url: "/about",
+    title: "About Us | Navkar Weldmart",
+    description: "Learn about Navkar Weldmart's history, mission, and the robust processes behind our premium steel fabrication and structural solutions across Madhya Pradesh.",
+  },
+  twitter: {
+    title: "About Us | Navkar Weldmart",
+    description: "Learn about Navkar Weldmart's history, mission, and the robust processes behind our premium steel fabrication and structural solutions across Madhya Pradesh.",
+  },
 };
 
 export default function AboutPage() {

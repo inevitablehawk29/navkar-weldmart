@@ -60,7 +60,7 @@ export function ServicesOverview() {
                   {service.description}
                 </p>
                 <Link
-                  href={`/services/${service.slug}`}
+                  href={service.slug === "material-supply" ? `/${service.slug}` : `/services/${service.slug}`}
                   className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.1em] text-accent hover:text-accent-dark transition-colors group"
                 >
                   Explore

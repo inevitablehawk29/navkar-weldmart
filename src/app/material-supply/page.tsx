@@ -9,28 +9,73 @@ import { FadeIn } from "@/components/animations/fade-in";
 export const metadata = {
   title: "Material Supply",
   description: "Premium iron and steel materials for all your construction and fabrication needs.",
+  alternates: {
+    canonical: "/material-supply",
+  },
+  openGraph: {
+    url: "/material-supply",
+    title: "Material Supply | Navkar Weldmart",
+    description: "Premium iron and steel materials for all your construction and fabrication needs.",
+  },
+  twitter: {
+    title: "Material Supply | Navkar Weldmart",
+    description: "Premium iron and steel materials for all your construction and fabrication needs.",
+  },
 };
 
 export default function MaterialSupplyPage() {
-  const schemaData = {
+  const breadcrumbSchema = {
     "@context": "https://schema.org",
-    "@type": "ItemList",
-    "itemListElement": materialCategories.map((category, index) => ({
-      "@type": "ListItem",
-      "position": index + 1,
-      "item": {
-        "@type": "Thing",
-        "name": category.title,
-        "description": `Supplying premium grade ${category.title.toLowerCase()} including ${category.items.join(", ")}.`
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://navkarweldmart.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Material Supply",
+        item: "https://navkarweldmart.vercel.app/material-supply"
       }
-    }))
+    ]
+  };
+
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Material Supply",
+    description: "Premium iron and steel materials for all your construction and fabrication needs.",
+    provider: {
+      "@type": "LocalBusiness",
+      name: "Navkar Weldmart"
+    },
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Steel Materials",
+      itemListElement: materialCategories.map((category, index) => ({
+        "@type": "OfferCatalog",
+        name: category.title,
+        position: index + 1,
+        itemListElement: category.items.map((item, itemIdx) => ({
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Product",
+            name: item
+          },
+          position: itemIdx + 1
+        }))
+      }))
+    }
   };
 
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, serviceSchema]) }}
       />
       <section className="pt-32 pb-16 lg:pt-40 lg:pb-24 bg-surface border-b border-border">
         <div className="container-wide">

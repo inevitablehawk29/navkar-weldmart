@@ -16,6 +16,18 @@ const iconMap: Record<string, React.ReactNode> = {
 export const metadata = {
   title: "Our Services",
   description: "Comprehensive iron and steel fabrication services, from material supply to heavy structural engineering.",
+  alternates: {
+    canonical: "/services",
+  },
+  openGraph: {
+    url: "/services",
+    title: "Our Services | Navkar Weldmart",
+    description: "Comprehensive iron and steel fabrication services, from material supply to heavy structural engineering.",
+  },
+  twitter: {
+    title: "Our Services | Navkar Weldmart",
+    description: "Comprehensive iron and steel fabrication services, from material supply to heavy structural engineering.",
+  },
 };
 
 export default function ServicesPage() {
@@ -32,11 +44,23 @@ export default function ServicesPage() {
     })),
   };
 
+  const serviceSchemas = services.map((service) => ({
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: service.title,
+    description: service.description,
+    provider: {
+      "@type": "LocalBusiness",
+      name: "Navkar Weldmart",
+    },
+    areaServed: "Madhya Pradesh",
+  }));
+
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify([faqSchema, ...serviceSchemas]) }}
       />
       <section className="pt-32 pb-20 lg:pt-40 lg:pb-32 bg-background border-b border-border">
         <div className="container-wide">

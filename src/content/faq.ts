@@ -1,7 +1,7 @@
 export const faqs = [
   {
     question: "What is your minimum project size?",
-    answer: "We typically undertake projects with a minimum order quantity of 2 tons or a project value starting from ?2 lakh to ensure we can provide our standard of dedicated service and quality control."
+    answer: "We typically undertake projects with a minimum order quantity of 2 tons or a project value starting from ₹2 lakh to ensure we can provide our standard of dedicated service and quality control."
   },
   {
     question: "Do you provide site visits for estimation?",

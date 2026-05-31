@@ -1,4 +1,5 @@
 import { MapPin } from "lucide-react";
+import { ServiceAreaMap } from "./ServiceAreaMap";
 
 export function ServiceArea() {
   const cities = [
@@ -15,7 +16,10 @@ export function ServiceArea() {
       <div className="container-wide">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
           <div>
-            <h2 className="text-3xl md:text-4xl font-heading text-foreground mb-4">
+            <span className="block text-xs font-semibold tracking-[0.2em] text-accent uppercase mb-3">
+              Across Madhya Pradesh.
+            </span>
+            <h2 className="text-3xl md:text-4xl font-heading text-foreground mb-4 uppercase">
               Indore & Beyond.
             </h2>
             <p className="text-base text-muted leading-relaxed max-w-lg mb-8">
@@ -35,16 +39,7 @@ export function ServiceArea() {
           </div>
           
           <div className="relative h-full min-h-[400px] flex items-center justify-center lg:justify-end">
-            <div className="w-full max-w-[500px] aspect-square rounded-full border border-border flex items-center justify-center p-12 relative opacity-20 hover:opacity-100 transition-opacity duration-700">
-              {/* Decorative concentric circles to suggest reach/radius */}
-              <div className="w-full h-full rounded-full border border-accent/30 flex items-center justify-center">
-                <div className="w-[70%] h-[70%] rounded-full border border-accent/50 flex items-center justify-center">
-                  <div className="w-[40%] h-[40%] rounded-full bg-accent flex items-center justify-center text-white">
-                    <MapPin className="w-8 h-8" />
-                  </div>
-                </div>
-              </div>
-            </div>
+            <ServiceAreaMap />
           </div>
         </div>
       </div>

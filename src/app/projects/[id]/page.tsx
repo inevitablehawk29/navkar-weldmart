@@ -16,9 +16,32 @@ export async function generateMetadata({ params }: ProjectPageProps) {
   const project = projects.find((p) => p.id === id);
   if (!project) return { title: "Project Not Found" };
   
+  const ogImage = project.coverImage || project.gallery?.[0] || "/og-image.jpg";
+
   return {
     title: `${project.title} | Projects`,
     description: project.description,
+    alternates: {
+      canonical: `/projects/${id}`,
+    },
+    openGraph: {
+      url: `/projects/${id}`,
+      title: `${project.title} | Projects | Navkar Weldmart`,
+      description: project.description,
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: project.title,
+        },
+      ],
+    },
+    twitter: {
+      title: `${project.title} | Projects | Navkar Weldmart`,
+      description: project.description,
+      images: [ogImage],
+    },
   };
 }
 
@@ -32,6 +55,27 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "CreativeWork",
+            name: project.title,
+            description: project.description,
+            image: project.coverImage || project.gallery?.[0],
+            creator: {
+              "@type": "LocalBusiness",
+              name: "Navkar Weldmart"
+            },
+            dateCreated: project.year,
+            locationCreated: {
+              "@type": "Place",
+              name: project.location
+            }
+          })
+        }}
+      />
       <section className="pt-24 pb-16 lg:pt-32 lg:pb-24 bg-surface border-b border-border">
         <div className="container-wide">
           <Link 

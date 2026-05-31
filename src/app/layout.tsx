@@ -24,10 +24,17 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
+  themeColor: "#111111",
 };
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://navkarweldmart.vercel.app"),
+  manifest: "/site.webmanifest",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Navkar Weldmart",
+  },
   title: {
     default: "Navkar Weldmart — Steel Fabrication & Structural Solutions",
     template: "%s | Navkar Weldmart",
@@ -102,7 +109,10 @@ export default function RootLayout({
                     contactType: "customer service",
                     email: "navkarweldmart@gmail.com",
                     availableLanguage: ["English", "Hindi"]
-                  }
+                  },
+                  sameAs: [
+                    "https://www.instagram.com/navkarweldmart/"
+                  ]
                 },
                 {
                   "@context": "https://schema.org",
@@ -129,6 +139,14 @@ export default function RootLayout({
                   },
                   foundingDate: "2012",
                   areaServed: ["Indore", "Bhopal", "Madhya Pradesh"]
+                },
+                {
+                  "@context": "https://schema.org",
+                  "@type": "WebSite",
+                  "@id": "https://navkarweldmart.vercel.app/#website",
+                  url: "https://navkarweldmart.vercel.app",
+                  name: "Navkar Weldmart",
+                  publisher: { "@id": "https://navkarweldmart.vercel.app/#organization" }
                 }
               ]),
             }}

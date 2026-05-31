@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 const fs = require('fs');
 const path = require('path');
 const sizeOf = require('image-size');
@@ -35,3 +36,4 @@ walkDir(publicDir, (filePath) => {
 
 results.sort((a, b) => b.size - a.size);
 console.table(results);
+
