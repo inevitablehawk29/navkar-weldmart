@@ -336,21 +336,21 @@ export function Footer() {
           <div className="flex items-center gap-4">
             <a
               href={companyInfo.social.instagram}
-              className="text-white/30 hover:text-white transition-colors"
+              className="p-3 -m-3 text-white/30 hover:text-white transition-colors flex items-center justify-center min-w-[44px] min-h-[44px]"
               aria-label="Instagram"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <InstagramIcon className="w-4 h-4" />
+              <InstagramIcon className="w-5 h-5" />
             </a>
             <a
               href={companyInfo.social.whatsapp}
-              className="text-white/30 hover:text-white transition-colors"
+              className="p-3 -m-3 text-white/30 hover:text-white transition-colors flex items-center justify-center min-w-[44px] min-h-[44px]"
               aria-label="WhatsApp"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <WhatsAppIcon className="w-4 h-4" />
+              <WhatsAppIcon className="w-5 h-5" />
             </a>
           </div>
         </div>

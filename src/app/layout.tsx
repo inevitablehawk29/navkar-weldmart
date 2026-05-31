@@ -4,6 +4,8 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { MobileStickyQuote } from "@/components/layout/mobile-sticky-quote";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { MotionConfig } from "framer-motion";
+import NextTopLoader from "nextjs-toploader";
 import "./globals.css";
 
 const inter = Inter({
@@ -22,8 +24,6 @@ const bebasNeue = Bebas_Neue({
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
   themeColor: "#111111",
 };
 
@@ -143,13 +143,23 @@ export default function RootLayout({
             }}
           />
       </head>
-      <body className="min-h-screen flex flex-col antialiased">
-        <TooltipProvider>
-          <Navbar />
-          <main className="flex-1">{children}</main>
-          <Footer />
-          <MobileStickyQuote />
-        </TooltipProvider>
+      <body className="min-h-dvh flex flex-col antialiased">
+        <MotionConfig reducedMotion="user">
+          <NextTopLoader
+            color="#B48A4A"
+            height={3}
+            showSpinner={false}
+            easing="ease"
+            speed={200}
+            shadow="0 0 10px #B48A4A,0 0 5px #B48A4A"
+          />
+          <TooltipProvider>
+            <Navbar />
+            <main className="flex-1">{children}</main>
+            <Footer />
+            <MobileStickyQuote />
+          </TooltipProvider>
+        </MotionConfig>
       </body>
     </html>
   );

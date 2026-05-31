@@ -8,13 +8,13 @@ import { contactInfo } from "@/content";
 
 export function ContactHero() {
   return (
-    <section className="pt-20 pb-8 lg:pt-24 lg:pb-10 overflow-hidden">
+    <section className="pt-32 pb-8 lg:pt-32 lg:pb-10 overflow-hidden">
       <div className="container-wide">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left Content */}
           <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="w-full max-w-3xl pr-0 lg:pr-8"
           >
