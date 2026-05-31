@@ -67,6 +67,26 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+}
+
+/* Animations */
+@keyframes scroll-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+@keyframes scroll-right {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(0); }
+}
+
+@utility animate-scroll-left {
+  animation: scroll-left 40s linear infinite;
+}
+
+@utility animate-scroll-right {
+  animation: scroll-right 40s linear infinite;
 }
 
 /* ── Base ──────────────────────────────────────────────────── */

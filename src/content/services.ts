@@ -69,48 +69,46 @@ export const services: Service[] = [
 
 // ── Process Steps ───────────────────────────────────────────
 
-
 export const processSteps: ProcessStep[] = [
   {
     number: "01",
     title: "Site Visit",
-    description: "We understand your requirements on-site.",
+    description: "We understand your requirements and site constraints in person.",
     icon: "MapPin",
   },
   {
     number: "02",
-    title: "Estimate",
-    description: "Technical assessment and cost estimation.",
+    title: "Estimate & Quotation",
+    description: "Transparent quotation with detailed scope and material specifications.",
     icon: "Calculator",
   },
   {
     number: "03",
-    title: "Quotation",
-    description: "Transparent quotation with detailed scope.",
-    icon: "FileText",
+    title: "Fabrication",
+    description: "Precision steel fabrication at our dedicated workshop facility.",
+    icon: "Factory",
   },
   {
     number: "04",
-    title: "Fabrication",
-    description: "Precision fabrication at our facility.",
-    icon: "Wrench",
+    title: "Quality Check",
+    description: "Rigorous inspection for structural integrity and dimensional accuracy.",
+    icon: "ShieldCheck",
   },
   {
     number: "05",
     title: "Installation",
-    description: "On-site delivery and professional installation.",
+    description: "Safe, precise, and timely installation by experienced erection teams.",
     icon: "Truck",
   },
   {
     number: "06",
-    title: "Handover",
-    description: "Timely handover with quality assurance.",
+    title: "Project Handover",
+    description: "Seamless transition ensuring complete client satisfaction and quality assurance.",
     icon: "CheckCircle",
   },
 ];
 
-// ── Featured Projects ───────────────────────────────────────
-
+// ── Material Categories ─────────────────────────────────────
 
 export const materialCategories: MaterialCategory[] = [
   {
@@ -145,7 +143,6 @@ export const materialCategories: MaterialCategory[] = [
 
 // ── Fabrication Categories ──────────────────────────────────
 
-
 export const fabricationCategories = [
   { title: "Gates", image: "/images/portfolio/gates-1.webp", count: 6 },
   { title: "Grills", image: "/images/portfolio/grills-1.webp", count: 7 },
@@ -171,7 +168,6 @@ export const fabricationCategories = [
 ];
 
 // ── Clients ─────────────────────────────────────────────────
-
 
 export const howWeExecuteSteps = [
   {

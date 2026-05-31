@@ -3,6 +3,7 @@ import { ProjectCard } from "@/components/cards/project-card";
 import { SectionLabel } from "@/components/shared/section-label";
 import { ContactCTA } from "@/components/sections/contact/ContactCTA";
 import { FadeIn } from "@/components/animations/fade-in";
+import { BlueprintToReality } from "@/components/sections/blueprint-to-reality";
 
 export const metadata = {
   title: "Our Projects",
@@ -32,6 +33,8 @@ export default function ProjectsPage() {
           </FadeIn>
         </div>
       </section>
+
+      <BlueprintToReality />
 
       <ContactCTA />
     </>

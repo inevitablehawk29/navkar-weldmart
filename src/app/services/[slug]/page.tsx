@@ -5,7 +5,7 @@ import { ArrowLeft, CheckCircle2 } from "lucide-react";
 import { services } from "@/content";
 import { SectionLabel } from "@/components/shared/section-label";
 import { ContactCTA } from "@/components/sections/contact/ContactCTA";
-import { ProcessFlow } from "@/components/sections/process-flow";
+import { SteelBeamProcess } from "@/components/sections/steel-beam-process";
 import { Card, CardContent } from "@/components/ui/card";
 import { FadeIn } from "@/components/animations/fade-in";
 
@@ -88,7 +88,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
         </div>
       </section>
 
-      <ProcessFlow />
+      <SteelBeamProcess />
       <ContactCTA />
     </>
   );
