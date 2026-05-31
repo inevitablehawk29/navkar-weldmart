@@ -6,6 +6,7 @@ import { FeaturedProjects } from "@/components/sections/featured-projects";
 import { ServicesOverview } from "@/components/sections/services-overview";
 import { SteelBeamProcess } from "@/components/sections/steel-beam-process";
 import { ClientsPartners } from "@/components/sections/clients-partners";
+import { ScrollToTop } from "@/components/layout/scroll-to-top";
 
 export const metadata: Metadata = {
   alternates: {
@@ -25,6 +26,7 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <>
+      <ScrollToTop />
       <Hero />
       <TrustMetrics />
       <ServicesOverview />

@@ -10,10 +10,15 @@ export function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-dvh flex items-center pt-24 pb-16 lg:pb-0 lg:pt-20 overflow-hidden"
+      className="relative min-h-[100svh] lg:min-h-screen flex items-center pt-24 pb-16 lg:pb-0 lg:pt-20 overflow-hidden"
     >
       {/* Background Image */}
-      <div className="absolute inset-0 z-0">
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.5, ease: "easeOut" }}
+        className="absolute inset-0 z-0 bg-[#111111]"
+      >
         <Image
           src="/images/homepage_hero_bg.webp"
           alt="Heavy industrial warehouse steel structure fabricated by Navkar Weldmart in Madhya Pradesh"
@@ -25,7 +30,7 @@ export function Hero() {
         {/* Gradient Overlays */}
         <div className="absolute inset-0 bg-gradient-to-r from-background via-background/95 to-background/20 lg:via-background/80 lg:to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-background/30 lg:hidden" />
-      </div>
+      </motion.div>
 
       <div className="container-wide relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
