@@ -10,7 +10,7 @@ export function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-[90svh] lg:min-h-screen flex items-center pt-24 pb-16 lg:pb-0 lg:pt-20 overflow-hidden"
+      className="relative min-h-dvh flex items-center pt-24 pb-16 lg:pb-0 lg:pt-20 overflow-hidden"
     >
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
@@ -66,7 +66,7 @@ export function Hero() {
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-col items-start md:flex-row md:items-center flex-wrap gap-4">
               <Link
                 href="/projects"
                 className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-8 py-4 text-sm font-medium hover:bg-primary/90 transition-colors duration-300 group rounded-md"
