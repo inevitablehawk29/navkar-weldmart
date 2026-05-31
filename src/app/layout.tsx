@@ -62,22 +62,12 @@ export const metadata: Metadata = {
     title: "Navkar Weldmart — Steel Fabrication & Structural Solutions",
     description:
       "End-to-end steel fabrication and material supply for residential, commercial, and industrial projects across Madhya Pradesh.",
-    images: [
-      {
-        url: "https://navkarweldmart.vercel.app/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Navkar Weldmart Open Graph Image",
-        type: "image/jpeg",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Navkar Weldmart — Steel Fabrication & Structural Solutions",
     description:
       "End-to-end steel fabrication and material supply across Madhya Pradesh since 2012.",
-    images: ["https://navkarweldmart.vercel.app/og-image.jpg"],
   },
   robots: {
     index: true,
