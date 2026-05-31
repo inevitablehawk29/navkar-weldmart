@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef, RefObject } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -21,23 +21,69 @@ import { Button } from "@/components/ui/button";
 interface MobileNavProps {
   open: boolean;
   onClose: () => void;
+  returnFocusRef?: RefObject<HTMLButtonElement | null>;
 }
 
-export function MobileNav({ open, onClose }: MobileNavProps) {
+export function MobileNav({ open, onClose, returnFocusRef }: MobileNavProps) {
   const pathname = usePathname();
   const [servicesExpanded, setServicesExpanded] = useState(false);
+  const drawerRef = useRef<HTMLDivElement>(null);
+  const wasOpen = useRef(false);
 
-  // Lock body scroll when open
+  // Lock body scroll when open and trap focus
   useEffect(() => {
-    if (open) {
-      document.body.style.overflow = "hidden";
-    } else {
+    if (!open) {
       document.body.style.overflow = "";
+      if (wasOpen.current && returnFocusRef?.current) {
+        returnFocusRef.current.focus();
+      }
+      wasOpen.current = false;
+      return;
     }
+
+    wasOpen.current = true;
+    document.body.style.overflow = "hidden";
+
+    const focusableElements = drawerRef.current?.querySelectorAll(
+      'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
+    ) as NodeListOf<HTMLElement> | undefined;
+
+    if (focusableElements && focusableElements.length > 0) {
+      focusableElements[0].focus();
+    }
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onClose();
+        return;
+      }
+
+      if (e.key === "Tab" && drawerRef.current) {
+        if (!focusableElements || focusableElements.length === 0) return;
+
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+
+        if (e.shiftKey) {
+          if (document.activeElement === firstElement) {
+            e.preventDefault();
+            lastElement.focus();
+          }
+        } else {
+          if (document.activeElement === lastElement) {
+            e.preventDefault();
+            firstElement.focus();
+          }
+        }
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
     return () => {
+      document.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "";
     };
-  }, [open]);
+  }, [open, onClose, returnFocusRef]);
 
   return (
     <>
@@ -55,6 +101,8 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
 
       {/* Drawer */}
       <div
+        id="mobile-nav-drawer"
+        ref={drawerRef}
         className={cn(
           "fixed top-0 right-0 bottom-0 w-full max-w-sm bg-surface z-50 transition-transform duration-500 ease-[var(--ease-out-expo)] lg:hidden flex flex-col",
           open ? "translate-x-0" : "translate-x-full"

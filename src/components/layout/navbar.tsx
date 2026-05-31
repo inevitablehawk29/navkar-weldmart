@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useScroll } from "@/hooks/use-scroll";
@@ -17,6 +17,11 @@ export function Navbar() {
   const scrolled = useScroll(50);
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const hamburgerRef = useRef<HTMLButtonElement>(null);
+
+  const handleMobileClose = useCallback(() => {
+    setMobileOpen(false);
+  }, []);
 
   return (
     <>
@@ -142,11 +147,14 @@ export function Navbar() {
 
           {/* Mobile Hamburger */}
           <Button
+            ref={hamburgerRef}
             variant="ghost"
             size="icon"
             className="lg:hidden text-foreground rounded-sm"
             onClick={() => setMobileOpen(true)}
             aria-label="Open navigation menu"
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-nav-drawer"
           >
             <Menu className="w-6 h-6" />
           </Button>
@@ -156,7 +164,11 @@ export function Navbar() {
       </motion.header>
 
       {/* Mobile Navigation */}
-      <MobileNav open={mobileOpen} onClose={() => setMobileOpen(false)} />
+      <MobileNav 
+        open={mobileOpen} 
+        onClose={handleMobileClose} 
+        returnFocusRef={hamburgerRef}
+      />
     </>
   );
 }
