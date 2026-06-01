@@ -61,8 +61,8 @@ export function FeaturedProjects() {
           {/* Right Column — Scrollable Cards */}
           <div className="flex-1 min-w-0 relative">
             <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              animate={inView ? { opacity: 1, x: 0 } : {}}
+              initial={{ opacity: 0, y: 30 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{
                 duration: 0.8,
                 delay: 0.2,
