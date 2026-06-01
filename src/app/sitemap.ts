@@ -1,14 +1,11 @@
 import { MetadataRoute } from "next";
 import { projects } from "@/content";
-import fs from "fs";
-import path from "path";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://navkarweldmart.vercel.app";
   
-  // Source last modified date from content file modification time
-  const contentPath = path.join(process.cwd(), "src/content/projects.ts");
-  const lastUpdate = fs.statSync(contentPath).mtime;
+  // Use current date for lastModified to ensure safe serverless execution on Vercel
+  const lastUpdate = new Date();
 
   const projectUrls: MetadataRoute.Sitemap = projects.map((project) => ({
     url: `${baseUrl}/projects/${project.id}`,
