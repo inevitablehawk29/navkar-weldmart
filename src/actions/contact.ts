@@ -112,12 +112,9 @@ async function sendResendEmail(parsedData: EmailData, formType: "Main" | "Footer
       };
     }
 
-    // 2. If client email is provided, send Customer Confirmation Email asynchronously
+    // 2. If client email is provided, send Customer Confirmation Email
     if (parsedData.emailAddress) {
       try {
-        console.log("CUSTOMER EMAIL STEP 1: Entering customer email logic with address:", parsedData.emailAddress);
-        
-        console.log("CUSTOMER EMAIL STEP 2: Rendering React Email template...");
         const customerEmailHtml = await render(
           React.createElement(CustomerConfirmationEmail, {
             enquiryId,
@@ -138,26 +135,23 @@ async function sendResendEmail(parsedData: EmailData, formType: "Main" | "Footer
           projectDetails,
         });
 
-        console.log("CUSTOMER EMAIL STEP 3: Calling resend.emails.send()...");
-        // Send Customer Confirmation Email (do not block user response if this fails)
-        resend.emails.send({
+        // Send Customer Confirmation Email (awaited to ensure serverless function doesn't abort it)
+        const { error: customerError } = await resend.emails.send({
           from: "Navkar Weldmart <contact@navkarweldmart.com>",
           to: [parsedData.emailAddress],
           subject: "We've Received Your Enquiry – Navkar Weldmart",
           replyTo: "navkarweldmart@gmail.com",
           html: customerEmailHtml,
           text: customerEmailText,
-        }).then((res) => {
-          console.log("CUSTOMER EMAIL STEP 4: resend.emails.send() call finished. Result:", res);
-        }).catch((err) => {
-          console.error("CUSTOMER EMAIL STEP 4 ERROR: Async customer confirmation send error:", err);
         });
+
+        if (customerError) {
+          console.error("Resend Customer Confirmation API error:", customerError);
+        }
 
       } catch (custError) {
         console.error("Error generating/rendering customer confirmation email:", custError);
       }
-    } else {
-      console.log("CUSTOMER EMAIL SKIPPED: parsedData.emailAddress is empty/undefined.");
     }
 
     return {
