@@ -1,68 +1,77 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import Image from "next/image";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger, useGSAP);
-}
 
 export function BlueprintToReality() {
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
 
-  useGSAP(() => {
-    // Ensure cleanup of previous scroll triggers if any
-    const paths = gsap.utils.toArray<SVGPathElement>('.blueprint-path');
-    
-    // Set initial states for drawing effect
-    paths.forEach(path => {
-      const length = path.getTotalLength();
-      gsap.set(path, { 
-        strokeDasharray: length, 
-        strokeDashoffset: length 
-      });
+  useEffect(() => {
+    let ctx: { revert: () => void } | undefined;
+
+    Promise.all([
+      import("gsap"),
+      import("gsap/ScrollTrigger")
+    ]).then(([{ gsap }, { ScrollTrigger }]) => {
+      gsap.registerPlugin(ScrollTrigger);
+
+      ctx = gsap.context(() => {
+        // Ensure cleanup of previous scroll triggers if any
+        const paths = gsap.utils.toArray<SVGPathElement>('.blueprint-path');
+        
+        // Set initial states for drawing effect
+        paths.forEach(path => {
+          const length = path.getTotalLength();
+          gsap.set(path, { 
+            strokeDasharray: length, 
+            strokeDashoffset: length 
+          });
+        });
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 75%",
+            end: "top -10%",
+            scrub: 1, // Smooth scrubbing
+          }
+        });
+
+        // Step 1: Draw the SVG paths in
+        tl.to(paths, {
+          strokeDashoffset: 0,
+          duration: 2,
+          ease: "power1.inOut",
+          stagger: {
+            amount: 1, // Stagger drawing across 1 second of the timeline duration
+            from: "random"
+          }
+        });
+
+        // Step 2: Reveal the image via clip-path
+        tl.to(imageRef.current, {
+          clipPath: "circle(150% at 50% 50%)",
+          duration: 2,
+          ease: "power2.inOut",
+        }, "-=0.5"); // Start slightly before drawing finishes
+
+        // Step 3: Fade out SVG smoothly
+        tl.to(svgRef.current, {
+          opacity: 0,
+          duration: 1,
+          ease: "power1.inOut"
+        }, "-=1.5");
+      }, containerRef);
     });
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top 75%",
-        end: "top -10%",
-        scrub: 1, // Smooth scrubbing
+    return () => {
+      if (ctx) {
+        ctx.revert();
       }
-    });
-
-    // Step 1: Draw the SVG paths in
-    tl.to(paths, {
-      strokeDashoffset: 0,
-      duration: 2,
-      ease: "power1.inOut",
-      stagger: {
-        amount: 1, // Stagger drawing across 1 second of the timeline duration
-        from: "random"
-      }
-    });
-
-    // Step 2: Reveal the image via clip-path
-    tl.to(imageRef.current, {
-      clipPath: "circle(150% at 50% 50%)",
-      duration: 2,
-      ease: "power2.inOut",
-    }, "-=0.5"); // Start slightly before drawing finishes
-
-    // Step 3: Fade out SVG smoothly
-    tl.to(svgRef.current, {
-      opacity: 0,
-      duration: 1,
-      ease: "power1.inOut"
-    }, "-=1.5");
-    
-  }, { scope: containerRef });
+    };
+  }, []);
 
   return (
     <section 

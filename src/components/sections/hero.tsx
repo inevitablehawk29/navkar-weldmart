@@ -1,10 +1,8 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { CountUp } from "@/components/ui/count-up";
+import { FadeIn } from "@/components/animations/fade-in";
 
 export function Hero() {
   return (
@@ -13,11 +11,9 @@ export function Hero() {
       className="relative min-h-[100svh] lg:min-h-screen flex items-center pt-24 pb-16 lg:pb-0 lg:pt-20 overflow-hidden"
     >
       {/* Background Image */}
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.5, ease: "easeOut" }}
-        className="absolute inset-0 z-0 bg-[#111111]"
+      <FadeIn 
+        direction="none"
+        className="absolute inset-0 z-0 bg-[#111111] w-full h-full"
       >
         <Image
           src="/images/homepage_hero_bg.webp"
@@ -30,15 +26,13 @@ export function Hero() {
         {/* Gradient Overlays */}
         <div className="absolute inset-0 bg-gradient-to-r from-background via-background/95 to-background/20 lg:via-background/80 lg:to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-background/30 lg:hidden" />
-      </motion.div>
+      </FadeIn>
 
       <div className="container-wide relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
           {/* Text Content */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          <FadeIn
+            direction="none"
             className="max-w-xl"
           >
             <p className="text-sm md:text-base font-semibold uppercase tracking-[0.2em] text-primary mb-2">
@@ -87,13 +81,12 @@ export function Hero() {
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </Link>
             </div>
-          </motion.div>
+          </FadeIn>
 
           {/* Right side — Project label (visible on lg+) */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          <FadeIn
+            direction="left"
+            delay={0.3}
             className="hidden lg:flex justify-end"
           >
             <div className="bg-surface/90 backdrop-blur-sm border border-border px-6 py-4 max-w-xs relative overflow-hidden group cursor-default">
@@ -110,9 +103,10 @@ export function Hero() {
                 <span>Indore, MP</span>
               </div>
             </div>
-          </motion.div>
+          </FadeIn>
         </div>
       </div>
     </section>
   );
 }
+

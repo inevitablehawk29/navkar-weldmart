@@ -5,6 +5,7 @@ import { Footer } from "@/components/layout/footer";
 import { MobileStickyQuote } from "@/components/layout/mobile-sticky-quote";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { MotionConfig } from "framer-motion";
+import { FramerProvider } from "@/components/providers/framer-provider";
 import NextTopLoader from "nextjs-toploader";
 import "./globals.css";
 
@@ -144,22 +145,24 @@ export default function RootLayout({
           />
       </head>
       <body className="min-h-dvh flex flex-col antialiased">
-        <MotionConfig reducedMotion="user">
-          <NextTopLoader
-            color="#B48A4A"
-            height={3}
-            showSpinner={false}
-            easing="ease"
-            speed={200}
-            shadow="0 0 10px #B48A4A,0 0 5px #B48A4A"
-          />
-          <TooltipProvider>
-            <Navbar />
-            <main className="flex-1">{children}</main>
-            <Footer />
-            <MobileStickyQuote />
-          </TooltipProvider>
-        </MotionConfig>
+        <FramerProvider>
+          <MotionConfig reducedMotion="user">
+            <NextTopLoader
+              color="#B48A4A"
+              height={3}
+              showSpinner={false}
+              easing="ease"
+              speed={200}
+              shadow="0 0 10px #B48A4A,0 0 5px #B48A4A"
+            />
+            <TooltipProvider>
+              <Navbar />
+              <main className="flex-1">{children}</main>
+              <Footer />
+              <MobileStickyQuote />
+            </TooltipProvider>
+          </MotionConfig>
+        </FramerProvider>
       </body>
     </html>
   );

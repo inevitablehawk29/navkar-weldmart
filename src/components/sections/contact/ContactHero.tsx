@@ -2,7 +2,7 @@
 
 import { ProjectEnquiryForm } from "./ProjectEnquiryForm";
 
-import { motion } from "framer-motion";
+import * as m from "framer-motion/m";
 import { Phone, MessageCircle, Mail, MapPin } from "lucide-react";
 import { contactInfo } from "@/content";
 
@@ -12,7 +12,7 @@ export function ContactHero() {
       <div className="container-wide">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left Content */}
-          <motion.div 
+          <m.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
@@ -71,17 +71,17 @@ export function ContactHero() {
                 </div>
               </a>
             </div>
-          </motion.div>
+          </m.div>
 
           {/* Right Form */}
-          <motion.div 
+          <m.div 
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className="w-full max-w-xl mx-auto lg:ml-auto"
           >
             <ProjectEnquiryForm />
-          </motion.div>
+          </m.div>
         </div>
       </div>
     </section>

@@ -11,7 +11,8 @@ import { MobileNav } from "./mobile-nav";
 import { QuoteModal } from "./quote-modal";
 import { Menu, Phone, ArrowRight, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
+import * as m from "framer-motion/m";
+import logoHeader from "../../../public/images/logo_header.webp";
 
 export function Navbar() {
   const scrolled = useScroll(50);
@@ -26,7 +27,7 @@ export function Navbar() {
 
   return (
     <>
-      <motion.header
+      <m.header
       initial={{ y: "-100%" }}
       animate={{ y: 0 }}
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
@@ -41,12 +42,10 @@ export function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex flex-shrink-0 items-center">
           <Image
-            src="/images/logo_fixed.webp"
+            src={logoHeader}
             alt="Navkar Weldmart Logo"
-            width={280}
-            height={90}
-            className="w-auto h-16 md:h-18 object-contain"
-            style={{ height: "64px", width: "auto" }}
+            className="w-auto object-contain"
+            style={{ height: "38px", width: "auto" }}
             priority
           />
         </Link>
@@ -187,7 +186,7 @@ export function Navbar() {
         </div>
       </nav>
 
-      </motion.header>
+      </m.header>
 
       {/* Mobile Navigation */}
       <MobileNav 

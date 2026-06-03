@@ -1,7 +1,5 @@
-"use client";
-
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { FadeIn } from "@/components/animations/fade-in";
 
 export function AboutHero() {
   return (
@@ -9,10 +7,8 @@ export function AboutHero() {
       <div className="container-wide">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
           {/* Text Content */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          <FadeIn
+            direction="none"
             className="max-w-2xl"
           >
             <p className="section-label mb-6">About Navkar Weldmart</p>
@@ -33,13 +29,12 @@ export function AboutHero() {
                 Through years of hands-on experience, expanding from a small fabrication workshop to executing large-scale industrial structures, we&apos;ve built our reputation on one simple principle: delivering exactly what we promise, without compromise.
               </p>
             </div>
-          </motion.div>
+          </FadeIn>
 
           {/* Image Content */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          <FadeIn
+            direction="left"
+            delay={0.2}
             className="relative"
           >
             <div className="relative z-0 aspect-[4/5] w-full max-w-sm ml-auto lg:mr-0">
@@ -60,9 +55,10 @@ export function AboutHero() {
               {/* Decorative elements */}
               <div className="absolute -z-10 -top-4 -right-4 w-full h-full border border-primary/20" />
             </div>
-          </motion.div>
+          </FadeIn>
         </div>
       </div>
     </section>
   );
 }
+

@@ -2,7 +2,8 @@
 
 import { useRef } from "react";
 import Link from "next/link";
-import { motion, useInView } from "framer-motion";
+import * as m from "framer-motion/m";
+import { useInView } from "framer-motion";
 import { SectionLabel } from "@/components/shared/section-label";
 import { ProjectCard } from "@/components/cards/project-card";
 import { projects } from "@/content";
@@ -30,7 +31,7 @@ export function FeaturedProjects() {
       <div className="container-wide">
         <div className="flex flex-col lg:flex-row gap-10 lg:gap-16">
           {/* Left Column — Text */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -56,11 +57,11 @@ export function FeaturedProjects() {
               View All Projects
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </Link>
-          </motion.div>
+          </m.div>
 
           {/* Right Column — Scrollable Cards */}
           <div className="flex-1 min-w-0 relative">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{
@@ -93,7 +94,7 @@ export function FeaturedProjects() {
                   />
                 </div>
               </Carousel>
-            </motion.div>
+            </m.div>
           </div>
         </div>
       </div>

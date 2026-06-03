@@ -1,30 +1,22 @@
-"use client";
-
-import { useRef } from "react";
 import Link from "next/link";
-import { motion, useInView } from "framer-motion";
 import { SectionLabel } from "@/components/shared/section-label";
 import { services } from "@/content";
 import { DynamicIcon } from "@/components/shared/dynamic-icon";
 import { ArrowRight } from "lucide-react";
+import { FadeIn } from "@/components/animations/fade-in";
 
 export function ServicesOverview() {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
-
   return (
     <section
       id="services"
       className="py-20 lg:py-28 bg-surface border-y border-border"
-      ref={ref}
     >
       <div className="container-wide">
         <div className="flex flex-col lg:flex-row gap-10 lg:gap-20">
           {/* Left — Heading */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          <FadeIn
+            viewTrigger
+            direction="up"
             className="lg:w-[300px] lg:flex-shrink-0"
           >
             <SectionLabel>What We Do</SectionLabel>
@@ -35,20 +27,16 @@ export function ServicesOverview() {
               <br />
               one roof<span className="text-primary">.</span>
             </h2>
-          </motion.div>
+          </FadeIn>
 
           {/* Right — Service Cards */}
           <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-8 lg:gap-10">
             {services.map((service, index) => (
-              <motion.div
+              <FadeIn
                 key={service.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{
-                  duration: 0.6,
-                  delay: index * 0.1,
-                  ease: [0.16, 1, 0.3, 1],
-                }}
+                viewTrigger
+                direction="up"
+                delay={index * 0.1}
               >
                 <div className="text-accent mb-4">
                   <DynamicIcon name={service.icon} className="w-8 h-8" strokeWidth={1.5} />
@@ -66,7 +54,7 @@ export function ServicesOverview() {
                   Explore
                   <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
                 </Link>
-              </motion.div>
+              </FadeIn>
             ))}
           </div>
         </div>
@@ -74,3 +62,4 @@ export function ServicesOverview() {
     </section>
   );
 }
+

@@ -8,7 +8,7 @@ const withBundleAnalyzer = withBundleAnalyzerInit({
 
 const nextConfig: NextConfig = {
   images: {
-    formats: ["image/webp"],
+    formats: ["image/avif", "image/webp"],
     qualities: [75, 85],
   },
   async headers() {

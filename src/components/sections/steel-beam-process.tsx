@@ -1,19 +1,11 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { useReducedMotion } from "framer-motion";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
 import { SectionLabel } from "@/components/shared/section-label";
 import { processSteps } from "@/content";
 import { DynamicIcon } from "@/components/shared/dynamic-icon";
 import { cn } from "@/lib/utils";
-
-// Register ScrollTrigger
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 export function SteelBeamProcess() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -23,65 +15,78 @@ export function SteelBeamProcess() {
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
   const prefersReducedMotion = useReducedMotion();
 
-  useGSAP(
-    () => {
-      if (prefersReducedMotion) return;
+  useEffect(() => {
+    if (prefersReducedMotion) return;
 
-      // 1. Beam Growth Animation
-      // The beam grows from height 0 to 100% as the user scrolls through the steps container
-      const beamAnim = gsap.fromTo(
-        beamRef.current,
-        { height: "0%" },
-        {
-          height: "100%",
-          ease: "none",
-          scrollTrigger: {
-            trigger: stepsContainerRef.current,
-            start: "top center",
-            end: "bottom center",
-            scrub: true,
-          },
-        }
-      );
+    let ctx: { revert: () => void } | undefined;
+    let beamAnim: { kill: () => void } | undefined;
 
-      // 2. Node & Card Activation
-      // We activate each node/card when the center of the viewport hits the node
-      // Because the beam's bottom corresponds to the scroll progress, this feels connected.
-      nodesRef.current.forEach((node, i) => {
-        if (!node) return;
-        const card = cardsRef.current[i];
+    Promise.all([
+      import("gsap"),
+      import("gsap/ScrollTrigger")
+    ]).then(([{ gsap }, { ScrollTrigger }]) => {
+      gsap.registerPlugin(ScrollTrigger);
 
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: node,
-            start: "top center", // Activates exactly when beam reaches it (assuming beam growth is also top->bottom center)
-            toggleActions: "play none none reverse",
-          },
+      ctx = gsap.context(() => {
+        // 1. Beam Growth Animation
+        // The beam grows from height 0 to 100% as the user scrolls through the steps container
+        beamAnim = gsap.fromTo(
+          beamRef.current,
+          { height: "0%" },
+          {
+            height: "100%",
+            ease: "none",
+            scrollTrigger: {
+              trigger: stepsContainerRef.current,
+              start: "top center",
+              end: "bottom center",
+              scrub: true,
+            },
+          }
+        );
+
+        // 2. Node & Card Activation
+        // We activate each node/card when the center of the viewport hits the node
+        // Because the beam's bottom corresponds to the scroll progress, this feels connected.
+        nodesRef.current.forEach((node, i) => {
+          if (!node) return;
+          const card = cardsRef.current[i];
+
+          const tl = gsap.timeline({
+            scrollTrigger: {
+              trigger: node,
+              start: "top center", // Activates exactly when beam reaches it (assuming beam growth is also top->bottom center)
+              toggleActions: "play none none reverse",
+            },
+          });
+
+          // Node fill/activate
+          tl.to(node, {
+            backgroundColor: "var(--primary)", // Custom property or utility
+            borderColor: "var(--primary)",
+            duration: 0.3,
+            ease: "power2.out",
+          })
+            // Card fade in and slide up slightly
+            .fromTo(
+              card,
+              { opacity: 0, y: 20 },
+              { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
+              "-=0.1" // start slightly before node finishes
+            );
         });
+      }, containerRef);
+    });
 
-        // Node fill/activate
-        tl.to(node, {
-          backgroundColor: "var(--primary)", // Custom property or utility
-          borderColor: "var(--primary)",
-          duration: 0.3,
-          ease: "power2.out",
-        })
-          // Card fade in and slide up slightly
-          .fromTo(
-            card,
-            { opacity: 0, y: 20 },
-            { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
-            "-=0.1" // start slightly before node finishes
-          );
-      });
-
-      return () => {
+    return () => {
+      if (ctx) {
+        ctx.revert();
+      }
+      if (beamAnim) {
         beamAnim.kill();
-        ScrollTrigger.getAll().forEach((t) => t.kill());
-      };
-    },
-    { scope: containerRef, dependencies: [prefersReducedMotion] }
-  );
+      }
+    };
+  }, [prefersReducedMotion]);
 
   return (
     <section

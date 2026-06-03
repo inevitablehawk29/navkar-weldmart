@@ -17,6 +17,7 @@ import {
 import { useState } from "react";
 import { QuoteModal } from "./quote-modal";
 import { Button } from "@/components/ui/button";
+import logoHeader from "../../../public/images/logo_header.webp";
 
 interface MobileNavProps {
   open: boolean;
@@ -114,12 +115,10 @@ export function MobileNav({ open, onClose, returnFocusRef }: MobileNavProps) {
         {/* Header */}
         <div className="flex items-center justify-between px-6 h-20 border-b border-border">
           <Image
-            src="/images/logo_fixed.webp"
+            src={logoHeader}
             alt="Navkar Weldmart Logo"
-            width={200}
-            height={70}
-            className="w-auto h-14 object-contain"
-            style={{ height: "56px", width: "auto" }}
+            className="w-auto object-contain"
+            style={{ height: "34px", width: "auto" }}
           />
           <Button
             variant="ghost"

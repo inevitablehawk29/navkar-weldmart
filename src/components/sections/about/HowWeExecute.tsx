@@ -1,6 +1,4 @@
-"use client";
-
-import { motion } from "framer-motion";
+import { FadeIn } from "@/components/animations/fade-in";
 import { howWeExecuteSteps } from "@/content";
 import { DynamicIcon } from "@/components/shared/dynamic-icon";
 
@@ -8,11 +6,9 @@ export function HowWeExecute() {
   return (
     <section className="py-24 lg:py-32 bg-secondary/30 border-b border-border">
       <div className="container-wide">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        <FadeIn
+          viewTrigger
+          direction="up"
           className="max-w-2xl mb-16 lg:mb-24"
         >
           <p className="section-label mb-4">Our Process</p>
@@ -22,22 +18,17 @@ export function HowWeExecute() {
           <p className="text-lg text-muted">
             We control every step of the process. From the first sheet of steel to the final tightening of a bolt, our integrated approach ensures quality at every level.
           </p>
-        </motion.div>
+        </FadeIn>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
           {howWeExecuteSteps.map((step, index) => {
             return (
-              <motion.div
+              <FadeIn
                 key={step.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{
-                  duration: 0.6,
-                  delay: index * 0.1,
-                  ease: [0.16, 1, 0.3, 1],
-                }}
-                className="relative"
+                viewTrigger
+                direction="up"
+                delay={index * 0.1}
+                className="relative w-full"
               >
                 {/* Connecting Line (Desktop only) */}
                 {index !== howWeExecuteSteps.length - 1 && (
@@ -55,7 +46,7 @@ export function HowWeExecute() {
                 <p className="text-sm text-muted leading-relaxed">
                   {step.description}
                 </p>
-              </motion.div>
+              </FadeIn>
             );
           })}
         </div>
@@ -63,3 +54,4 @@ export function HowWeExecute() {
     </section>
   );
 }
+

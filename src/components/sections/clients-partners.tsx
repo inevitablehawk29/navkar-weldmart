@@ -2,7 +2,8 @@
 
 import { useRef } from "react";
 import Image from "next/image";
-import { motion, useInView } from "framer-motion";
+import * as m from "framer-motion/m";
+import { useInView } from "framer-motion";
 import { partners, testimonials } from "@/content";
 import { Quote } from "lucide-react";
 import {
@@ -26,18 +27,18 @@ export function ClientsPartners() {
     >
       <div className="container-wide">
         {/* Header */}
-        <motion.p
+        <m.p
           initial={{ opacity: 0, y: 10 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="text-xs font-medium uppercase tracking-[0.15em] text-white/50 mb-10"
         >
           Trusted by Leading Clients & Partners
-        </motion.p>
+        </m.p>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           {/* Left — Partner Logos + Testimonial */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{
@@ -109,10 +110,10 @@ export function ClientsPartners() {
                 )}
               </Carousel>
             </div>
-          </motion.div>
+          </m.div>
 
           {/* Right — Image */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, x: 20 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{
@@ -131,7 +132,7 @@ export function ClientsPartners() {
                 sizes="(max-width: 1024px) 100vw, 512px"
               />
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </div>
     </section>

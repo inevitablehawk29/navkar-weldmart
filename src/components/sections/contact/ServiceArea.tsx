@@ -1,5 +1,5 @@
 import { MapPin } from "lucide-react";
-import { ServiceAreaMap } from "./ServiceAreaMap";
+import { ServiceAreaMapWrapper } from "./ServiceAreaMapWrapper";
 
 export function ServiceArea() {
   const cities = [
@@ -39,7 +39,7 @@ export function ServiceArea() {
           </div>
           
           <div className="relative h-full min-h-[400px] flex items-center justify-center lg:justify-end">
-            <ServiceAreaMap />
+            <ServiceAreaMapWrapper />
           </div>
         </div>
       </div>

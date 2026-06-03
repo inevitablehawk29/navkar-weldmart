@@ -3,7 +3,8 @@
 import { useEffect, useState, useRef } from "react";
 import { QuoteModal } from "./quote-modal";
 import { ClipboardEdit } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import * as m from "framer-motion/m";
+import { AnimatePresence } from "framer-motion";
 
 export function MobileStickyQuote() {
   const [isVisible, setIsVisible] = useState(false);
@@ -70,7 +71,7 @@ export function MobileStickyQuote() {
   return (
     <AnimatePresence>
       {isVisible && (
-        <motion.div 
+        <m.div 
           className="fixed z-40 md:hidden"
           style={{ 
             bottom: "calc(1.5rem + env(safe-area-inset-bottom, 0px))", 
@@ -82,7 +83,7 @@ export function MobileStickyQuote() {
           transition={{ duration: 0.3 }}
         >
           <QuoteModal>
-            <motion.button 
+            <m.button 
               className="flex items-center justify-center bg-foreground/95 backdrop-blur-sm text-background h-[52px] rounded-full shadow-2xl hover:bg-primary hover:text-white transition-colors duration-300 border border-white/10 overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 px-4"
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
@@ -93,7 +94,7 @@ export function MobileStickyQuote() {
               <ClipboardEdit className="w-5 h-5 shrink-0" aria-hidden="true" />
               <AnimatePresence>
                 {currentlyExpanded && (
-                  <motion.div 
+                  <m.div 
                     className="flex items-center whitespace-nowrap overflow-hidden"
                     initial={{ width: 0, opacity: 0, marginLeft: 0 }}
                     animate={{ width: "auto", opacity: 1, marginLeft: 8 }}
@@ -104,12 +105,12 @@ export function MobileStickyQuote() {
                     }}
                   >
                     <span className="text-sm font-medium">Get Quote</span>
-                  </motion.div>
+                  </m.div>
                 )}
               </AnimatePresence>
-            </motion.button>
+            </m.button>
           </QuoteModal>
-        </motion.div>
+        </m.div>
       )}
     </AnimatePresence>
   );
