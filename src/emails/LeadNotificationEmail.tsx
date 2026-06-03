@@ -39,12 +39,6 @@ export const LeadNotificationEmail = ({
   projectDetails = "Need a structural steel mezzanine floor fabricated and installed in our workshop in Indore. Dimensions are approximately 30x40 feet.",
   formType = "Main",
 }: LeadNotificationEmailProps) => {
-  const cleanPhone = phoneNumber.replace(/\D/g, "");
-  const whatsappNumber = cleanPhone.length === 10 ? `91${cleanPhone}` : cleanPhone;
-  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-    `Hi ${fullName}, thank you for your enquiry at Navkar Weldmart. I would like to discuss your requirement for ${projectType}.`
-  )}`;
-
   return (
     <Html lang="en">
       <Head />
@@ -145,16 +139,6 @@ export const LeadNotificationEmail = ({
                   <td style={styles.buttonCell}>
                     <Link href={`tel:${phoneNumber}`} style={styles.buttonCall}>
                       Call Client Now
-                    </Link>
-                  </td>
-                </tr>
-                <tr>
-                  <td style={styles.buttonSpace}></td>
-                </tr>
-                <tr>
-                  <td style={styles.buttonCell}>
-                    <Link href={whatsappUrl} target="_blank" rel="noopener noreferrer" style={styles.buttonWhatsApp}>
-                      Chat on WhatsApp
                     </Link>
                   </td>
                 </tr>
@@ -333,18 +317,6 @@ const styles = {
   buttonCall: {
     display: "block" as const,
     backgroundColor: "#b48a4a",
-    color: "#ffffff",
-    textAlign: "center" as const,
-    padding: "12px 0",
-    borderRadius: "4px",
-    fontSize: "14px",
-    fontWeight: "700" as const,
-    textDecoration: "none" as const,
-    boxShadow: "0 1px 2px rgba(0,0,0,0.05)",
-  },
-  buttonWhatsApp: {
-    display: "block" as const,
-    backgroundColor: "#25d366",
     color: "#ffffff",
     textAlign: "center" as const,
     padding: "12px 0",
