@@ -145,14 +145,6 @@ export const CustomerConfirmationEmail = ({
           {/* Header */}
           <Section style={styles.header}>
             <Row>
-              <Column style={{ width: "60px", paddingRight: "16px" }}>
-                <Img
-                  src={`${baseUrl}/images/logo_header.webp`}
-                  alt="Navkar Weldmart"
-                  height="48"
-                  style={styles.logo}
-                />
-              </Column>
               <Column>
                 <Heading as="h1" style={styles.logoText} className="text-primary">
                   NAVKAR WELDMART
@@ -199,13 +191,7 @@ export const CustomerConfirmationEmail = ({
                 <Section style={styles.refCard} className="card-bg">
                   <Text style={styles.refCardTitle} className="text-secondary">REFERENCE ID</Text>
                   <Text style={styles.refCardValue}>{enquiryId}</Text>
-                  <Row style={{ marginTop: "16px" }}>
-                    <Column style={{ width: "40%" }}><Hr style={{ borderColor: "#e5e7eb" }} className="table-border" /></Column>
-                    <Column style={{ width: "20%", textAlign: "center" }}>
-                      <Img src={`${baseUrl}/icons/shield-check.png`} width="20" height="20" alt="✓" style={{ margin: "0 auto", opacity: 0.7 }} />
-                    </Column>
-                    <Column style={{ width: "40%" }}><Hr style={{ borderColor: "#e5e7eb" }} className="table-border" /></Column>
-                  </Row>
+                  <Hr style={{ borderColor: "#e5e7eb", marginTop: "16px", marginBottom: "0" }} className="table-border" />
                 </Section>
               </Column>
             </Row>
@@ -287,10 +273,7 @@ export const CustomerConfirmationEmail = ({
                 {/* Step 1 */}
                 <Column style={styles.timelineCol} className="timeline-item">
                   <div className="timeline-content" style={styles.timelineContentWrap}>
-                    <div style={styles.timelineNumContainer}>
-                      <div style={styles.timelineNum} className="timeline-num">1</div>
-                      <div style={styles.timelineDividerRight} className="timeline-divider"></div>
-                    </div>
+                    <div style={styles.timelineNumSimple} className="text-primary">1</div>
                     <div className="timeline-text" style={styles.timelineTextWrap}>
                       <Text style={styles.timelineHeading} className="text-primary">We Review</Text>
                       <Text style={styles.timelineDesc} className="text-secondary">Our team reviews your enquiry in detail.</Text>
@@ -301,11 +284,7 @@ export const CustomerConfirmationEmail = ({
                 {/* Step 2 */}
                 <Column style={styles.timelineCol} className="timeline-item">
                   <div className="timeline-content" style={styles.timelineContentWrap}>
-                    <div style={styles.timelineNumContainer}>
-                      <div style={styles.timelineDividerLeft} className="timeline-divider"></div>
-                      <div style={styles.timelineNum} className="timeline-num">2</div>
-                      <div style={styles.timelineDividerRight} className="timeline-divider"></div>
-                    </div>
+                    <div style={styles.timelineNumSimple} className="text-primary">2</div>
                     <div className="timeline-text" style={styles.timelineTextWrap}>
                       <Text style={styles.timelineHeading} className="text-primary">We Contact</Text>
                       <Text style={styles.timelineDesc} className="text-secondary">We may reach out to you for additional information.</Text>
@@ -316,11 +295,7 @@ export const CustomerConfirmationEmail = ({
                 {/* Step 3 */}
                 <Column style={styles.timelineCol} className="timeline-item">
                   <div className="timeline-content" style={styles.timelineContentWrap}>
-                    <div style={styles.timelineNumContainer}>
-                      <div style={styles.timelineDividerLeft} className="timeline-divider"></div>
-                      <div style={styles.timelineNum} className="timeline-num">3</div>
-                      <div style={styles.timelineDividerRight} className="timeline-divider"></div>
-                    </div>
+                    <div style={styles.timelineNumSimple} className="text-primary">3</div>
                     <div className="timeline-text" style={styles.timelineTextWrap}>
                       <Text style={styles.timelineHeading} className="text-primary">Discussion</Text>
                       <Text style={styles.timelineDesc} className="text-secondary">We discuss your requirements, site details & timelines.</Text>
@@ -331,10 +306,7 @@ export const CustomerConfirmationEmail = ({
                 {/* Step 4 */}
                 <Column style={styles.timelineCol} className="timeline-item">
                   <div className="timeline-content" style={styles.timelineContentWrap}>
-                    <div style={styles.timelineNumContainer}>
-                      <div style={styles.timelineDividerLeft} className="timeline-divider"></div>
-                      <div style={styles.timelineNum} className="timeline-num">4</div>
-                    </div>
+                    <div style={styles.timelineNumSimple} className="text-primary">4</div>
                     <div className="timeline-text" style={styles.timelineTextWrap}>
                       <Text style={styles.timelineHeading} className="text-primary">Quotation Support</Text>
                       <Text style={styles.timelineDesc} className="text-secondary">We provide suitable solutions and quotation support.</Text>
@@ -349,11 +321,6 @@ export const CustomerConfirmationEmail = ({
           <Section style={{ padding: "0 24px", marginTop: "32px" }}>
             <Section style={styles.assistanceCard} className="card-bg">
               <Row>
-                <Column style={{ width: "50px", verticalAlign: "top" }}>
-                  <div style={styles.phoneIconWrap}>
-                    <Img src={`${baseUrl}/icons/phone-call.png`} width="20" height="20" alt="Phone" />
-                  </div>
-                </Column>
                 <Column>
                   <Text style={styles.assistanceTitle} className="text-primary">NEED IMMEDIATE ASSISTANCE?</Text>
                   <Text style={styles.assistanceDesc} className="text-secondary">If your requirement is urgent, please contact us directly.</Text>
@@ -364,14 +331,14 @@ export const CustomerConfirmationEmail = ({
                 {/* Row 1 for Mobile/Desktop */}
                 <Column style={styles.assistanceCol} className="assistance-item">
                   <Text style={styles.assistanceLabel} className="text-secondary">
-                    <span style={{ marginRight: "6px" }}>📞</span> Call Us
+                    Call Us
                   </Text>
                   <Text style={styles.assistanceValue} className="text-primary">+91 96697 69760</Text>
                   <Text style={styles.assistanceValue} className="text-primary">+91 62637 21818</Text>
                 </Column>
                 <Column style={styles.assistanceCol} className="assistance-item">
                   <Text style={styles.assistanceLabel} className="text-secondary">
-                    <span style={{ marginRight: "6px" }}>✉️</span> Email Us
+                    Email Us
                   </Text>
                   <Link href="mailto:navkarweldmart@gmail.com" style={styles.assistanceLink}>
                     navkarweldmart<br/>@gmail.com
@@ -380,7 +347,7 @@ export const CustomerConfirmationEmail = ({
                 {/* On desktop, this will be 4 columns. Using a single row of 4 columns might be tight. Let's make it 4 columns if possible. */}
                 <Column style={styles.assistanceCol} className="assistance-item">
                   <Text style={styles.assistanceLabel} className="text-secondary">
-                    <span style={{ marginRight: "6px" }}>🌐</span> Visit Website
+                    Visit Website
                   </Text>
                   <Link href="https://navkarweldmart.com" style={styles.assistanceLink}>
                     navkarweldmart.com
@@ -388,7 +355,7 @@ export const CustomerConfirmationEmail = ({
                 </Column>
                 <Column style={styles.assistanceCol} className="assistance-item">
                   <Text style={styles.assistanceLabel} className="text-secondary">
-                    <span style={{ marginRight: "6px" }}>📍</span> Our Office
+                    Our Office
                   </Text>
                   <Text style={styles.assistanceValue} className="text-primary">Indore,<br/>Madhya Pradesh</Text>
                 </Column>
@@ -402,19 +369,12 @@ export const CustomerConfirmationEmail = ({
           <Section style={{ padding: "0 24px", marginBottom: "32px" }}>
             <Row>
               <Column style={styles.footerLogoCol} className="mobile-stack">
-                <Row>
-                  <Column style={{ width: "40px" }}>
-                    <Img src={`${baseUrl}/images/logo_header.webp`} height="32" alt="Navkar Weldmart" />
-                  </Column>
-                  <Column style={{ paddingLeft: "12px" }}>
-                    <Text style={{ ...styles.logoText, fontSize: "14px", margin: 0 }} className="text-primary">
-                      NAVKAR WELDMART
-                    </Text>
-                    <Text style={{ ...styles.tagline, fontSize: "10px", margin: 0 }}>
-                      Steel Solutions. Built to Last.
-                    </Text>
-                  </Column>
-                </Row>
+                <Text style={{ ...styles.logoText, fontSize: "14px", margin: 0 }} className="text-primary">
+                  NAVKAR WELDMART
+                </Text>
+                <Text style={{ ...styles.tagline, fontSize: "10px", margin: 0 }}>
+                  Steel Solutions. Built to Last.
+                </Text>
               </Column>
               <Column style={styles.footerTextCol} className="mobile-stack mobile-p-top">
                 <Text style={styles.footerThanks} className="text-secondary">
@@ -642,48 +602,11 @@ const styles = {
   timelineContentWrap: {
     // Used for mobile overrides
   },
-  timelineNumContainer: {
-    position: "relative" as const,
-    height: "30px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: "12px",
-  },
-  timelineNum: {
-    width: "28px",
-    height: "28px",
-    borderRadius: "50%",
-    backgroundColor: "#fff",
-    border: `1px solid ${colors.primary}`,
-    color: colors.primary,
-    fontSize: "12px",
+  timelineNumSimple: {
+    fontSize: "24px",
     fontWeight: "700",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    position: "relative" as const,
-    zIndex: 2,
-    margin: "0 auto",
-    lineHeight: "28px", // for email clients that don't support flex
-  },
-  timelineDividerLeft: {
-    position: "absolute" as const,
-    left: 0,
-    top: "14px",
-    width: "50%",
-    height: "1px",
-    borderTop: `1px dashed ${colors.border}`,
-    zIndex: 1,
-  },
-  timelineDividerRight: {
-    position: "absolute" as const,
-    right: 0,
-    top: "14px",
-    width: "50%",
-    height: "1px",
-    borderTop: `1px dashed ${colors.border}`,
-    zIndex: 1,
+    color: colors.primary,
+    marginBottom: "8px",
   },
   timelineTextWrap: {
     padding: "0 8px",
