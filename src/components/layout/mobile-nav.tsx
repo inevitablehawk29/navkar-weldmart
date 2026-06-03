@@ -118,7 +118,7 @@ export function MobileNav({ open, onClose, returnFocusRef }: MobileNavProps) {
             src={logoHeader}
             alt="Navkar Weldmart Logo"
             className="w-auto object-contain"
-            style={{ height: "34px", width: "auto" }}
+            style={{ height: "38px", width: "auto" }}
           />
           <Button
             variant="ghost"

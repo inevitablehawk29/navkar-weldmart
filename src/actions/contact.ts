@@ -60,7 +60,7 @@ async function sendResendEmail(parsedData: EmailData, formType: "Main" | "Footer
 
   // Send the email
   const { error } = await resend.emails.send({
-    from: "Navkar Weldmart <onboarding@resend.dev>",
+    from: "Navkar Weldmart <contact@navkarweldmart.com>",
     to: ["navkarweldmart@gmail.com"], // Must be the verified Resend email address
     subject: subject,
     replyTo: parsedData.emailAddress || undefined,

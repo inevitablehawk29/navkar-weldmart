@@ -45,7 +45,7 @@ export function Navbar() {
             src={logoHeader}
             alt="Navkar Weldmart Logo"
             className="w-auto object-contain"
-            style={{ height: "38px", width: "auto" }}
+            style={{ height: "42px", width: "auto" }}
             priority
           />
         </Link>
