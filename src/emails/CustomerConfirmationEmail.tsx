@@ -10,6 +10,9 @@ import {
   Text,
   Link,
   Hr,
+  Row,
+  Column,
+  Img,
 } from "@react-email/components";
 
 export interface CustomerConfirmationEmailProps {
@@ -21,232 +24,759 @@ export interface CustomerConfirmationEmailProps {
   projectDetails: string;
 }
 
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://navkarweldmart.com";
+
 export const CustomerConfirmationEmail = ({
-  enquiryId = "ENQ-20260603-9999",
-  fullName = "Rahul Sharma",
-  projectType = "Structural Fabrication",
-  projectLocation = "Indore, MP",
-  estimatedBudget = "₹5–10 Lakh",
-  projectDetails = "Need a structural steel mezzanine floor fabricated and installed in our workshop in Indore. Dimensions are approximately 30x40 feet.",
+  enquiryId = "ENQ-20260603-4921",
+  fullName = "Mayank",
+  projectType = "Residential Fabrication",
+  projectLocation = "Jabalpur, Madhya Pradesh",
+  estimatedBudget = "Under ₹2 Lakh",
+  projectDetails = "Testing Navkar Weldmart lead flow and email confirmation.",
 }: CustomerConfirmationEmailProps) => {
   return (
-    <Html lang="en">
-      <Head />
+    <Html lang="en" dir="ltr">
+      <Head>
+        <style>{`
+          @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+          
+          body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
+          }
+
+          /* Mobile optimizations */
+          @media only screen and (max-width: 600px) {
+            .mobile-stack {
+              display: block !important;
+              width: 100% !important;
+            }
+            .mobile-p-top {
+              padding-top: 16px !important;
+            }
+            .mobile-hide {
+              display: none !important;
+            }
+            .mobile-center {
+              text-align: center !important;
+            }
+            .timeline-item {
+              display: block !important;
+              width: 100% !important;
+              margin-bottom: 16px !important;
+              text-align: left !important;
+            }
+            .timeline-divider {
+              display: none !important;
+            }
+            .timeline-content {
+              display: flex !important;
+              align-items: center !important;
+              text-align: left !important;
+              gap: 12px !important;
+            }
+            .timeline-text {
+              text-align: left !important;
+              margin-top: 0 !important;
+            }
+            .assistance-item {
+              display: block !important;
+              width: 100% !important;
+              padding-bottom: 16px !important;
+            }
+          }
+          
+          /* Dark mode support */
+          @media (prefers-color-scheme: dark) {
+            body, .body-bg {
+              background-color: #121212 !important;
+            }
+            .main-container {
+              background-color: #1e1e1e !important;
+              border-color: #333333 !important;
+            }
+            h1, h2, h3, .text-primary {
+              color: #f3f4f6 !important;
+            }
+            .text-secondary, p {
+              color: #d1d5db !important;
+            }
+            .card-bg {
+              background-color: #262626 !important;
+              border-color: #3f3f46 !important;
+            }
+            .table-border {
+              border-color: #3f3f46 !important;
+            }
+            .table-cell-bg {
+              background-color: #2d2d2d !important;
+            }
+            .footer-bar {
+              background-color: #000000 !important;
+            }
+            .timeline-num {
+              background-color: #3f3f46 !important;
+              color: #f3f4f6 !important;
+            }
+          }
+        `}</style>
+      </Head>
       <Preview>
-        Enquiry Received - Navkar Weldmart (ID: {enquiryId})
+        Reference ID: {enquiryId}. Our team will review your requirement and contact you shortly.
       </Preview>
-      <Body style={styles.body}>
-        <Container style={styles.container}>
-          {/* Branded Header */}
+      <Body style={styles.body} className="body-bg">
+        <Container style={styles.container} className="main-container">
+          
+          {/* Top Bar */}
+          <Section style={styles.topBar}>
+            <Row>
+              <Column style={styles.topBarLeft}>
+                <Text style={styles.topBarText} className="text-secondary">
+                  Thank you for contacting Navkar Weldmart.
+                </Text>
+              </Column>
+              <Column style={styles.topBarRight} className="mobile-hide">
+                <Link href={baseUrl} style={styles.topBarLink} className="text-secondary">
+                  View in browser
+                </Link>
+              </Column>
+            </Row>
+          </Section>
+
+          {/* Header */}
           <Section style={styles.header}>
-            <Heading as="h1" style={styles.logoText}>
-              NAVKAR WELDMART
-            </Heading>
-            <Text style={styles.tagline}>Steel Solutions. Built to Last.</Text>
+            <Row>
+              <Column style={{ width: "60px", paddingRight: "16px" }}>
+                <Img
+                  src={`${baseUrl}/images/logo_header.webp`}
+                  alt="Navkar Weldmart"
+                  height="48"
+                  style={styles.logo}
+                />
+              </Column>
+              <Column>
+                <Heading as="h1" style={styles.logoText} className="text-primary">
+                  NAVKAR WELDMART
+                </Heading>
+                <Text style={styles.tagline}>Steel Solutions. Built to Last.</Text>
+              </Column>
+            </Row>
           </Section>
 
-          <Hr style={styles.divider} />
+          <Hr style={styles.divider} className="table-border" />
 
-          {/* Acknowledgement Message */}
-          <Section style={styles.contentSection}>
-            <Heading as="h2" style={styles.greeting}>
-              Hello {fullName},
+          {/* Main Title */}
+          <Section style={{ padding: "0 24px" }}>
+            <Heading as="h2" style={styles.mainTitle} className="text-primary">
+              Enquiry Received
             </Heading>
-            <Text style={styles.paragraph}>
-              Thank you for contacting Navkar Weldmart. We have successfully received your project enquiry. 
-            </Text>
-            <Text style={styles.paragraph}>
-              Our engineering team is currently reviewing your requirements. You can expect a response from us within <strong>24 to 48 business hours</strong>.
-            </Text>
-            
-            <Text style={styles.enquiryNotice}>
-              <strong>Enquiry ID:</strong> {enquiryId}
-            </Text>
+            <div style={styles.titleUnderline}></div>
           </Section>
 
-          {/* Summary of Submitted Details */}
-          <Section style={styles.card}>
-            <Heading as="h3" style={styles.cardHeader}>
-              Enquiry Summary
-            </Heading>
-            <table style={styles.table} cellPadding={0} cellSpacing={0}>
-              <tbody>
-                <tr>
-                  <td style={styles.tableLabelCell}>Project Type:</td>
-                  <td style={styles.tableValueCell}><strong>{projectType}</strong></td>
-                </tr>
-                <tr>
-                  <td style={styles.tableLabelCell}>Location:</td>
-                  <td style={styles.tableValueCell}>{projectLocation}</td>
-                </tr>
+          {/* Intro and Reference Card Container */}
+          <Section style={{ padding: "0 24px", marginTop: "24px" }}>
+            <Row>
+              {/* Left Column: Intro */}
+              <Column style={styles.colLeft} className="mobile-stack text-secondary">
+                <Text style={styles.greeting} className="text-primary">
+                  Hello {fullName},
+                </Text>
+                <Text style={styles.paragraph} className="text-secondary">
+                  Thank you for contacting Navkar Weldmart.
+                </Text>
+                <Text style={styles.paragraph} className="text-secondary">
+                  We have received your enquiry and the details have been successfully recorded under Reference ID:
+                </Text>
+                <Text style={styles.refIdHighlight}>
+                  {enquiryId}
+                </Text>
+                <Text style={styles.paragraph} className="text-secondary">
+                  Our team will review your requirement and contact you to discuss the project, specifications, site details, and next steps.
+                </Text>
+              </Column>
+
+              {/* Right Column: Reference Card */}
+              <Column style={styles.colRight} className="mobile-stack mobile-p-top">
+                <Section style={styles.refCard} className="card-bg">
+                  <Text style={styles.refCardTitle} className="text-secondary">REFERENCE ID</Text>
+                  <Text style={styles.refCardValue}>{enquiryId}</Text>
+                  <Row style={{ marginTop: "16px" }}>
+                    <Column style={{ width: "40%" }}><Hr style={{ borderColor: "#e5e7eb" }} className="table-border" /></Column>
+                    <Column style={{ width: "20%", textAlign: "center" }}>
+                      <Img src={`${baseUrl}/icons/shield-check.png`} width="20" height="20" alt="✓" style={{ margin: "0 auto", opacity: 0.7 }} />
+                    </Column>
+                    <Column style={{ width: "40%" }}><Hr style={{ borderColor: "#e5e7eb" }} className="table-border" /></Column>
+                  </Row>
+                </Section>
+              </Column>
+            </Row>
+          </Section>
+
+          {/* Summary Table */}
+          <Section style={{ padding: "0 24px", marginTop: "32px" }}>
+            <Section style={styles.summaryContainer} className="card-bg table-border">
+              <Text style={styles.summaryTitle} className="text-primary">ENQUIRY SUMMARY</Text>
+              
+              <Section style={{ borderTop: "1px solid #edf2f7" }} className="table-border">
+                {/* Project Type */}
+                <Row style={styles.tableRow}>
+                  <Column style={styles.tableLabelCol}>
+                    <div style={styles.labelWrapper}>
+                      <div style={styles.orangePipe}></div>
+                      <Text style={styles.tableLabel} className="text-primary">Project Type</Text>
+                    </div>
+                  </Column>
+                  <Column style={styles.tableValueCol}>
+                    <Text style={styles.tableValue} className="text-secondary">{projectType}</Text>
+                  </Column>
+                </Row>
+                
+                {/* Location */}
+                <Row style={{ ...styles.tableRow, borderTop: "1px solid #edf2f7" }} className="table-border">
+                  <Column style={styles.tableLabelCol}>
+                    <div style={styles.labelWrapper}>
+                      <div style={styles.orangePipe}></div>
+                      <Text style={styles.tableLabel} className="text-primary">Location</Text>
+                    </div>
+                  </Column>
+                  <Column style={styles.tableValueCol}>
+                    <Text style={styles.tableValue} className="text-secondary">{projectLocation}</Text>
+                  </Column>
+                </Row>
+                
+                {/* Budget Range */}
                 {estimatedBudget && (
-                  <tr>
-                    <td style={styles.tableLabelCell}>Budget Range:</td>
-                    <td style={styles.tableValueCell}>{estimatedBudget}</td>
-                  </tr>
+                  <Row style={{ ...styles.tableRow, borderTop: "1px solid #edf2f7" }} className="table-border">
+                    <Column style={styles.tableLabelCol}>
+                      <div style={styles.labelWrapper}>
+                        <div style={styles.orangePipe}></div>
+                        <Text style={styles.tableLabel} className="text-primary">Budget Range</Text>
+                      </div>
+                    </Column>
+                    <Column style={styles.tableValueCol}>
+                      <Text style={styles.tableValue} className="text-secondary">{estimatedBudget}</Text>
+                    </Column>
+                  </Row>
                 )}
-                <tr>
-                  <td style={styles.tableLabelCell}>Details:</td>
-                  <td style={styles.tableValueCell}>{projectDetails || "No additional details provided."}</td>
-                </tr>
-              </tbody>
-            </table>
+                
+                {/* Project Details */}
+                <Row style={{ ...styles.tableRow, borderTop: "1px solid #edf2f7" }} className="table-border">
+                  <Column style={styles.tableLabelCol}>
+                    <div style={styles.labelWrapper}>
+                      <div style={styles.orangePipe}></div>
+                      <Text style={styles.tableLabel} className="text-primary">Project Details</Text>
+                    </div>
+                  </Column>
+                  <Column style={styles.tableValueCol}>
+                    <Text style={styles.tableValue} className="text-secondary">{projectDetails || "No additional details provided."}</Text>
+                  </Column>
+                </Row>
+              </Section>
+            </Section>
           </Section>
 
-          <Hr style={styles.divider} />
-
-          {/* Corporate / Contact Details */}
-          <Section style={styles.footerSection}>
-            <Heading as="h4" style={styles.footerHeader}>
-              Navkar Weldmart Support
+          {/* What Happens Next */}
+          <Section style={{ padding: "0 24px", marginTop: "40px", textAlign: "center" }}>
+            <Heading as="h3" style={styles.nextTitle} className="text-primary">
+              WHAT HAPPENS NEXT?
             </Heading>
-            <Text style={styles.footerText}>
-              If you have any urgent changes or questions, please reach out to us directly:
-            </Text>
-            <Text style={styles.contactItem}>
-              <strong>Phone:</strong> +91 96697 69760 / +91 62637 21818
-            </Text>
-            <Text style={styles.contactItem}>
-              <strong>Email:</strong>{" "}
-              <Link href="mailto:navkarweldmart@gmail.com" style={styles.footerLink}>
-                navkarweldmart@gmail.com
-              </Link>
-            </Text>
-            <Text style={styles.contactItem}>
-              <strong>Website:</strong>{" "}
-              <Link href="https://navkarweldmart.com" style={styles.footerLink}>
-                navkarweldmart.com
-              </Link>
-            </Text>
-            <Text style={styles.contactItem}>
-              <strong>Office:</strong> Indore, Madhya Pradesh
+            <div style={styles.centerUnderline}></div>
+            
+            {/* Timeline */}
+            <Section style={{ marginTop: "24px" }}>
+              <Row>
+                {/* Step 1 */}
+                <Column style={styles.timelineCol} className="timeline-item">
+                  <div className="timeline-content" style={styles.timelineContentWrap}>
+                    <div style={styles.timelineNumContainer}>
+                      <div style={styles.timelineNum} className="timeline-num">1</div>
+                      <div style={styles.timelineDividerRight} className="timeline-divider"></div>
+                    </div>
+                    <div className="timeline-text" style={styles.timelineTextWrap}>
+                      <Text style={styles.timelineHeading} className="text-primary">We Review</Text>
+                      <Text style={styles.timelineDesc} className="text-secondary">Our team reviews your enquiry in detail.</Text>
+                    </div>
+                  </div>
+                </Column>
+                
+                {/* Step 2 */}
+                <Column style={styles.timelineCol} className="timeline-item">
+                  <div className="timeline-content" style={styles.timelineContentWrap}>
+                    <div style={styles.timelineNumContainer}>
+                      <div style={styles.timelineDividerLeft} className="timeline-divider"></div>
+                      <div style={styles.timelineNum} className="timeline-num">2</div>
+                      <div style={styles.timelineDividerRight} className="timeline-divider"></div>
+                    </div>
+                    <div className="timeline-text" style={styles.timelineTextWrap}>
+                      <Text style={styles.timelineHeading} className="text-primary">We Contact</Text>
+                      <Text style={styles.timelineDesc} className="text-secondary">We may reach out to you for additional information.</Text>
+                    </div>
+                  </div>
+                </Column>
+                
+                {/* Step 3 */}
+                <Column style={styles.timelineCol} className="timeline-item">
+                  <div className="timeline-content" style={styles.timelineContentWrap}>
+                    <div style={styles.timelineNumContainer}>
+                      <div style={styles.timelineDividerLeft} className="timeline-divider"></div>
+                      <div style={styles.timelineNum} className="timeline-num">3</div>
+                      <div style={styles.timelineDividerRight} className="timeline-divider"></div>
+                    </div>
+                    <div className="timeline-text" style={styles.timelineTextWrap}>
+                      <Text style={styles.timelineHeading} className="text-primary">Discussion</Text>
+                      <Text style={styles.timelineDesc} className="text-secondary">We discuss your requirements, site details & timelines.</Text>
+                    </div>
+                  </div>
+                </Column>
+                
+                {/* Step 4 */}
+                <Column style={styles.timelineCol} className="timeline-item">
+                  <div className="timeline-content" style={styles.timelineContentWrap}>
+                    <div style={styles.timelineNumContainer}>
+                      <div style={styles.timelineDividerLeft} className="timeline-divider"></div>
+                      <div style={styles.timelineNum} className="timeline-num">4</div>
+                    </div>
+                    <div className="timeline-text" style={styles.timelineTextWrap}>
+                      <Text style={styles.timelineHeading} className="text-primary">Quotation Support</Text>
+                      <Text style={styles.timelineDesc} className="text-secondary">We provide suitable solutions and quotation support.</Text>
+                    </div>
+                  </div>
+                </Column>
+              </Row>
+            </Section>
+          </Section>
+
+          {/* Assistance Section */}
+          <Section style={{ padding: "0 24px", marginTop: "32px" }}>
+            <Section style={styles.assistanceCard} className="card-bg">
+              <Row>
+                <Column style={{ width: "50px", verticalAlign: "top" }}>
+                  <div style={styles.phoneIconWrap}>
+                    <Img src={`${baseUrl}/icons/phone-call.png`} width="20" height="20" alt="Phone" />
+                  </div>
+                </Column>
+                <Column>
+                  <Text style={styles.assistanceTitle} className="text-primary">NEED IMMEDIATE ASSISTANCE?</Text>
+                  <Text style={styles.assistanceDesc} className="text-secondary">If your requirement is urgent, please contact us directly.</Text>
+                </Column>
+              </Row>
+              
+              <Row style={{ marginTop: "20px" }}>
+                {/* Row 1 for Mobile/Desktop */}
+                <Column style={styles.assistanceCol} className="assistance-item">
+                  <Text style={styles.assistanceLabel} className="text-secondary">
+                    <span style={{ marginRight: "6px" }}>📞</span> Call Us
+                  </Text>
+                  <Text style={styles.assistanceValue} className="text-primary">+91 96697 69760</Text>
+                  <Text style={styles.assistanceValue} className="text-primary">+91 62637 21818</Text>
+                </Column>
+                <Column style={styles.assistanceCol} className="assistance-item">
+                  <Text style={styles.assistanceLabel} className="text-secondary">
+                    <span style={{ marginRight: "6px" }}>✉️</span> Email Us
+                  </Text>
+                  <Link href="mailto:navkarweldmart@gmail.com" style={styles.assistanceLink}>
+                    navkarweldmart<br/>@gmail.com
+                  </Link>
+                </Column>
+                {/* On desktop, this will be 4 columns. Using a single row of 4 columns might be tight. Let's make it 4 columns if possible. */}
+                <Column style={styles.assistanceCol} className="assistance-item">
+                  <Text style={styles.assistanceLabel} className="text-secondary">
+                    <span style={{ marginRight: "6px" }}>🌐</span> Visit Website
+                  </Text>
+                  <Link href="https://navkarweldmart.com" style={styles.assistanceLink}>
+                    navkarweldmart.com
+                  </Link>
+                </Column>
+                <Column style={styles.assistanceCol} className="assistance-item">
+                  <Text style={styles.assistanceLabel} className="text-secondary">
+                    <span style={{ marginRight: "6px" }}>📍</span> Our Office
+                  </Text>
+                  <Text style={styles.assistanceValue} className="text-primary">Indore,<br/>Madhya Pradesh</Text>
+                </Column>
+              </Row>
+            </Section>
+          </Section>
+
+          <Hr style={{ ...styles.divider, marginTop: "40px" }} className="table-border" />
+
+          {/* Pre-footer */}
+          <Section style={{ padding: "0 24px", marginBottom: "32px" }}>
+            <Row>
+              <Column style={styles.footerLogoCol} className="mobile-stack">
+                <Row>
+                  <Column style={{ width: "40px" }}>
+                    <Img src={`${baseUrl}/images/logo_header.webp`} height="32" alt="Navkar Weldmart" />
+                  </Column>
+                  <Column style={{ paddingLeft: "12px" }}>
+                    <Text style={{ ...styles.logoText, fontSize: "14px", margin: 0 }} className="text-primary">
+                      NAVKAR WELDMART
+                    </Text>
+                    <Text style={{ ...styles.tagline, fontSize: "10px", margin: 0 }}>
+                      Steel Solutions. Built to Last.
+                    </Text>
+                  </Column>
+                </Row>
+              </Column>
+              <Column style={styles.footerTextCol} className="mobile-stack mobile-p-top">
+                <Text style={styles.footerThanks} className="text-secondary">
+                  Thank you for considering Navkar Weldmart.
+                  <br />
+                  We look forward to working with you.
+                </Text>
+              </Column>
+            </Row>
+          </Section>
+
+          {/* Bottom Dark Bar */}
+          <Section style={styles.bottomBar} className="footer-bar">
+            <Text style={styles.bottomBarText}>
+              This is an automated email. Please do not reply to this email.
             </Text>
           </Section>
+
         </Container>
       </Body>
     </Html>
   );
 };
 
+// Styles
+const colors = {
+  bg: "#f4f4f5",
+  container: "#ffffff",
+  textMain: "#111827",
+  textMuted: "#4b5563",
+  primary: "#b25e2b", // Using a refined orange/brown from mockup
+  border: "#e5e7eb",
+  cardBg: "#fafafa",
+  footerBg: "#1f2937",
+};
+
 const styles = {
   body: {
-    backgroundColor: "#f4f4f7",
-    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+    backgroundColor: colors.bg,
     margin: "0",
-    padding: "20px 10px",
+    padding: "20px 0",
   },
   container: {
-    backgroundColor: "#ffffff",
-    border: "1px solid #e2e8f0",
+    backgroundColor: colors.container,
+    border: `1px solid ${colors.border}`,
     borderRadius: "8px",
-    maxWidth: "580px",
+    maxWidth: "700px",
     margin: "0 auto",
-    padding: "32px 24px",
+    overflow: "hidden", // for the bottom bar border radius
+  },
+  topBar: {
+    padding: "16px 24px 0",
+  },
+  topBarLeft: {
+    textAlign: "left" as const,
+  },
+  topBarRight: {
+    textAlign: "right" as const,
+  },
+  topBarText: {
+    fontSize: "12px",
+    color: colors.textMuted,
+    margin: 0,
+  },
+  topBarLink: {
+    fontSize: "12px",
+    color: colors.textMuted,
+    textDecoration: "underline",
+    margin: 0,
   },
   header: {
-    textAlign: "center" as const,
-    marginBottom: "16px",
+    padding: "24px 24px 0",
+  },
+  logo: {
+    display: "block",
   },
   logoText: {
     fontSize: "20px",
-    fontWeight: "800" as const,
-    color: "#1a202c",
-    letterSpacing: "2px",
-    margin: "0 0 4px 0",
+    fontWeight: "800",
+    color: colors.textMain,
+    letterSpacing: "1px",
+    margin: "0 0 2px 0",
+    lineHeight: "1",
   },
   tagline: {
     fontSize: "12px",
-    color: "#b48a4a",
-    fontWeight: "600" as const,
-    letterSpacing: "1px",
+    color: colors.primary,
+    fontWeight: "600",
     textTransform: "uppercase" as const,
     margin: "0",
+    lineHeight: "1",
   },
   divider: {
-    borderColor: "#e2e8f0",
-    margin: "20px 0",
+    borderColor: colors.border,
+    margin: "24px 0",
   },
-  contentSection: {
-    marginBottom: "20px",
+  mainTitle: {
+    fontSize: "28px",
+    fontWeight: "700",
+    color: colors.textMain,
+    margin: "0 0 4px 0",
+  },
+  titleUnderline: {
+    width: "40px",
+    height: "3px",
+    backgroundColor: colors.primary,
+    borderRadius: "2px",
+  },
+  colLeft: {
+    width: "55%",
+    paddingRight: "20px",
+    verticalAlign: "top",
+  },
+  colRight: {
+    width: "45%",
+    verticalAlign: "top",
   },
   greeting: {
     fontSize: "16px",
-    fontWeight: "700" as const,
-    color: "#2d3748",
+    fontWeight: "600",
+    color: colors.textMain,
     margin: "0 0 12px 0",
   },
   paragraph: {
     fontSize: "14px",
-    color: "#4a5568",
-    lineHeight: "1.5",
+    color: colors.textMuted,
+    lineHeight: "1.6",
     margin: "0 0 12px 0",
   },
-  enquiryNotice: {
-    fontSize: "13px",
-    color: "#2d3748",
-    backgroundColor: "#f7fafc",
-    padding: "8px 12px",
-    borderRadius: "4px",
-    display: "inline-block" as const,
-    margin: "8px 0 0 0",
+  refIdHighlight: {
+    fontSize: "16px",
+    fontWeight: "700",
+    color: colors.primary,
+    margin: "0 0 12px 0",
   },
-  card: {
-    backgroundColor: "#f8fafc",
-    border: "1px solid #edf2f7",
-    borderRadius: "6px",
-    padding: "16px",
-    marginBottom: "20px",
+  refCard: {
+    backgroundColor: colors.cardBg,
+    borderRadius: "8px",
+    padding: "24px",
+    textAlign: "center" as const,
+    border: `1px solid ${colors.border}`,
   },
-  cardHeader: {
+  refCardTitle: {
+    fontSize: "10px",
+    fontWeight: "700",
+    color: colors.textMuted,
+    letterSpacing: "2px",
+    margin: "0 0 8px 0",
+  },
+  refCardValue: {
+    fontSize: "18px",
+    fontWeight: "700",
+    color: colors.primary,
+    margin: "0",
+  },
+  summaryContainer: {
+    backgroundColor: colors.container,
+    border: `1px solid ${colors.border}`,
+    borderRadius: "8px",
+  },
+  summaryTitle: {
     fontSize: "12px",
-    fontWeight: "700" as const,
-    color: "#2d3748",
+    fontWeight: "700",
+    color: colors.textMain,
     letterSpacing: "1px",
-    margin: "0 0 12px 0",
-    textTransform: "uppercase" as const,
+    padding: "16px 20px",
+    margin: 0,
   },
-  table: {
+  tableRow: {
     width: "100%",
   },
-  tableLabelCell: {
-    width: "100px",
-    fontSize: "13px",
-    color: "#718096",
-    padding: "6px 0",
+  tableLabelCol: {
+    width: "35%",
+    padding: "12px 20px",
     verticalAlign: "top",
+    backgroundColor: "#fcfcfc",
   },
-  tableValueCell: {
+  labelWrapper: {
+    display: "flex",
+    alignItems: "center",
+  },
+  orangePipe: {
+    width: "2px",
+    height: "14px",
+    backgroundColor: colors.primary,
+    marginRight: "10px",
+    display: "inline-block",
+  },
+  tableLabel: {
     fontSize: "13px",
-    color: "#2d3748",
-    padding: "6px 0",
-    verticalAlign: "top",
-    lineHeight: "1.4",
-  },
-  footerSection: {
-    marginTop: "20px",
-  },
-  footerHeader: {
-    fontSize: "13px",
-    fontWeight: "700" as const,
-    color: "#2d3748",
-    margin: "0 0 8px 0",
-    textTransform: "uppercase" as const,
-  },
-  footerText: {
-    fontSize: "12px",
-    color: "#718096",
-    lineHeight: "1.4",
-    margin: "0 0 10px 0",
-  },
-  contactItem: {
-    fontSize: "12px",
-    color: "#4a5568",
-    margin: "4px 0",
-  },
-  footerLink: {
-    color: "#b48a4a",
-    textDecoration: "underline",
     fontWeight: "600",
+    color: colors.textMain,
+    margin: 0,
+    display: "inline-block",
+  },
+  tableValueCol: {
+    width: "65%",
+    padding: "12px 20px",
+    verticalAlign: "top",
+  },
+  tableValue: {
+    fontSize: "14px",
+    color: colors.textMuted,
+    margin: 0,
+    lineHeight: "1.5",
+  },
+  nextTitle: {
+    fontSize: "14px",
+    fontWeight: "700",
+    color: colors.textMain,
+    letterSpacing: "2px",
+    margin: "0 0 8px 0",
+  },
+  centerUnderline: {
+    width: "30px",
+    height: "2px",
+    backgroundColor: colors.primary,
+    margin: "0 auto",
+  },
+  timelineCol: {
+    width: "25%",
+    verticalAlign: "top",
+    textAlign: "center" as const,
+  },
+  timelineContentWrap: {
+    // Used for mobile overrides
+  },
+  timelineNumContainer: {
+    position: "relative" as const,
+    height: "30px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: "12px",
+  },
+  timelineNum: {
+    width: "28px",
+    height: "28px",
+    borderRadius: "50%",
+    backgroundColor: "#fff",
+    border: `1px solid ${colors.primary}`,
+    color: colors.primary,
+    fontSize: "12px",
+    fontWeight: "700",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    position: "relative" as const,
+    zIndex: 2,
+    margin: "0 auto",
+    lineHeight: "28px", // for email clients that don't support flex
+  },
+  timelineDividerLeft: {
+    position: "absolute" as const,
+    left: 0,
+    top: "14px",
+    width: "50%",
+    height: "1px",
+    borderTop: `1px dashed ${colors.border}`,
+    zIndex: 1,
+  },
+  timelineDividerRight: {
+    position: "absolute" as const,
+    right: 0,
+    top: "14px",
+    width: "50%",
+    height: "1px",
+    borderTop: `1px dashed ${colors.border}`,
+    zIndex: 1,
+  },
+  timelineTextWrap: {
+    padding: "0 8px",
+  },
+  timelineHeading: {
+    fontSize: "12px",
+    fontWeight: "700",
+    color: colors.textMain,
+    margin: "0 0 4px 0",
+  },
+  timelineDesc: {
+    fontSize: "11px",
+    color: colors.textMuted,
+    margin: 0,
+    lineHeight: "1.5",
+  },
+  assistanceCard: {
+    backgroundColor: "#fffaf5", // Very light orange/peach tint
+    border: `1px solid #fce7d2`,
+    borderRadius: "8px",
+    padding: "24px",
+  },
+  phoneIconWrap: {
+    width: "36px",
+    height: "36px",
+    borderRadius: "50%",
+    backgroundColor: "#faeedf",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    // For older clients
+    textAlign: "center" as const,
+    lineHeight: "36px",
+  },
+  assistanceTitle: {
+    fontSize: "14px",
+    fontWeight: "700",
+    color: colors.primary,
+    margin: "0 0 4px 0",
+  },
+  assistanceDesc: {
+    fontSize: "13px",
+    color: colors.textMuted,
+    margin: 0,
+  },
+  assistanceCol: {
+    width: "25%",
+    verticalAlign: "top",
+  },
+  assistanceLabel: {
+    fontSize: "11px",
+    fontWeight: "600",
+    color: colors.textMuted,
+    margin: "0 0 6px 0",
+    display: "flex",
+    alignItems: "center",
+  },
+  assistanceValue: {
+    fontSize: "12px",
+    color: colors.textMain,
+    margin: "0 0 2px 0",
+    fontWeight: "500",
+  },
+  assistanceLink: {
+    fontSize: "12px",
+    color: colors.textMain,
+    textDecoration: "none",
+    fontWeight: "500",
+  },
+  footerLogoCol: {
+    width: "50%",
+    verticalAlign: "middle",
+  },
+  footerTextCol: {
+    width: "50%",
+    verticalAlign: "middle",
+    textAlign: "right" as const,
+  },
+  footerThanks: {
+    fontSize: "12px",
+    color: colors.textMain,
+    margin: 0,
+    lineHeight: "1.5",
+  },
+  bottomBar: {
+    backgroundColor: colors.footerBg,
+    padding: "16px 24px",
+    textAlign: "center" as const,
+  },
+  bottomBarText: {
+    fontSize: "11px",
+    color: "#9ca3af",
+    margin: 0,
   },
 };
 
@@ -257,26 +787,40 @@ Steel Solutions. Built to Last.
 ==============================================
 Hello ${props.fullName},
 
-Thank you for contacting Navkar Weldmart. We have successfully received your project enquiry.
-Our engineering team is currently reviewing your requirements. You can expect a response from us within 24 to 48 business hours.
+Thank you for contacting Navkar Weldmart.
 
-Enquiry ID: ${props.enquiryId}
+We have received your enquiry and the details have been successfully recorded under Reference ID: ${props.enquiryId}.
 
-ENQUIRY SUMMARY:
-- Project Type: ${props.projectType}
-- Location: ${props.projectLocation}
-- Budget Range: ${props.estimatedBudget || "Not provided"}
-- Details: ${props.projectDetails}
+Our team will review your requirement and contact you to discuss the project, specifications, site details, and next steps.
 
 ----------------------------------------------
-Navkar Weldmart Support
-If you have any urgent changes or questions, please reach out to us directly:
-- Phone: +91 96697 69760 / +91 62637 21818
-- Email: navkarweldmart@gmail.com
-- Website: navkarweldmart.com
-- Office: Indore, Madhya Pradesh
+REFERENCE ID: ${props.enquiryId}
+----------------------------------------------
+
+ENQUIRY SUMMARY
+Project Type: ${props.projectType}
+Location: ${props.projectLocation}
+Budget Range: ${props.estimatedBudget || "Not specified"}
+Project Details: ${props.projectDetails || "No additional details provided."}
+
+WHAT HAPPENS NEXT?
+1. We Review - Our team reviews your enquiry in detail.
+2. We Contact - We may reach out to you for additional information.
+3. Discussion - We discuss your requirements, site details & timelines.
+4. Quotation Support - We provide suitable solutions and quotation support.
+
+NEED IMMEDIATE ASSISTANCE?
+If your requirement is urgent, please contact us directly.
+
+Call Us: +91 96697 69760, +91 62637 21818
+Email Us: navkarweldmart@gmail.com
+Visit Website: navkarweldmart.com
+Our Office: Indore, Madhya Pradesh
+
+Thank you for considering Navkar Weldmart. We look forward to working with you.
+
+This is an automated email. Please do not reply to this email.
   `.trim();
 }
 
 export default CustomerConfirmationEmail;
-

@@ -92,9 +92,7 @@ async function sendResendEmail(parsedData: EmailData, formType: "Main" | "Footer
       formType,
     });
 
-    const leadSubject = formType === "Main" 
-      ? `New Lead: ${parsedData.fullName} - ${projectType}`
-      : `New Quick Enquiry: ${parsedData.fullName}`;
+    const leadSubject = `New Lead: ${parsedData.fullName} - ${projectType}`;
 
     // Send Internal Lead Notification
     const { error: leadError } = await resend.emails.send({
@@ -141,7 +139,7 @@ async function sendResendEmail(parsedData: EmailData, formType: "Main" | "Footer
         resend.emails.send({
           from: "Navkar Weldmart <contact@navkarweldmart.com>",
           to: [parsedData.emailAddress],
-          subject: `Enquiry Received - Navkar Weldmart (ID: ${enquiryId})`,
+          subject: "We've Received Your Enquiry – Navkar Weldmart",
           replyTo: "navkarweldmart@gmail.com",
           html: customerEmailHtml,
           text: customerEmailText,
