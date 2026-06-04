@@ -7,6 +7,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { MotionConfig } from "framer-motion";
 import { FramerProvider } from "@/components/providers/framer-provider";
 import NextTopLoader from "nextjs-toploader";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
 const inter = Inter({
@@ -29,7 +31,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://navkarweldmart.vercel.app"),
+  metadataBase: new URL("https://navkarweldmart.com"),
   manifest: "/site.webmanifest",
   appleWebApp: {
     capable: true,
@@ -58,7 +60,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_IN",
-    url: "https://navkarweldmart.vercel.app",
+    url: "https://navkarweldmart.com",
     siteName: "Navkar Weldmart",
     title: "Navkar Weldmart — Steel Fabrication & Structural Solutions",
     description:
@@ -91,10 +93,10 @@ export default function RootLayout({
                 {
                   "@context": "https://schema.org",
                   "@type": "Organization",
-                  "@id": "https://navkarweldmart.vercel.app/#organization",
+                  "@id": "https://navkarweldmart.com/#organization",
                   name: "Navkar Weldmart",
-                  url: "https://navkarweldmart.vercel.app",
-                  logo: "https://navkarweldmart.vercel.app/icon.png",
+                  url: "https://navkarweldmart.com",
+                  logo: "https://navkarweldmart.com/icon.png",
                   contactPoint: {
                     "@type": "ContactPoint",
                     telephone: "+919669769760",
@@ -109,15 +111,15 @@ export default function RootLayout({
                 {
                   "@context": "https://schema.org",
                   "@type": "LocalBusiness",
-                  "@id": "https://navkarweldmart.vercel.app/#localbusiness",
-                  parentOrganization: { "@id": "https://navkarweldmart.vercel.app/#organization" },
+                  "@id": "https://navkarweldmart.com/#localbusiness",
+                  parentOrganization: { "@id": "https://navkarweldmart.com/#organization" },
                   name: "Navkar Weldmart",
                   description:
                     "Trusted provider of steel fabrication, structural solutions, and material supply in Indore, Madhya Pradesh.",
-                  url: "https://navkarweldmart.vercel.app",
+                  url: "https://navkarweldmart.com",
                   telephone: "+919669769760",
                   email: "navkarweldmart@gmail.com",
-                  image: "https://navkarweldmart.vercel.app/og-image.jpg",
+                  image: "https://navkarweldmart.com/og-image.jpg",
                   address: {
                     "@type": "PostalAddress",
                     addressLocality: "Indore",
@@ -135,10 +137,18 @@ export default function RootLayout({
                 {
                   "@context": "https://schema.org",
                   "@type": "WebSite",
-                  "@id": "https://navkarweldmart.vercel.app/#website",
-                  url: "https://navkarweldmart.vercel.app",
-                  name: "Navkar Weldmart",
-                  publisher: { "@id": "https://navkarweldmart.vercel.app/#organization" }
+                  "@id": "https://navkarweldmart.com/#website",
+                  "url": "https://navkarweldmart.com",
+                  "name": "Navkar Weldmart",
+                  "publisher": { "@id": "https://navkarweldmart.com/#organization" },
+                  "potentialAction": {
+                    "@type": "SearchAction",
+                    "target": {
+                      "@type": "EntryPoint",
+                      "urlTemplate": "https://navkarweldmart.com/projects?q={search_term_string}"
+                    },
+                    "query-input": "required name=search_term_string"
+                  }
                 }
               ]),
             }}
@@ -160,6 +170,8 @@ export default function RootLayout({
               <main className="flex-1">{children}</main>
               <Footer />
               <MobileStickyQuote />
+              <Analytics />
+              <SpeedInsights />
             </TooltipProvider>
           </MotionConfig>
         </FramerProvider>

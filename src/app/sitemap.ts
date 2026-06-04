@@ -2,7 +2,7 @@ import { MetadataRoute } from "next";
 import { projects } from "@/content";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://navkarweldmart.vercel.app";
+  const baseUrl = "https://navkarweldmart.com";
   
   // Use current date for lastModified to ensure safe serverless execution on Vercel
   const lastUpdate = new Date();

@@ -18,9 +18,30 @@ export async function generateMetadata({ params }: ServicePageProps) {
   const service = services.find((s) => s.slug === slug);
   if (!service) return { title: "Service Not Found" };
   
+  const siteUrl = "https://navkarweldmart.com";
+  
   return {
     title: `${service.title} | Services`,
     description: service.description,
+    openGraph: {
+      title: `${service.title} | Navkar Weldmart`,
+      description: service.description,
+      url: `${siteUrl}/services/${service.slug}`,
+      images: [
+        {
+          url: `${siteUrl}${service.image}`,
+          width: 1200,
+          height: 630,
+          alt: service.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${service.title} | Navkar Weldmart`,
+      description: service.description,
+      images: [`${siteUrl}${service.image}`],
+    },
   };
 }
 
@@ -38,8 +59,50 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
     notFound();
   }
 
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": `https://navkarweldmart.com/services/${service.slug}#service`,
+    "name": service.title,
+    "description": service.description,
+    "provider": {
+      "@type": "LocalBusiness",
+      "@id": "https://navkarweldmart.com/#localbusiness",
+      "name": "Navkar Weldmart"
+    },
+    "areaServed": [
+      {
+        "@type": "AdministrativeArea",
+        "name": "Indore"
+      },
+      {
+        "@type": "AdministrativeArea",
+        "name": "Bhopal"
+      },
+      {
+        "@type": "AdministrativeArea",
+        "name": "Madhya Pradesh"
+      }
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": service.title,
+      "itemListElement": service.features.map((feature, i) => ({
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": feature
+        }
+      }))
+    }
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
       <section className="pt-24 pb-16 lg:pt-32 lg:pb-24 bg-surface border-b border-border">
         <div className="container-wide">
           <Link 
