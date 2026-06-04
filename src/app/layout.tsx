@@ -96,7 +96,7 @@ export default function RootLayout({
                   "@id": "https://navkarweldmart.com/#organization",
                   name: "Navkar Weldmart",
                   url: "https://navkarweldmart.com",
-                  logo: "https://navkarweldmart.com/icon.png",
+                  logo: "https://navkarweldmart.com/images/logo_header.webp",
                   contactPoint: {
                     "@type": "ContactPoint",
                     telephone: "+919669769760",
