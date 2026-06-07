@@ -19,7 +19,7 @@ export function Hero() {
           src="/images/hero_indore_tennis_club.webp"
           alt="Indore Tennis Club structural steel framework fabricated by Navkar Weldmart"
           fill
-          className="object-cover object-center"
+          className="object-cover object-center saturate-[80%]"
           priority
           quality={75}
         />
