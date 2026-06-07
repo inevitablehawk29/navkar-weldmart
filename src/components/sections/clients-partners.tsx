@@ -60,7 +60,7 @@ export function ClientsPartners() {
                       src={partner.logo}
                       alt={partner.name}
                       fill
-                      className="object-contain"
+                      className={`object-contain ${partner.className || ""}`}
                       sizes="(max-width: 768px) 120px, 160px"
                     />
                   ) : (

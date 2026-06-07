@@ -39,10 +39,10 @@ export const clients: Client[] = [
 
 export const partners: Partner[] = [
   { name: "JSW", logo: "/images/partners/JSW_Group_logo.svg_fixed.webp" },
-  { name: "SAIL", logo: "/images/partners/Steel_Authority_of_India_logo.svg" },
-  { name: "Jindal Steel & Power", logo: "/images/partners/Jindal_Steel_Limited_Logo_fixed.webp" },
+  { name: "Tata Structura", logo: "/images/partners/tata_structura_logo_fixed.webp", className: "scale-[1.5]" },
+  { name: "Jindal Steel & Power", logo: "/images/partners/Jindal_Steel_Limited_Logo_fixed.webp", className: "scale-[1.5]" },
   { name: "AM/NS India", logo: "/images/partners/AMNS-Logo_fixed.webp" },
-  { name: "Prakash Surya", logo: "/images/partners/prakash_surya_logo_fixed.webp" },
+  { name: "Prakash Surya", logo: "/images/partners/prakash_surya_logo_new.webp", className: "scale-[0.8]" },
   { name: "Ador", logo: "/images/partners/Ador-logo1-1536x524_fixed.webp" },
 ];
 

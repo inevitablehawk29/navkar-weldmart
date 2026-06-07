@@ -77,6 +77,7 @@ export interface Testimonial {
 export interface Partner {
   name: string;
   logo?: string;
+  className?: string;
 }
 
 export interface TrustMetric {

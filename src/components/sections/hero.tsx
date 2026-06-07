@@ -16,8 +16,8 @@ export function Hero() {
         className="absolute inset-0 z-0 bg-[#111111] w-full h-full"
       >
         <Image
-          src="/images/homepage_hero_bg.webp"
-          alt="Heavy industrial warehouse steel structure fabricated by Navkar Weldmart in Madhya Pradesh"
+          src="/images/homepage_hero_bg_new.webp"
+          alt="Indore Tennis Club structural steel framework fabricated by Navkar Weldmart"
           fill
           className="object-cover object-center"
           priority
@@ -95,10 +95,10 @@ export function Hero() {
                 Recently Completed
               </p>
               <p className="text-lg text-foreground font-semibold leading-tight mb-1">
-                Industrial Shed
+                Indore Tennis Club
               </p>
               <div className="flex items-center gap-2 text-sm text-muted">
-                <span>10,000 Sq.Ft</span>
+                <span>5,000 Sq.Ft</span>
                 <span className="w-1 h-1 rounded-full bg-accent"></span>
                 <span>Indore, MP</span>
               </div>
