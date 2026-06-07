@@ -16,12 +16,12 @@ export function Hero() {
         className="absolute inset-0 z-0 bg-[#111111] w-full h-full"
       >
         <Image
-          src="/images/homepage_hero_bg_new.webp"
+          src="/images/hero_indore_tennis_club.webp"
           alt="Indore Tennis Club structural steel framework fabricated by Navkar Weldmart"
           fill
           className="object-cover object-center"
           priority
-          quality={85}
+          quality={75}
         />
         {/* Gradient Overlays */}
         <div className="absolute inset-0 bg-gradient-to-r from-background via-background/95 to-background/20 lg:via-background/80 lg:to-transparent" />
