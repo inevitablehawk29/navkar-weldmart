@@ -1,6 +1,5 @@
 import type { NextConfig } from "next";
 import withBundleAnalyzerInit from "@next/bundle-analyzer";
-import { withSentryConfig } from "@sentry/nextjs";
 
 const withBundleAnalyzer = withBundleAnalyzerInit({
   enabled: process.env.ANALYZE === "true",
@@ -38,7 +37,7 @@ const nextConfig: NextConfig = {
           },
           {
             key: "Content-Security-Policy",
-            value: `default-src 'self'; script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === 'development' ? " 'unsafe-eval'" : ""} https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; frame-src 'self' https://challenges.cloudflare.com; connect-src 'self' https://challenges.cloudflare.com https://*.sentry.io;`,
+            value: `default-src 'self'; script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === 'development' ? " 'unsafe-eval'" : ""} https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; frame-src 'self' https://challenges.cloudflare.com; connect-src 'self' https://challenges.cloudflare.com;`,
           },
         ],
       },
@@ -46,8 +45,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withSentryConfig(withBundleAnalyzer(nextConfig), {
-  silent: true,
-  widenClientFileUpload: true,
-  tunnelRoute: "/monitoring",
-});
+export default withBundleAnalyzer(nextConfig);
