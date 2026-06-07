@@ -8,7 +8,13 @@ export function ServiceArea() {
     "Ujjain",
     "Dewas",
     "Pithampur",
-    "Mhow"
+    "Mhow",
+    "Khargone",
+    "Maheshwar",
+    "Dhar",
+    "Aashta",
+    "Badnawar",
+    "Manawar"
   ];
 
   return (

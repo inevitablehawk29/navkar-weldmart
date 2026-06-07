@@ -16,7 +16,7 @@ export const trustMetrics: TrustMetric[] = [
     icon: "Building2",
   },
   {
-    value: "200+",
+    value: "900+",
     label: "Projects Completed",
     sublabel: "Across MP",
     icon: "Hammer",
@@ -28,7 +28,7 @@ export const trustMetrics: TrustMetric[] = [
     icon: "Settings",
   },
   {
-    value: "20+",
+    value: "10+",
     label: "Cities Served",
     sublabel: "Across MP",
     icon: "MapPin",
@@ -73,9 +73,9 @@ export const timeline: TimelineEvent[] = [
   },
   {
     year: "2025",
-    title: "200+ Projects Completed",
+    title: "900+ Projects Completed",
     description:
-      "Completed over 200 projects across MP. Joined BNI Evolve chapter for wider business network.",
+      "Completed over 900 projects across MP. Joined BNI Evolve chapter for wider business network.",
     milestone: 6,
   },
 ];

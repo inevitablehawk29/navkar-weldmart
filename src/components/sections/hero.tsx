@@ -55,12 +55,12 @@ export function Hero() {
               </div>
               <div className="hidden sm:block w-px bg-border"></div>
               <div className="flex flex-col">
-                <CountUp target="200+" className="text-xl font-bold text-primary" />
+                <CountUp target="900+" className="text-xl font-bold text-primary" />
                 <span className="text-muted">Projects Delivered</span>
               </div>
               <div className="hidden sm:block w-px bg-border"></div>
               <div className="flex flex-col">
-                <CountUp target="20+" className="text-xl font-bold text-primary" />
+                <CountUp target="10+" className="text-xl font-bold text-primary" />
                 <span className="text-muted">Cities Served</span>
               </div>
             </div>

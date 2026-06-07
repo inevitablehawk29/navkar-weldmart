@@ -19,6 +19,12 @@ const CITIES = [
   { id: "bhopal", name: "Bhopal", rx: 0.387, ry: 0.621 },
   { id: "pithampur", name: "Pithampur", rx: 0.189, ry: 0.734 },
   { id: "mhow", name: "Mhow", rx: 0.200, ry: 0.745 },
+  { id: "khargone", name: "Khargone", rx: 0.200, ry: 0.820 },
+  { id: "maheshwar", name: "Maheshwar", rx: 0.180, ry: 0.780 },
+  { id: "dhar", name: "Dhar", rx: 0.150, ry: 0.715 },
+  { id: "aashta", name: "Aashta", rx: 0.300, ry: 0.660 },
+  { id: "badnawar", name: "Badnawar", rx: 0.130, ry: 0.650 },
+  { id: "manawar", name: "Manawar", rx: 0.110, ry: 0.770 },
   // Adding more decorative nodes to match the mockup
   { id: "gwalior", name: "Gwalior", rx: 0.290, ry: 0.150, isDecorative: true },
   { id: "jabalpur", name: "Jabalpur", rx: 0.680, ry: 0.600, isDecorative: true },

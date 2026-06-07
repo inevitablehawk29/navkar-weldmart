@@ -61,15 +61,22 @@ export function ContactHero() {
                 </div>
               </a>
 
-              <a href="https://maps.google.com/?q=Navkar+Weldmart+Indore" target="_blank" rel="noopener noreferrer" className="group flex items-start gap-4">
-                <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center group-hover:bg-accent transition-colors duration-300 shrink-0 mt-1">
-                  <MapPin className="w-4 h-4 text-accent group-hover:text-white transition-colors duration-300" />
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center shrink-0 mt-1">
+                  <MapPin className="w-4 h-4 text-accent" />
                 </div>
                 <div>
-                  <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mb-1">Office Location</p>
-                  <p className="text-sm font-medium text-foreground group-hover:text-accent transition-colors">Indore, MP</p>
+                  <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mb-1">Office Locations</p>
+                  <div className="flex flex-col gap-1">
+                    <a href="https://maps.google.com/?q=Navkar+Weldmart+Indore" target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-foreground hover:text-accent transition-colors block">
+                      Indore, MP
+                    </a>
+                    <a href="https://maps.google.com/?q=Navkar+Weldmart+Maheshwar" target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-foreground hover:text-accent transition-colors block">
+                      Maheshwar, MP
+                    </a>
+                  </div>
                 </div>
-              </a>
+              </div>
             </div>
           </m.div>
 
