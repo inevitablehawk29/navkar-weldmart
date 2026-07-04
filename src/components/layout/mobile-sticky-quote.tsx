@@ -1,72 +1,92 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { QuoteModal } from "./quote-modal";
 import { ClipboardEdit } from "lucide-react";
 import * as m from "framer-motion/m";
 import { AnimatePresence } from "framer-motion";
 
+interface ScrollState {
+  isVisible: boolean;
+  isAtBottom: boolean;
+}
+
 export function MobileStickyQuote() {
-  const [isVisible, setIsVisible] = useState(false);
-  const [hasCollapsedOnce, setHasCollapsedOnce] = useState(false);
+  const [scrollState, setScrollState] = useState<ScrollState>({
+    isVisible: false,
+    isAtBottom: false,
+  });
   const [isHovered, setIsHovered] = useState(false);
-  const [isAtBottom, setIsAtBottom] = useState(false);
-  
-  // Track where the button first appeared
+
+  // Refs for values that shouldn't trigger re-renders or re-bind listeners
+  const hasCollapsedOnceRef = useRef(false);
   const anchorScrollY = useRef<number | null>(null);
+  const rafRef = useRef(0);
 
-  // Scroll listener for visibility, collapse logic, and bottom detection
-  useEffect(() => {
-    let ticking = false;
+  // Stable callback — no deps that change
+  const handleScroll = useCallback(() => {
+    if (rafRef.current) return; // already queued
 
-    const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const scrollY = window.scrollY;
-          const viewportHeight = window.innerHeight;
-          const documentHeight = document.documentElement.scrollHeight;
-          
-          const shouldBeVisible = scrollY > 400;
-          setIsVisible(shouldBeVisible);
-          
-          // Set anchor position the precise moment it becomes visible, reset if it hides
-          if (shouldBeVisible) {
-            if (anchorScrollY.current === null) {
-              anchorScrollY.current = scrollY;
-            }
-          } else {
-            anchorScrollY.current = null;
-          }
-          
-          // Collapse only when the user scrolls 250px further DOWN from the anchor point
-          if (shouldBeVisible && !hasCollapsedOnce && anchorScrollY.current !== null) {
-            if (scrollY > anchorScrollY.current + 250) {
-              setHasCollapsedOnce(true);
-            }
-          }
-          
-          // Re-expand when reaching 85% of scrollable area
-          const maxScroll = documentHeight - viewportHeight;
-          const scrollProgress = maxScroll > 0 ? scrollY / maxScroll : 1;
-          setIsAtBottom(scrollProgress > 0.85);
+    rafRef.current = requestAnimationFrame(() => {
+      rafRef.current = 0;
 
-          ticking = false;
-        });
-        ticking = true;
+      const scrollY = window.scrollY;
+      const viewportHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+
+      const nextVisible = scrollY > 400;
+
+      // Set anchor position the precise moment it becomes visible, reset if it hides
+      if (nextVisible) {
+        if (anchorScrollY.current === null) {
+          anchorScrollY.current = scrollY;
+        }
+      } else {
+        anchorScrollY.current = null;
       }
-    };
 
+      // Collapse only when the user scrolls 250px further DOWN from the anchor point
+      if (
+        nextVisible &&
+        !hasCollapsedOnceRef.current &&
+        anchorScrollY.current !== null
+      ) {
+        if (scrollY > anchorScrollY.current + 250) {
+          hasCollapsedOnceRef.current = true;
+        }
+      }
+
+      // Re-expand when reaching 85% of scrollable area
+      const maxScroll = documentHeight - viewportHeight;
+      const scrollProgress = maxScroll > 0 ? scrollY / maxScroll : 1;
+      const nextAtBottom = scrollProgress > 0.85;
+
+      // Single batched setState — React batches these in v18+ anyway,
+      // but using an object guarantees a single update
+      setScrollState((prev) => {
+        if (prev.isVisible === nextVisible && prev.isAtBottom === nextAtBottom) {
+          return prev; // no change, skip re-render
+        }
+        return { isVisible: nextVisible, isAtBottom: nextAtBottom };
+      });
+    });
+  }, []);
+
+  useEffect(() => {
     window.addEventListener("scroll", handleScroll, { passive: true });
-    // Initial check on mount
-    handleScroll();
-    
+    handleScroll(); // Initial check on mount
+
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      cancelAnimationFrame(rafRef.current);
     };
-  }, [hasCollapsedOnce]); // Re-binds once after collapse state changes
+  }, [handleScroll]);
+
+  const { isVisible, isAtBottom } = scrollState;
 
   // Determine final expanded state based on all conditions
-  const currentlyExpanded = (!hasCollapsedOnce && isVisible) || isHovered || isAtBottom;
+  const currentlyExpanded =
+    (!hasCollapsedOnceRef.current && isVisible) || isHovered || isAtBottom;
 
   return (
     <AnimatePresence>
@@ -115,3 +135,4 @@ export function MobileStickyQuote() {
     </AnimatePresence>
   );
 }
+

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, memo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useScroll } from "@/hooks/use-scroll";
@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import * as m from "framer-motion/m";
 import logoHeader from "../../../public/images/logo_header.webp";
 
-export function Navbar() {
+export const Navbar = memo(function Navbar() {
   const scrolled = useScroll(50);
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -23,6 +23,14 @@ export function Navbar() {
 
   const handleMobileClose = useCallback(() => {
     setMobileOpen(false);
+  }, []);
+
+  const handleDropdownOpen = useCallback((label: string) => {
+    setOpenDropdown(label);
+  }, []);
+
+  const handleDropdownClose = useCallback(() => {
+    setOpenDropdown(null);
   }, []);
 
   return (
@@ -196,4 +204,6 @@ export function Navbar() {
       />
     </>
   );
-}
+});
+
+Navbar.displayName = "Navbar";
