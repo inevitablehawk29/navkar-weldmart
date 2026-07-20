@@ -14,6 +14,7 @@ export function ServiceArea() {
     "Dhar",
     "Aashta",
     "Badnawar",
+    "Barwah",
     "Manawar"
   ];
 
