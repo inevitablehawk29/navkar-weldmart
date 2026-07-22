@@ -2,6 +2,8 @@ import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 
 let ratelimit: Ratelimit | null = null;
+let hasLoggedConfigWarning = false;
+let hasLoggedRuntimeError = false;
 
 // Initialize Upstash Ratelimit if credentials are set
 if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
@@ -18,12 +20,14 @@ if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) 
       prefix: "@upstash/ratelimit/navkar",
     });
   } catch (error) {
-    console.error("Failed to initialize Upstash Redis rate limiter:", error);
+    console.error("🚨 CRITICAL: Failed to initialize Upstash Redis rate limiter:", error);
     ratelimit = null;
   }
 } else {
   if (process.env.NODE_ENV === "production") {
-    console.warn("⚠️ UPSTASH_REDIS_REST_URL or UPSTASH_REDIS_REST_TOKEN is missing. Redis rate limiting disabled.");
+    console.error(
+      "🚨 CRITICAL SECURITY NOTICE: UPSTASH_REDIS_REST_URL or UPSTASH_REDIS_REST_TOKEN is missing in production environment. Rate limiting is currently bypassed."
+    );
   }
 }
 
@@ -52,7 +56,7 @@ export function getClientIp(reqHeaders: Headers): string | null {
 
 /**
  * Checks if the request is rate-limited.
- * Fails gracefully: if Redis is unconfigured or fails, allows request through.
+ * Fails gracefully: if Redis is unconfigured or fails, allows request through while logging once per instance.
  */
 export async function checkRateLimit(reqHeaders: Headers): Promise<boolean> {
   const ip = getClientIp(reqHeaders);
@@ -63,6 +67,10 @@ export async function checkRateLimit(reqHeaders: Headers): Promise<boolean> {
   }
 
   if (!ratelimit) {
+    if (!hasLoggedConfigWarning && process.env.NODE_ENV === "development") {
+      console.warn("⚠️ Rate limiting skipped in development (Upstash Redis credentials not set).");
+      hasLoggedConfigWarning = true;
+    }
     return false; // Graceful fallback when Upstash Redis is not configured
   }
 
@@ -70,7 +78,13 @@ export async function checkRateLimit(reqHeaders: Headers): Promise<boolean> {
     const { success } = await ratelimit.limit(ip);
     return !success; // Returns true if rate limited
   } catch (error) {
-    console.error("Upstash Redis rate limit check failed:", error);
+    if (!hasLoggedRuntimeError) {
+      console.error(
+        "Upstash Redis rate limit check failed (failing open to prevent service disruption):",
+        error
+      );
+      hasLoggedRuntimeError = true;
+    }
     return false; // Graceful fallback: allow request through on Redis failure
   }
 }
