@@ -9,45 +9,7 @@ import { LeadNotificationEmail, getLeadNotificationEmailText } from "@/emails/Le
 import { CustomerConfirmationEmail, getCustomerConfirmationEmailText } from "@/emails/CustomerConfirmationEmail";
 
 import { headers } from "next/headers";
-
-// ── In-memory rate limiter (per warm serverless instance) ──
-// For production-grade limiting across all instances, migrate to @upstash/ratelimit + Redis.
-const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute
-const RATE_LIMIT_MAX_REQUESTS = 3; // max 3 submissions per IP per minute
-
-const rateLimitMap = new Map<string, { timestamps: number[] }>();
-
-function isRateLimited(ip: string): boolean {
-  const now = Date.now();
-  const entry = rateLimitMap.get(ip);
-
-  if (!entry) {
-    rateLimitMap.set(ip, { timestamps: [now] });
-    return false;
-  }
-
-  // Prune expired timestamps
-  entry.timestamps = entry.timestamps.filter((t) => now - t < RATE_LIMIT_WINDOW_MS);
-  
-  if (entry.timestamps.length >= RATE_LIMIT_MAX_REQUESTS) {
-    return true;
-  }
-
-  entry.timestamps.push(now);
-  return false;
-}
-
-// Periodically clean up stale entries to prevent memory leaks
-if (typeof globalThis !== "undefined") {
-  const CLEANUP_INTERVAL = 5 * 60 * 1000; // every 5 minutes
-  setInterval(() => {
-    const now = Date.now();
-    for (const [ip, entry] of rateLimitMap) {
-      entry.timestamps = entry.timestamps.filter((t) => now - t < RATE_LIMIT_WINDOW_MS);
-      if (entry.timestamps.length === 0) rateLimitMap.delete(ip);
-    }
-  }, CLEANUP_INTERVAL).unref?.();
-}
+import { checkRateLimit } from "@/lib/ratelimit";
 
 export type EmailData = {
   fullName: string;
@@ -248,9 +210,8 @@ async function verifyTurnstile(token: string | undefined): Promise<boolean> {
 export async function submitContactForm(data: unknown): Promise<ContactResponse> {
   try {
     const clientHeaders = await headers();
-    const ip = clientHeaders.get("x-forwarded-for")?.split(",")[0].trim() || "unknown";
 
-    if (isRateLimited(ip)) {
+    if (await checkRateLimit(clientHeaders)) {
       return {
         success: false,
         message: "Too many requests. Please try again in a minute.",
@@ -284,9 +245,8 @@ export async function submitContactForm(data: unknown): Promise<ContactResponse>
 export async function submitFooterForm(data: unknown): Promise<ContactResponse> {
   try {
     const clientHeaders = await headers();
-    const ip = clientHeaders.get("x-forwarded-for")?.split(",")[0].trim() || "unknown";
 
-    if (isRateLimited(ip)) {
+    if (await checkRateLimit(clientHeaders)) {
       return {
         success: false,
         message: "Too many requests. Please try again in a minute.",
