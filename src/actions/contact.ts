@@ -211,30 +211,38 @@ async function sendResendEmail(parsedData: EmailData, formType: "Main" | "Footer
 
 async function verifyTurnstile(token: string | undefined): Promise<boolean> {
   const secret = process.env.TURNSTILE_SECRET_KEY;
+  let verificationSecret: string;
+
   if (!secret) {
-    if (process.env.NODE_ENV === "development") {
-      console.warn("Missing TURNSTILE_SECRET_KEY in development. Falling back to test key.");
-      const testSecret = "1x0000000000000000000000000000000AA";
-      const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
-        method: "POST",
-        body: `secret=${encodeURIComponent(testSecret)}&response=${encodeURIComponent(token || "")}`,
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      });
-      const turnstileData = await res.json();
-      return turnstileData.success === true;
+    if (process.env.NODE_ENV === "production") {
+      console.error("TURNSTILE_SECRET_KEY is missing in production environment!");
+      return false;
     }
-    console.error("TURNSTILE_SECRET_KEY is missing in production!");
-    return false;
+
+    console.warn("Using Cloudflare Turnstile test secret key in development environment.");
+    verificationSecret = "1x0000000000000000000000000000000AA";
+  } else {
+    verificationSecret = secret;
   }
 
-  const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
-    method: "POST",
-    body: `secret=${encodeURIComponent(secret)}&response=${encodeURIComponent(token || "")}`,
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-  });
-  
-  const turnstileData = await res.json();
-  return turnstileData.success === true;
+  try {
+    const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+      method: "POST",
+      body: `secret=${encodeURIComponent(verificationSecret)}&response=${encodeURIComponent(token || "")}`,
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    });
+    
+    const turnstileData = await res.json();
+
+    if (!turnstileData.success) {
+      console.warn("Turnstile verification failed:", turnstileData["error-codes"]);
+    }
+
+    return turnstileData.success === true;
+  } catch (error) {
+    console.error("Turnstile verification error:", error);
+    return false;
+  }
 }
 
 export async function submitContactForm(data: unknown): Promise<ContactResponse> {

@@ -9,17 +9,18 @@ import { AnimatePresence } from "framer-motion";
 interface ScrollState {
   isVisible: boolean;
   isAtBottom: boolean;
+  hasCollapsedOnce: boolean;
 }
 
 export function MobileStickyQuote() {
   const [scrollState, setScrollState] = useState<ScrollState>({
     isVisible: false,
     isAtBottom: false,
+    hasCollapsedOnce: false,
   });
   const [isHovered, setIsHovered] = useState(false);
 
-  // Refs for values that shouldn't trigger re-renders or re-bind listeners
-  const hasCollapsedOnceRef = useRef(false);
+  // Refs for values that shouldn't trigger re-bind listeners
   const anchorScrollY = useRef<number | null>(null);
   const rafRef = useRef(0);
 
@@ -45,29 +46,31 @@ export function MobileStickyQuote() {
         anchorScrollY.current = null;
       }
 
-      // Collapse only when the user scrolls 250px further DOWN from the anchor point
-      if (
-        nextVisible &&
-        !hasCollapsedOnceRef.current &&
-        anchorScrollY.current !== null
-      ) {
-        if (scrollY > anchorScrollY.current + 250) {
-          hasCollapsedOnceRef.current = true;
-        }
-      }
-
       // Re-expand when reaching 85% of scrollable area
       const maxScroll = documentHeight - viewportHeight;
       const scrollProgress = maxScroll > 0 ? scrollY / maxScroll : 1;
       const nextAtBottom = scrollProgress > 0.85;
 
-      // Single batched setState — React batches these in v18+ anyway,
-      // but using an object guarantees a single update
+      // Single batched setState
       setScrollState((prev) => {
-        if (prev.isVisible === nextVisible && prev.isAtBottom === nextAtBottom) {
+        const nextHasCollapsedOnce =
+          prev.hasCollapsedOnce ||
+          (nextVisible &&
+            anchorScrollY.current !== null &&
+            scrollY > anchorScrollY.current + 250);
+
+        if (
+          prev.isVisible === nextVisible &&
+          prev.isAtBottom === nextAtBottom &&
+          prev.hasCollapsedOnce === nextHasCollapsedOnce
+        ) {
           return prev; // no change, skip re-render
         }
-        return { isVisible: nextVisible, isAtBottom: nextAtBottom };
+        return {
+          isVisible: nextVisible,
+          isAtBottom: nextAtBottom,
+          hasCollapsedOnce: nextHasCollapsedOnce,
+        };
       });
     });
   }, []);
@@ -82,11 +85,11 @@ export function MobileStickyQuote() {
     };
   }, [handleScroll]);
 
-  const { isVisible, isAtBottom } = scrollState;
+  const { isVisible, isAtBottom, hasCollapsedOnce } = scrollState;
 
   // Determine final expanded state based on all conditions
   const currentlyExpanded =
-    (!hasCollapsedOnceRef.current && isVisible) || isHovered || isAtBottom;
+    (!hasCollapsedOnce && isVisible) || isHovered || isAtBottom;
 
   return (
     <AnimatePresence>
