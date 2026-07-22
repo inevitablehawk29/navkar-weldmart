@@ -13,6 +13,12 @@ interface ServicePageProps {
   params: Promise<{ slug: string }>;
 }
 
+export async function generateStaticParams() {
+  return services
+    .filter((service) => service.slug !== "material-supply")
+    .map((service) => ({ slug: service.slug }));
+}
+
 export async function generateMetadata({ params }: ServicePageProps) {
   const { slug } = await params;
   const service = services.find((s) => s.slug === slug);
@@ -87,7 +93,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
       "name": service.title,
-      "itemListElement": service.features.map((feature, i) => ({
+      "itemListElement": service.features.map((feature) => ({
         "@type": "Offer",
         "itemOffered": {
           "@type": "Service",

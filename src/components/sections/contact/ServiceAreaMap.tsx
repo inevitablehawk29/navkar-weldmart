@@ -181,7 +181,6 @@ export function ServiceAreaMap() {
           
           // Bezier curve control points
           const dx = coords.cx - hubCoords.cx;
-          const dy = coords.cy - hubCoords.cy;
           const cx1 = hubCoords.cx + dx * 0.4;
           const cy1 = hubCoords.cy - Math.abs(dx) * 0.2; 
           

@@ -1,5 +1,3 @@
-import { cn } from "@/lib/utils";
-
 const capabilities = [
   "Structural Steel Fabrication",
   "Industrial Sheds",

@@ -12,7 +12,6 @@ import {
   Hr,
   Row,
   Column,
-  Img,
 } from "@react-email/components";
 
 export interface CustomerConfirmationEmailProps {

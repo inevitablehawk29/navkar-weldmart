@@ -25,14 +25,6 @@ export const Navbar = memo(function Navbar() {
     setMobileOpen(false);
   }, []);
 
-  const handleDropdownOpen = useCallback((label: string) => {
-    setOpenDropdown(label);
-  }, []);
-
-  const handleDropdownClose = useCallback(() => {
-    setOpenDropdown(null);
-  }, []);
-
   return (
     <>
       <m.header
