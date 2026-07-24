@@ -24,7 +24,6 @@ export function QuoteModal({ children }: QuoteModalProps) {
       </DialogTrigger>
       <DialogContent 
         className="w-[95vw] sm:max-w-xl max-h-[95vh] overflow-y-auto p-0 bg-transparent border-none shadow-none"
-        onOpenAutoFocus={(e) => e.preventDefault()}
         onInteractOutside={(e) => e.preventDefault()}
       >
         <DialogTitle className="sr-only">Get A Quote</DialogTitle>

@@ -31,6 +31,15 @@ export const metadata = {
 };
 
 export default function ServicesPage() {
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://navkarweldmart.com" },
+      { "@type": "ListItem", position: 2, name: "Services", item: "https://navkarweldmart.com/services" }
+    ]
+  };
+
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -60,7 +69,7 @@ export default function ServicesPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify([faqSchema, ...serviceSchemas]) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, faqSchema, ...serviceSchemas]) }}
       />
       <section className="pt-32 pb-20 lg:pt-40 lg:pb-32 bg-background border-b border-border">
         <div className="container-wide">

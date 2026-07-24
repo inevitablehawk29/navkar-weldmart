@@ -4,6 +4,18 @@ import { companyInfo } from "@/content";
 export const metadata = {
   title: "Privacy Policy",
   description: "Privacy Policy for Navkar Weldmart.",
+  alternates: {
+    canonical: "/privacy",
+  },
+  openGraph: {
+    url: "/privacy",
+    title: "Privacy Policy | Navkar Weldmart",
+    description: "Privacy Policy for Navkar Weldmart.",
+  },
+  twitter: {
+    title: "Privacy Policy | Navkar Weldmart",
+    description: "Privacy Policy for Navkar Weldmart.",
+  },
 };
 
 export default function PrivacyPage() {

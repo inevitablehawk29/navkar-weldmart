@@ -1,11 +1,20 @@
 import { MetadataRoute } from "next";
-import { projects } from "@/content";
+import { services, projects } from "@/content";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://navkarweldmart.com";
   
   // Use current date for lastModified to ensure safe serverless execution on Vercel
   const lastUpdate = new Date();
+
+  const serviceUrls: MetadataRoute.Sitemap = services
+    .filter((service) => service.slug !== "material-supply")
+    .map((service) => ({
+      url: `${baseUrl}/services/${service.slug}`,
+      lastModified: lastUpdate,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    }));
 
   const projectUrls: MetadataRoute.Sitemap = projects.map((project) => ({
     url: `${baseUrl}/projects/${project.id}`,
@@ -51,24 +60,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.6,
     },
-    {
-      url: `${baseUrl}/services/structural-fabrication`,
-      lastModified: lastUpdate,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/services/architectural-metalwork`,
-      lastModified: lastUpdate,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/services/residential-fabrication`,
-      lastModified: lastUpdate,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
+    ...serviceUrls,
     ...projectUrls,
     {
       url: `${baseUrl}/privacy`,

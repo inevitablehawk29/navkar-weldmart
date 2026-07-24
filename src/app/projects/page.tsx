@@ -23,8 +23,21 @@ export const metadata = {
 };
 
 export default function ProjectsPage() {
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://navkarweldmart.com" },
+      { "@type": "ListItem", position: 2, name: "Projects", item: "https://navkarweldmart.com/projects" }
+    ]
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <section className="pt-24 pb-8 lg:pt-32 lg:pb-12 bg-surface border-b border-border">
         <div className="container-wide">
           <FadeIn className="max-w-5xl">

@@ -57,27 +57,39 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
     notFound();
   }
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://navkarweldmart.com" },
+      { "@type": "ListItem", position: 2, name: "Projects", item: "https://navkarweldmart.com/projects" },
+      { "@type": "ListItem", position: 3, name: project.title, item: `https://navkarweldmart.com/projects/${project.id}` }
+    ]
+  };
+
+  const projectSchema = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: project.title,
+    description: project.description,
+    image: project.coverImage || project.gallery?.[0],
+    creator: {
+      "@type": "LocalBusiness",
+      name: "Navkar Weldmart"
+    },
+    dateCreated: project.year,
+    locationCreated: {
+      "@type": "Place",
+      name: project.location
+    }
+  };
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "CreativeWork",
-            name: project.title,
-            description: project.description,
-            image: project.coverImage || project.gallery?.[0],
-            creator: {
-              "@type": "LocalBusiness",
-              name: "Navkar Weldmart"
-            },
-            dateCreated: project.year,
-            locationCreated: {
-              "@type": "Place",
-              name: project.location
-            }
-          })
+          __html: JSON.stringify([breadcrumbSchema, projectSchema])
         }}
       />
       <section className="pt-24 pb-16 lg:pt-32 lg:pb-24 bg-surface border-b border-border">

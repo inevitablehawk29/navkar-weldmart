@@ -65,6 +65,16 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
     notFound();
   }
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://navkarweldmart.com" },
+      { "@type": "ListItem", position: 2, name: "Services", item: "https://navkarweldmart.com/services" },
+      { "@type": "ListItem", position: 3, name: service.title, item: `https://navkarweldmart.com/services/${service.slug}` }
+    ]
+  };
+
   const serviceSchema = {
     "@context": "https://schema.org",
     "@type": "Service",
@@ -107,7 +117,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, serviceSchema]) }}
       />
       <section className="pt-24 pb-16 lg:pt-32 lg:pb-24 bg-surface border-b border-border">
         <div className="container-wide">

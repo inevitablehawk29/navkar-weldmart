@@ -4,6 +4,18 @@ import { companyInfo } from "@/content";
 export const metadata = {
   title: "Terms & Conditions",
   description: "Terms and Conditions for Navkar Weldmart services.",
+  alternates: {
+    canonical: "/terms",
+  },
+  openGraph: {
+    url: "/terms",
+    title: "Terms & Conditions | Navkar Weldmart",
+    description: "Terms and Conditions for Navkar Weldmart services.",
+  },
+  twitter: {
+    title: "Terms & Conditions | Navkar Weldmart",
+    description: "Terms and Conditions for Navkar Weldmart services.",
+  },
 };
 
 export default function TermsPage() {

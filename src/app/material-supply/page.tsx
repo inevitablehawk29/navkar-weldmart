@@ -32,13 +32,13 @@ export default function MaterialSupplyPage() {
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: "https://navkarweldmart.vercel.app/"
+        item: "https://navkarweldmart.com"
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Material Supply",
-        item: "https://navkarweldmart.vercel.app/material-supply"
+        item: "https://navkarweldmart.com/material-supply"
       }
     ]
   };
