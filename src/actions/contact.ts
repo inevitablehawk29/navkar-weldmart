@@ -9,7 +9,7 @@ import { LeadNotificationEmail, getLeadNotificationEmailText } from "@/emails/Le
 import { CustomerConfirmationEmail, getCustomerConfirmationEmailText } from "@/emails/CustomerConfirmationEmail";
 
 import { headers } from "next/headers";
-import { checkRateLimit } from "@/lib/ratelimit";
+import { checkRateLimit, getClientIp } from "@/lib/ratelimit";
 
 export type EmailData = {
   fullName: string;
@@ -195,7 +195,7 @@ async function sendResendEmail(parsedData: EmailData, formType: "Main" | "Footer
   }
 }
 
-async function verifyTurnstile(token: string | undefined): Promise<boolean> {
+async function verifyTurnstile(token: string | undefined, clientIp?: string | null): Promise<boolean> {
   const secret = process.env.TURNSTILE_SECRET_KEY;
   let verificationSecret: string;
 
@@ -212,9 +212,17 @@ async function verifyTurnstile(token: string | undefined): Promise<boolean> {
   }
 
   try {
+    const formData = new URLSearchParams();
+    formData.append("secret", verificationSecret);
+    formData.append("response", token || "");
+    if (clientIp) {
+      formData.append("remoteip", clientIp);
+    }
+    formData.append("idempotency_key", crypto.randomUUID());
+
     const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
       method: "POST",
-      body: `secret=${encodeURIComponent(verificationSecret)}&response=${encodeURIComponent(token || "")}`,
+      body: formData.toString(),
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
     });
     
@@ -234,6 +242,7 @@ async function verifyTurnstile(token: string | undefined): Promise<boolean> {
 export async function submitContactForm(data: unknown): Promise<ContactResponse> {
   try {
     const clientHeaders = await headers();
+    const clientIp = getClientIp(clientHeaders);
 
     if (await checkRateLimit(clientHeaders)) {
       return {
@@ -251,7 +260,7 @@ export async function submitContactForm(data: unknown): Promise<ContactResponse>
     }
 
     // Turnstile verification
-    const isValidToken = await verifyTurnstile(parsedData.turnstileToken);
+    const isValidToken = await verifyTurnstile(parsedData.turnstileToken, clientIp);
     if (!isValidToken) {
       return { success: false, message: "Security check failed. Please try again." };
     }
@@ -269,6 +278,7 @@ export async function submitContactForm(data: unknown): Promise<ContactResponse>
 export async function submitFooterForm(data: unknown): Promise<ContactResponse> {
   try {
     const clientHeaders = await headers();
+    const clientIp = getClientIp(clientHeaders);
 
     if (await checkRateLimit(clientHeaders)) {
       return {
@@ -286,7 +296,7 @@ export async function submitFooterForm(data: unknown): Promise<ContactResponse> 
     }
 
     // Turnstile verification
-    const isValidToken = await verifyTurnstile(parsedData.turnstileToken);
+    const isValidToken = await verifyTurnstile(parsedData.turnstileToken, clientIp);
     if (!isValidToken) {
       return { success: false, message: "Security check failed. Please try again." };
     }
