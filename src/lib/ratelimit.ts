@@ -32,23 +32,33 @@ if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) 
 }
 
 /**
- * Extracts client IP safely from standard request headers.
+ * Extracts client IP safely from trusted request headers with edge priority.
  */
 export function getClientIp(reqHeaders: Headers): string | null {
-  const forwardedFor = reqHeaders.get("x-forwarded-for");
-  if (forwardedFor) {
-    const ip = forwardedFor.split(",")[0].trim();
+  // 1. Cloudflare connecting IP (trusted edge)
+  const cfIp = reqHeaders.get("cf-connecting-ip");
+  if (cfIp && cfIp.trim()) {
+    return cfIp.trim();
+  }
+
+  // 2. Vercel edge forwarded IP (trusted platform header)
+  const vercelIp = reqHeaders.get("x-vercel-forwarded-for");
+  if (vercelIp && vercelIp.trim()) {
+    const ip = vercelIp.split(",")[0].trim();
     if (ip) return ip;
   }
 
+  // 3. Direct reverse-proxy real IP
   const realIp = reqHeaders.get("x-real-ip");
   if (realIp && realIp.trim()) {
     return realIp.trim();
   }
 
-  const cfIp = reqHeaders.get("cf-connecting-ip");
-  if (cfIp && cfIp.trim()) {
-    return cfIp.trim();
+  // 4. Standard proxy forwarded-for (fallback)
+  const forwardedFor = reqHeaders.get("x-forwarded-for");
+  if (forwardedFor) {
+    const ip = forwardedFor.split(",")[0].trim();
+    if (ip) return ip;
   }
 
   return null;
