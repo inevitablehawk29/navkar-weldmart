@@ -28,7 +28,7 @@ export const trustMetrics: TrustMetric[] = [
     icon: "Settings",
   },
   {
-    value: "10+",
+    value: "12+",
     label: "Cities Served",
     sublabel: "Across MP",
     icon: "MapPin",
