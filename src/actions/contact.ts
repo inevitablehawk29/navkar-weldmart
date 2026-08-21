@@ -22,6 +22,24 @@ export type EmailData = {
   projectType?: string;
 };
 
+/**
+ * Sanitizes header strings to prevent CRLF injection in subjects and email headers.
+ */
+function sanitizeHeaderField(str: string): string {
+  return str.replace(/[\r\n\x00-\x1f\x7f-\x9f]/g, " ").trim();
+}
+
+/**
+ * Neutralizes URLs and protocol schemes from unverified inputs before echoing in automated customer emails.
+ * Prevents domain reputation damage and abuse of automated confirmation responders as open spam relays.
+ */
+function sanitizeForCustomerConfirmation(str: string): string {
+  return str
+    .replace(/(https?:\/\/|www\.|\b[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}\b\/[^\s]*)/gi, "[link removed]")
+    .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, "")
+    .trim();
+}
+
 async function sendResendEmail(parsedData: EmailData, formType: "Main" | "Footer"): Promise<ContactResponse> {
   const apiKey = process.env.RESEND_API_KEY;
 
@@ -42,7 +60,9 @@ async function sendResendEmail(parsedData: EmailData, formType: "Main" | "Footer
     formattedTimestamp = now.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
   }
 
+  const cleanFullName = sanitizeHeaderField(parsedData.fullName);
   const projectType = parsedData.projectType || (formType === "Main" ? "General" : "Quick Enquiry");
+  const cleanProjectType = sanitizeHeaderField(projectType);
   const estimatedBudget = parsedData.estimatedBudget || "Not specified";
   const projectLocation = parsedData.projectLocation || "Not specified";
   const projectDetails = parsedData.projectDetails || "No details provided.";
@@ -64,18 +84,18 @@ async function sendResendEmail(parsedData: EmailData, formType: "Main" | "Footer
   const resend = new Resend(apiKey);
 
   try {
-    // 1. Render Internal Lead Notification Email
+    // 1. Render Internal Lead Notification Email (100% full raw details for team review)
     const leadEmailHtml = await render(
       React.createElement(LeadNotificationEmail, {
         enquiryId,
         timestamp: formattedTimestamp,
-        fullName: parsedData.fullName,
+        fullName: cleanFullName,
         phoneNumber: parsedData.phoneNumber,
-        emailAddress: parsedData.emailAddress || undefined,
-        projectType,
+        emailAddress: parsedData.emailAddress ? sanitizeHeaderField(parsedData.emailAddress) : undefined,
+        projectType: cleanProjectType,
         estimatedBudget,
         projectLocation,
-        source: parsedData.source || undefined,
+        source: parsedData.source ? sanitizeHeaderField(parsedData.source) : undefined,
         projectDetails,
         formType,
       })
@@ -84,25 +104,25 @@ async function sendResendEmail(parsedData: EmailData, formType: "Main" | "Footer
     const leadEmailText = getLeadNotificationEmailText({
       enquiryId,
       timestamp: formattedTimestamp,
-      fullName: parsedData.fullName,
+      fullName: cleanFullName,
       phoneNumber: parsedData.phoneNumber,
-      emailAddress: parsedData.emailAddress || undefined,
-      projectType,
+      emailAddress: parsedData.emailAddress ? sanitizeHeaderField(parsedData.emailAddress) : undefined,
+      projectType: cleanProjectType,
       estimatedBudget,
       projectLocation,
-      source: parsedData.source || undefined,
+      source: parsedData.source ? sanitizeHeaderField(parsedData.source) : undefined,
       projectDetails,
       formType,
     });
 
-    const leadSubject = `New Lead: ${parsedData.fullName} - ${projectType}`;
+    const leadSubject = `New Lead: ${cleanFullName} - ${cleanProjectType}`;
 
     // Send Internal Lead Notification
     const { error: leadError } = await resend.emails.send({
       from: "Navkar Weldmart <contact@navkarweldmart.com>",
       to: ["navkarweldmart@gmail.com"],
       subject: leadSubject,
-      replyTo: parsedData.emailAddress || undefined,
+      replyTo: parsedData.emailAddress ? sanitizeHeaderField(parsedData.emailAddress) : undefined,
       html: leadEmailHtml,
       text: leadEmailText,
     });
@@ -115,33 +135,37 @@ async function sendResendEmail(parsedData: EmailData, formType: "Main" | "Footer
       };
     }
 
-    // 2. If client email is provided, send Customer Confirmation Email
+    // 2. If client email is provided, send Customer Confirmation Email (sanitized to prevent spam reflection)
     if (parsedData.emailAddress) {
       try {
+        const sanitizedCustomerDetails = parsedData.projectDetails
+          ? sanitizeForCustomerConfirmation(parsedData.projectDetails)
+          : "No additional details provided.";
+
         const customerEmailHtml = await render(
           React.createElement(CustomerConfirmationEmail, {
             enquiryId,
-            fullName: parsedData.fullName,
-            projectType,
-            projectLocation,
+            fullName: cleanFullName,
+            projectType: cleanProjectType,
+            projectLocation: sanitizeHeaderField(projectLocation),
             estimatedBudget: formType === "Main" ? estimatedBudget : undefined,
-            projectDetails,
+            projectDetails: sanitizedCustomerDetails,
           })
         );
 
         const customerEmailText = getCustomerConfirmationEmailText({
           enquiryId,
-          fullName: parsedData.fullName,
-          projectType,
-          projectLocation,
+          fullName: cleanFullName,
+          projectType: cleanProjectType,
+          projectLocation: sanitizeHeaderField(projectLocation),
           estimatedBudget: formType === "Main" ? estimatedBudget : undefined,
-          projectDetails,
+          projectDetails: sanitizedCustomerDetails,
         });
 
         // Send Customer Confirmation Email (awaited to ensure serverless function doesn't abort it)
         const { error: customerError } = await resend.emails.send({
           from: "Navkar Weldmart <contact@navkarweldmart.com>",
-          to: [parsedData.emailAddress],
+          to: [sanitizeHeaderField(parsedData.emailAddress)],
           subject: "We've Received Your Enquiry – Navkar Weldmart",
           replyTo: "navkarweldmart@gmail.com",
           html: customerEmailHtml,
