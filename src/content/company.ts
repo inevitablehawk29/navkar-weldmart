@@ -99,5 +99,6 @@ export const companyInfo = {
     facebook: "#",
     instagram: "https://www.instagram.com/navkarweldmart/",
     whatsapp: "https://wa.me/919669769760",
+    bni: "https://bni-india.in/en-IN/memberdetails?encryptedMemberId=dhQ66PPufIgEnkwNkIsiow%3D%3D&cmsv3=true&name=Jinesh+Jain",
   },
 } as const;

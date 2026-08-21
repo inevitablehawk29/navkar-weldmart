@@ -1,5 +1,7 @@
 import Image from "next/image";
 import { FadeIn } from "@/components/animations/fade-in";
+import { ArrowRight } from "lucide-react";
+import { companyInfo } from "@/content";
 
 export function AboutHero() {
   return (
@@ -49,7 +51,25 @@ export function AboutHero() {
               {/* Founder Label */}
               <div className="absolute -bottom-6 -left-6 md:-left-12 bg-surface p-6 border border-border shadow-xl">
                 <p className="font-heading text-2xl mb-1">Jinesh Jain</p>
-                <p className="text-sm text-muted uppercase tracking-widest font-medium">Founder, Navkar Weldmart</p>
+                <p className="text-sm text-muted uppercase tracking-widest font-medium mb-3">Founder, Navkar Weldmart</p>
+                <a
+                  href={companyInfo.social.bni}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-foreground transition-colors group/bni"
+                >
+                  <Image
+                    src="/images/bni-logo.png"
+                    alt="BNI"
+                    width={28}
+                    height={14}
+                    className="h-3 w-auto object-contain"
+                  />
+                  <span className="text-[10px] font-medium uppercase tracking-wider text-muted group-hover/bni:text-foreground transition-colors">
+                    Member
+                  </span>
+                  <ArrowRight className="w-3 h-3 text-muted group-hover/bni:text-foreground transition-transform duration-200 group-hover/bni:translate-x-0.5" />
+                </a>
               </div>
               
               {/* Decorative elements */}
