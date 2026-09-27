@@ -8,16 +8,17 @@ import { contactInfo } from "@/content";
 
 export function ContactHero() {
   return (
-    <section className="pt-32 pb-8 lg:pt-32 lg:pb-10 overflow-hidden">
+    <section className="pt-24 pb-8 lg:pt-32 lg:pb-10 overflow-hidden">
       <div className="container-wide">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
           {/* Left Content */}
           <m.div 
-            initial={{ opacity: 0 }}
+            initial={false}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="w-full max-w-3xl pr-0 lg:pr-8"
+            className="contents lg:block lg:w-full lg:max-w-3xl lg:pr-8"
           >
+            <div className="order-1">
             <p className="section-label mb-4">GET IN TOUCH</p>
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-heading text-foreground leading-[1] tracking-tight mb-6">
               Let&apos;s discuss your project.
@@ -29,15 +30,17 @@ export function ContactHero() {
             <p className="text-[11px] font-bold text-primary uppercase tracking-[0.15em] mb-6">
               Trusted by contractors, builders, and manufacturers across Central India.
             </p>
+            </div>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6 max-w-2xl">
+            <div className="order-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-x-4 gap-y-5 sm:gap-x-8 sm:gap-y-6 max-w-2xl">
+              <h2 className="col-span-full lg:hidden font-body text-sm font-semibold normal-case tracking-normal text-foreground">Prefer to speak with us?</h2>
               <a href={`tel:${contactInfo.phones[0].replace(/\s/g, "")}`} className="group flex items-start gap-4">
                 <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center group-hover:bg-accent transition-colors duration-300 shrink-0 mt-1">
                   <Phone className="w-4 h-4 text-accent group-hover:text-white transition-colors duration-300" />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mb-1">Direct Line</p>
-                  <p className="text-sm font-medium text-foreground group-hover:text-accent transition-colors">{contactInfo.phones[0]}</p>
+                  <p className="text-xs sm:text-sm font-medium text-foreground group-hover:text-accent transition-colors">{contactInfo.phones[0]}</p>
                 </div>
               </a>
               
@@ -45,9 +48,9 @@ export function ContactHero() {
                 <div className="w-10 h-10 rounded-full bg-[#25D366]/10 flex items-center justify-center group-hover:bg-[#25D366] transition-colors duration-300 shrink-0 mt-1">
                   <MessageCircle className="w-4 h-4 text-[#25D366] group-hover:text-white transition-colors duration-300" />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mb-1">WhatsApp</p>
-                  <p className="text-sm font-medium text-foreground group-hover:text-[#25D366] transition-colors">{contactInfo.phones[0]}</p>
+                  <p className="text-xs sm:text-sm font-medium text-foreground group-hover:text-[#25D366] transition-colors">{contactInfo.phones[0]}</p>
                 </div>
               </a>
 
@@ -55,7 +58,7 @@ export function ContactHero() {
                 <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center group-hover:bg-accent transition-colors duration-300 shrink-0 mt-1">
                   <Mail className="w-4 h-4 text-accent group-hover:text-white transition-colors duration-300" />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mb-1">Email Support</p>
                   <p className="text-sm font-medium text-foreground group-hover:text-accent transition-colors">{contactInfo.email}</p>
                 </div>
@@ -65,7 +68,7 @@ export function ContactHero() {
                 <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center shrink-0 mt-1">
                   <MapPin className="w-4 h-4 text-accent" />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mb-1">Office Locations</p>
                   <div className="flex flex-col gap-1">
                     <a href="https://maps.google.com/?q=Navkar+Weldmart+Indore" target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-foreground hover:text-accent transition-colors block">
@@ -82,10 +85,10 @@ export function ContactHero() {
 
           {/* Right Form */}
           <m.div 
-            initial={{ opacity: 0, x: 20 }}
+            initial={false}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="w-full max-w-xl mx-auto lg:ml-auto"
+            className="order-2 w-full max-w-xl mx-auto lg:ml-auto"
           >
             <ProjectEnquiryForm />
           </m.div>

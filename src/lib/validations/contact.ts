@@ -31,7 +31,7 @@ export const contactFormSchema = z.object({
     "₹10 Lakh+"
   ], {
     message: "Please select an estimated budget.",
-  }),
+  }).optional(),
   source: z.enum([
     "Architect",
     "Builder",

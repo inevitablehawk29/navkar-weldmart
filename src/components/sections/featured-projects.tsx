@@ -32,7 +32,7 @@ export function FeaturedProjects() {
         <div className="flex flex-col lg:flex-row gap-10 lg:gap-16">
           {/* Left Column — Text */}
           <m.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={false}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             className="lg:w-[280px] lg:flex-shrink-0 flex flex-col justify-between"
@@ -62,7 +62,7 @@ export function FeaturedProjects() {
           {/* Right Column — Scrollable Cards */}
           <div className="flex-1 min-w-0 relative">
             <m.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={false}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{
                 duration: 0.8,
@@ -82,16 +82,18 @@ export function FeaturedProjects() {
                   ))}
                 </CarouselContent>
 
-                {/* Scroll Arrows */}
-                <div className="hidden lg:flex items-center gap-2 absolute -right-4 top-1/2 -translate-y-1/2 translate-x-full flex-col">
-                  <CarouselNext 
-                    variant="outline"
-                    className="static transform-none w-10 h-10 rounded-none border-border text-foreground hover:bg-foreground hover:text-background transition-all"
-                  />
-                  <CarouselPrevious 
-                    variant="outline"
-                    className="static transform-none w-10 h-10 rounded-none border-border text-foreground hover:bg-foreground hover:text-background transition-all"
-                  />
+                <div className="flex items-center justify-between mt-3">
+                  <span className="text-xs text-muted lg:hidden">Swipe to explore projects</span>
+                  <div className="flex items-center gap-2 ml-auto">
+                    <CarouselPrevious
+                      variant="outline"
+                      className="static transform-none w-12 h-12 rounded-none border-border text-foreground hover:bg-foreground hover:text-background transition-all"
+                    />
+                    <CarouselNext
+                      variant="outline"
+                      className="static transform-none w-12 h-12 rounded-none border-border text-foreground hover:bg-foreground hover:text-background transition-all"
+                    />
+                  </div>
                 </div>
               </Carousel>
             </m.div>

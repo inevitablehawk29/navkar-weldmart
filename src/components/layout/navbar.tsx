@@ -28,14 +28,14 @@ export const Navbar = memo(function Navbar() {
   return (
     <>
       <m.header
-      initial={{ y: "-100%" }}
+      initial={false}
       animate={{ y: 0 }}
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-[background-color,border-color,box-shadow] duration-500",
+        "fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border/70 transition-[background-color,border-color,box-shadow] duration-500",
         scrolled
-          ? "bg-background/95 backdrop-blur-sm border-b border-border shadow-sm"
-          : "bg-transparent border-b-0 shadow-none"
+          ? "shadow-sm"
+          : "shadow-none"
       )}
     >
       <nav className="container-wide flex items-center justify-between h-20">

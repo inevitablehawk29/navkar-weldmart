@@ -119,17 +119,12 @@ export default function RootLayout({
                   url: "https://navkarweldmart.com",
                   telephone: "+919669769760",
                   email: "navkarweldmart@gmail.com",
-                  image: "https://navkarweldmart.com/og-image.jpg",
+                  image: "https://navkarweldmart.com/opengraph-image.jpg",
                   address: {
                     "@type": "PostalAddress",
                     addressLocality: "Indore",
                     addressRegion: "Madhya Pradesh",
                     addressCountry: "IN",
-                  },
-                  geo: {
-                    "@type": "GeoCoordinates",
-                    latitude: 22.7196,
-                    longitude: 75.8577,
                   },
                   foundingDate: "2012",
                   areaServed: ["Indore", "Bhopal", "Madhya Pradesh"]
@@ -140,15 +135,7 @@ export default function RootLayout({
                   "@id": "https://navkarweldmart.com/#website",
                   "url": "https://navkarweldmart.com",
                   "name": "Navkar Weldmart",
-                  "publisher": { "@id": "https://navkarweldmart.com/#organization" },
-                  "potentialAction": {
-                    "@type": "SearchAction",
-                    "target": {
-                      "@type": "EntryPoint",
-                      "urlTemplate": "https://navkarweldmart.com/projects?q={search_term_string}"
-                    },
-                    "query-input": "required name=search_term_string"
-                  }
+                  "publisher": { "@id": "https://navkarweldmart.com/#organization" }
                 }
               ]),
             }}

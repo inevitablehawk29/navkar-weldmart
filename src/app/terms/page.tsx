@@ -29,8 +29,6 @@ export default function TermsPage() {
           </h1>
           
           <div className="prose prose-invert prose-lg max-w-none text-muted">
-            <p>Last updated: {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</p>
-            
             <h2 className="text-foreground font-heading text-2xl mt-12 mb-4">1. Agreement to Terms</h2>
             <p>
               By engaging {companyInfo.name} for any fabrication or material supply services, you agree to be bound by these Terms and Conditions. Please read them carefully.

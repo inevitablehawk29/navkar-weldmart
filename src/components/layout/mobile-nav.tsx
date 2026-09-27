@@ -104,6 +104,8 @@ export function MobileNav({ open, onClose, returnFocusRef }: MobileNavProps) {
       <div
         id="mobile-nav-drawer"
         ref={drawerRef}
+        inert={!open}
+        aria-hidden={!open}
         className={cn(
           "fixed top-0 right-0 bottom-0 w-full max-w-sm bg-surface z-50 transition-transform duration-500 ease-[var(--ease-out-expo)] lg:hidden flex flex-col",
           open ? "translate-x-0" : "translate-x-full"
@@ -157,11 +159,20 @@ export function MobileNav({ open, onClose, returnFocusRef }: MobileNavProps) {
                     />
                   </Button>
                   <div
+                    inert={!servicesExpanded}
+                    aria-hidden={!servicesExpanded}
                     className={cn(
                       "overflow-hidden transition-all duration-300",
                       servicesExpanded ? "max-h-96" : "max-h-0"
                     )}
                   >
+                    <Link
+                      href="/services"
+                      onClick={onClose}
+                      className="block pl-10 pr-6 py-3 text-base font-medium text-foreground hover:text-primary"
+                    >
+                      All Services
+                    </Link>
                     {item.children.map((child: { label: string; href: string }) => {
                       const isChildActive = pathname === child.href;
                       return (

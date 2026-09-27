@@ -21,6 +21,8 @@ import {
 } from "@/components/ui/form";
 
 export function FooterForm() {
+  const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ||
+    (process.env.NODE_ENV === "development" ? "1x00000000000000000000AA" : "");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
@@ -41,6 +43,10 @@ export function FooterForm() {
   });
 
   async function onSubmit(data: FooterFormValues) {
+    if (!turnstileSiteKey) {
+      setServerError("Online enquiries are temporarily unavailable. Please call +91 96697 69760.");
+      return;
+    }
     setIsSubmitting(true);
     setServerError(null);
     setPendingData(data);
@@ -109,7 +115,7 @@ export function FooterForm() {
         <div className="flex justify-center mb-4">
           <Turnstile
             ref={turnstileRef}
-            siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "1x00000000000000000000AA"}
+            siteKey={turnstileSiteKey}
             options={{ theme: "dark" }}
             onSuccess={handleTurnstileSuccess}
             onError={handleTurnstileError}
@@ -120,7 +126,7 @@ export function FooterForm() {
         </p>
         {serverError && (
           <div className="w-full">
-            <div className="p-3 bg-red-500/10 border border-red-500/20 text-red-400 rounded-md text-sm mb-3">
+            <div role="alert" className="p-3 bg-red-500/10 border border-red-500/20 text-red-400 rounded-md text-sm mb-3">
               {serverError}
             </div>
             <Button 
@@ -152,6 +158,7 @@ export function FooterForm() {
                 <FormControl>
                   <Input
                     placeholder="Your Name"
+                    autoComplete="name"
                     className="h-12 bg-white/5 border-white/10 text-white placeholder:text-white/30 focus-visible:ring-accent rounded-sm"
                     {...field}
                   />
@@ -169,6 +176,9 @@ export function FooterForm() {
                 <FormControl>
                   <Input
                     placeholder="Phone Number"
+                    type="tel"
+                    inputMode="tel"
+                    autoComplete="tel"
                     className="h-12 bg-white/5 border-white/10 text-white placeholder:text-white/30 focus-visible:ring-accent rounded-sm"
                     {...field}
                   />
@@ -187,6 +197,8 @@ export function FooterForm() {
               <FormControl>
                 <Input
                   placeholder="Email Address (Optional)"
+                  type="email"
+                  autoComplete="email"
                   className="h-12 bg-white/5 border-white/10 text-white placeholder:text-white/30 focus-visible:ring-accent rounded-sm"
                   {...field}
                 />
@@ -224,7 +236,7 @@ export function FooterForm() {
         </div>
         
         {serverError && (
-          <div className="p-3 bg-red-500/10 border border-red-500/20 text-red-400 rounded-md text-sm">
+          <div role="alert" className="p-3 bg-red-500/10 border border-red-500/20 text-red-400 rounded-md text-sm">
             {serverError}
           </div>
         )}

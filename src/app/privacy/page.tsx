@@ -1,5 +1,5 @@
 import { SectionLabel } from "@/components/shared/section-label";
-import { companyInfo } from "@/content";
+import { companyInfo, contactInfo } from "@/content";
 
 export const metadata = {
   title: "Privacy Policy",
@@ -29,26 +29,24 @@ export default function PrivacyPage() {
           </h1>
           
           <div className="prose prose-invert prose-lg max-w-none text-muted">
-            <p>Last updated: {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</p>
-            
             <h2 className="text-foreground font-heading text-2xl mt-12 mb-4">1. Information We Collect</h2>
             <p>
-              When you contact {companyInfo.name} or use our services, we may collect personal information such as your name, email address, phone number, and project details. We use this information solely to provide you with quotations, updates, and customer service.
+              When you contact {companyInfo.name} or use our services, we may collect your name, email address, phone number, and project details to respond to your enquiry and provide our services.
             </p>
             
             <h2 className="text-foreground font-heading text-2xl mt-12 mb-4">2. How We Use Your Information</h2>
             <p>
-              Your information is used to understand your project requirements, facilitate communication, provide accurate estimates, and deliver our fabrication and supply services. We do not sell or share your personal data with third parties for marketing purposes.
+              We use your information to understand your requirements, communicate with you, prepare estimates, and deliver our services. Our website also uses service providers for enquiry email delivery, security checks, and site analytics. We do not sell your personal data.
             </p>
             
             <h2 className="text-foreground font-heading text-2xl mt-12 mb-4">3. Data Security</h2>
             <p>
-              We implement appropriate security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.
+              We take reasonable steps to protect personal information against unauthorized access or disclosure.
             </p>
             
             <h2 className="text-foreground font-heading text-2xl mt-12 mb-4">4. Contact Us</h2>
             <p>
-              If you have any questions about this Privacy Policy, please contact us at {companyInfo.social.whatsapp} or email us directly.
+              If you have questions about this Privacy Policy or your information, email us at <a href={`mailto:${contactInfo.email}`} className="underline">{contactInfo.email}</a>.
             </p>
           </div>
         </div>

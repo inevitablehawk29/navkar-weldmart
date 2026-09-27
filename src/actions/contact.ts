@@ -68,16 +68,10 @@ async function sendResendEmail(parsedData: EmailData, formType: "Main" | "Footer
   const projectDetails = parsedData.projectDetails || "No details provided.";
 
   if (!apiKey) {
-    // Fallback: If no API key is provided, log to console and simulate delay
-    console.log(`Mock submission received (${formType} Form) [No RESEND_API_KEY found]:`, {
-      enquiryId,
-      timestamp: formattedTimestamp,
-      ...parsedData,
-    });
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    console.error("RESEND_API_KEY is missing; enquiry delivery is unavailable.");
     return {
-      success: true,
-      message: "Thank you. Our team will review your enquiry and get in touch shortly.",
+      success: false,
+      message: "We could not send your enquiry. Please call us at +91 96697 69760.",
     };
   }
 
@@ -224,6 +218,7 @@ async function verifyTurnstile(token: string | undefined, clientIp?: string | nu
       method: "POST",
       body: formData.toString(),
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      signal: AbortSignal.timeout(8000),
     });
     
     const turnstileData = await res.json();

@@ -4,21 +4,16 @@ import { services, projects } from "@/content";
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://navkarweldmart.com";
   
-  // Use current date for lastModified to ensure safe serverless execution on Vercel
-  const lastUpdate = new Date();
-
   const serviceUrls: MetadataRoute.Sitemap = services
     .filter((service) => service.slug !== "material-supply")
     .map((service) => ({
       url: `${baseUrl}/services/${service.slug}`,
-      lastModified: lastUpdate,
       changeFrequency: "monthly" as const,
       priority: 0.7,
     }));
 
   const projectUrls: MetadataRoute.Sitemap = projects.map((project) => ({
     url: `${baseUrl}/projects/${project.id}`,
-    lastModified: lastUpdate,
     changeFrequency: "monthly" as const,
     priority: 0.6,
   }));
@@ -26,37 +21,31 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
       url: `${baseUrl}`,
-      lastModified: lastUpdate,
       changeFrequency: "monthly",
       priority: 1,
     },
     {
       url: `${baseUrl}/about`,
-      lastModified: lastUpdate,
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
       url: `${baseUrl}/services`,
-      lastModified: lastUpdate,
       changeFrequency: "monthly",
       priority: 0.9,
     },
     {
       url: `${baseUrl}/projects`,
-      lastModified: lastUpdate,
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
       url: `${baseUrl}/contact`,
-      lastModified: lastUpdate,
       changeFrequency: "yearly",
       priority: 0.7,
     },
     {
       url: `${baseUrl}/material-supply`,
-      lastModified: lastUpdate,
       changeFrequency: "monthly",
       priority: 0.6,
     },
@@ -64,13 +53,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...projectUrls,
     {
       url: `${baseUrl}/privacy`,
-      lastModified: lastUpdate,
       changeFrequency: "yearly",
       priority: 0.3,
     },
     {
       url: `${baseUrl}/terms`,
-      lastModified: lastUpdate,
       changeFrequency: "yearly",
       priority: 0.3,
     },

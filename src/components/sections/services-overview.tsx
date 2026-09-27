@@ -30,7 +30,7 @@ export function ServicesOverview() {
           </FadeIn>
 
           {/* Right — Service Cards */}
-          <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-8 lg:gap-10">
+          <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
             {services.map((service, index) => (
               <FadeIn
                 key={service.id}
@@ -38,6 +38,10 @@ export function ServicesOverview() {
                 direction="up"
                 delay={index * 0.1}
               >
+                <Link
+                  href={service.slug === "material-supply" ? `/${service.slug}` : `/services/${service.slug}`}
+                  className="group block h-full p-5 sm:p-6 bg-background border border-border hover:border-primary/50 hover:shadow-md focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2 transition-[border-color,box-shadow]"
+                >
                 <div className="text-accent mb-4">
                   <DynamicIcon name={service.icon} className="w-8 h-8" strokeWidth={1.5} />
                 </div>
@@ -47,12 +51,10 @@ export function ServicesOverview() {
                 <p className="text-sm text-muted leading-relaxed mb-4">
                   {service.description}
                 </p>
-                <Link
-                  href={service.slug === "material-supply" ? `/${service.slug}` : `/services/${service.slug}`}
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.1em] text-accent hover:text-accent-dark transition-colors group"
-                >
-                  Explore
+                <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.1em] text-primary group-hover:text-primary-dark transition-colors">
+                  Explore service
                   <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+                </span>
                 </Link>
               </FadeIn>
             ))}
