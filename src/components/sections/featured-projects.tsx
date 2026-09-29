@@ -25,11 +25,11 @@ export function FeaturedProjects() {
   return (
     <section
       id="featured-projects"
-      className="py-20 lg:py-28 bg-background"
+      className="py-16 lg:py-28 bg-background"
       ref={sectionRef}
     >
       <div className="container-wide">
-        <div className="flex flex-col lg:flex-row gap-10 lg:gap-16">
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
           {/* Left Column — Text */}
           <m.div
             initial={false}

@@ -22,7 +22,7 @@ export function ClientsPartners() {
   return (
     <section
       id="clients"
-      className="py-20 lg:py-28 bg-surface-dark text-white"
+      className="py-16 lg:py-28 bg-surface-dark text-white"
       ref={ref}
     >
       <div className="container-wide">

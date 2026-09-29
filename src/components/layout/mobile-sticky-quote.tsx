@@ -82,6 +82,7 @@ export function MobileStickyQuote() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
       cancelAnimationFrame(rafRef.current);
+      rafRef.current = 0;
     };
   }, [handleScroll]);
 

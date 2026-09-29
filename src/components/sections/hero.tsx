@@ -8,7 +8,7 @@ export function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-[80svh] lg:min-h-screen flex items-center pt-28 pb-14 lg:pb-0 lg:pt-20 overflow-hidden"
+      className="relative lg:min-h-screen flex items-center pt-24 pb-12 sm:pt-28 sm:pb-14 lg:pb-0 lg:pt-20 overflow-hidden"
     >
       {/* Background Image */}
       <FadeIn 
@@ -39,7 +39,7 @@ export function Hero() {
             <p className="text-sm md:text-base font-semibold uppercase tracking-[0.2em] text-primary mb-2">
               Navkar Weldmart
             </p>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] leading-[1.05] tracking-tight text-foreground mb-3">
+            <h1 className="text-[2.75rem] sm:text-5xl md:text-6xl lg:text-[4.5rem] leading-[1.02] tracking-tight text-foreground mb-4 sm:mb-3">
               Precision steel
               <br />
               fabrication built
@@ -49,11 +49,11 @@ export function Hero() {
               and scale<span className="text-primary">.</span>
             </h1>
 
-            <p className="max-w-md text-sm sm:text-base text-muted-foreground leading-relaxed mb-5">
+            <p className="max-w-md text-base text-muted-foreground leading-relaxed mb-7 sm:mb-5">
               Steel structures, custom metalwork, and material supply across Madhya Pradesh.
             </p>
 
-            <div className="grid grid-cols-3 sm:flex sm:flex-row gap-2 sm:gap-5 mb-6 text-xs font-medium text-foreground">
+            <div className="hidden sm:flex sm:flex-row gap-5 mb-6 text-xs font-medium text-foreground">
               <div className="flex flex-col">
                 <CountUp target="13+" className="text-lg sm:text-xl font-bold text-primary" />
                 <span className="text-[10px] sm:text-xs text-muted leading-tight">Years Experience</span>
@@ -73,14 +73,14 @@ export function Hero() {
             <div className="grid grid-cols-2 sm:flex sm:flex-row sm:items-center flex-wrap gap-3 sm:gap-4">
               <Link
                 href="/projects"
-                className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-3 sm:px-8 py-3.5 sm:py-4 text-xs sm:text-sm font-medium hover:bg-primary/90 transition-colors duration-300 group rounded-md min-h-12"
+                className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-3 sm:px-8 py-3.5 sm:py-4 text-[13px] sm:text-sm font-medium whitespace-nowrap hover:bg-primary/90 transition-colors duration-300 group rounded-md min-h-12"
               >
                 View Our Projects
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </Link>
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center gap-2 border border-input bg-background px-3 sm:px-8 py-3.5 sm:py-4 text-xs sm:text-sm font-medium text-foreground hover:bg-accent hover:text-accent-foreground transition-colors duration-300 group rounded-md min-h-12"
+                className="inline-flex items-center justify-center gap-2 border border-input bg-background px-3 sm:px-8 py-3.5 sm:py-4 text-[13px] sm:text-sm font-medium whitespace-nowrap text-foreground hover:bg-accent hover:text-accent-foreground transition-colors duration-300 group rounded-md min-h-12"
               >
                 Let&apos;s Talk
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />

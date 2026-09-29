@@ -11,15 +11,18 @@ import { MobileNav } from "./mobile-nav";
 import { QuoteModal } from "./quote-modal";
 import { Menu, Phone, ArrowRight, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import * as m from "framer-motion/m";
 import logoHeader from "../../../public/images/logo_header.webp";
 
 export const Navbar = memo(function Navbar() {
-  const scrolled = useScroll(50);
+  const { scrolled, hidden } = useScroll(50);
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [headerFocused, setHeaderFocused] = useState(false);
   const hamburgerRef = useRef<HTMLButtonElement>(null);
+
+  // Keep the header in view while it's being interacted with.
+  const hideHeader = hidden && !mobileOpen && !openDropdown && !headerFocused;
 
   const handleMobileClose = useCallback(() => {
     setMobileOpen(false);
@@ -27,25 +30,26 @@ export const Navbar = memo(function Navbar() {
 
   return (
     <>
-      <m.header
-      initial={false}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      <header
+      onFocusCapture={() => setHeaderFocused(true)}
+      onBlurCapture={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget)) setHeaderFocused(false);
+      }}
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border/70 transition-[background-color,border-color,box-shadow] duration-500",
+        "fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border/70 transition-[transform,background-color,border-color,box-shadow] duration-300 ease-[var(--ease-out-expo)] motion-reduce:transition-none will-change-transform",
         scrolled
           ? "shadow-sm"
-          : "shadow-none"
+          : "shadow-none",
+        hideHeader ? "-translate-y-full" : "translate-y-0"
       )}
     >
-      <nav className="container-wide flex items-center justify-between h-20">
+      <nav className="container-wide flex items-center justify-between h-16 lg:h-20">
         {/* Logo */}
         <Link href="/" className="flex flex-shrink-0 items-center">
           <Image
             src={logoHeader}
             alt="Navkar Weldmart Logo"
-            className="w-auto object-contain"
-            style={{ height: "42px", width: "auto" }}
+            className="!h-9 lg:!h-[42px] !w-auto object-contain"
             priority
           />
         </Link>
@@ -186,7 +190,7 @@ export const Navbar = memo(function Navbar() {
         </div>
       </nav>
 
-      </m.header>
+      </header>
 
       {/* Mobile Navigation */}
       <MobileNav 

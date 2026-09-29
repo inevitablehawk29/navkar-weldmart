@@ -91,11 +91,11 @@ export function SteelBeamProcess() {
   return (
     <section
       id="steel-process"
-      className="py-24 lg:py-32 bg-zinc-50 relative overflow-hidden"
+      className="py-16 lg:py-32 bg-zinc-50 relative overflow-hidden"
       ref={containerRef}
     >
       <div className="container-wide">
-        <div className="text-center mb-16 lg:mb-24">
+        <div className="text-center mb-10 lg:mb-24">
           <SectionLabel>How We Work</SectionLabel>
           <h2 className="text-4xl sm:text-5xl lg:text-[3.5rem] text-foreground mt-4 leading-[0.95]">
             The Navkar
@@ -169,7 +169,7 @@ export function SteelBeamProcess() {
                       cardsRef.current[index] = el;
                     }}
                     className={cn(
-                      "pl-20 md:pl-0 w-full md:w-[calc(50%-4rem)]",
+                      "pl-16 md:pl-0 w-full md:w-[calc(50%-4rem)]",
                       isEven ? "md:pr-16" : "md:pl-16"
                     )}
                     style={{
@@ -178,7 +178,7 @@ export function SteelBeamProcess() {
                       transform: prefersReducedMotion ? "none" : "translateY(20px)",
                     }}
                   >
-                    <div className="bg-white p-6 md:p-8 border border-zinc-200 shadow-sm relative">
+                    <div className="bg-white p-5 md:p-8 border border-zinc-200 shadow-sm relative">
                       {/* Industrial connector visual on desktop */}
                       <div
                         className={cn(

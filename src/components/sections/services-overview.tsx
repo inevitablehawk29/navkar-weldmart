@@ -9,10 +9,10 @@ export function ServicesOverview() {
   return (
     <section
       id="services"
-      className="py-20 lg:py-28 bg-surface border-y border-border"
+      className="py-16 lg:py-28 bg-surface border-y border-border"
     >
       <div className="container-wide">
-        <div className="flex flex-col lg:flex-row gap-10 lg:gap-20">
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-20">
           {/* Left — Heading */}
           <FadeIn
             viewTrigger

@@ -115,12 +115,11 @@ export function MobileNav({ open, onClose, returnFocusRef }: MobileNavProps) {
         aria-label="Navigation menu"
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 h-20 border-b border-border">
+        <div className="flex items-center justify-between px-6 h-16 border-b border-border">
           <Image
             src={logoHeader}
             alt="Navkar Weldmart Logo"
-            className="w-auto object-contain"
-            style={{ height: "38px", width: "auto" }}
+            className="!h-9 !w-auto object-contain"
           />
           <Button
             variant="ghost"
