@@ -1,54 +1,36 @@
-import { Shield, Clock, HardHat, FileText } from "lucide-react";
+const benefits = [
+  {
+    title: "Itemised quotations",
+    description: "Every quote breaks down material, fabrication, transport and erection, so you can see where the money goes.",
+  },
+  {
+    title: "Measured on site",
+    description: "We visit and measure before we price, so the estimate matches the ground.",
+  },
+  {
+    title: "One team, start to finish",
+    description: "The people who fabricate your steel are the people who put it up.",
+  },
+  {
+    title: "Material and fabrication together",
+    description: "We source the steel ourselves, which keeps quality and timing in our hands.",
+  },
+];
 
 export function WhyWorkWithUs() {
-  const benefits = [
-    {
-      icon: FileText,
-      title: "Detailed Quotation",
-      description: "We provide comprehensive itemized quotes so you know exactly what you're paying for without hidden costs."
-    },
-    {
-      icon: Clock,
-      title: "Site Visit & Measurement",
-      description: "Our engineers visit your site to understand the ground reality and ensure accurate execution."
-    },
-    {
-      icon: HardHat,
-      title: "Experienced Project Execution",
-      description: "From fabrication to erection, our seasoned team ensures high-quality structural work done safely and on time."
-    },
-    {
-      icon: Shield,
-      title: "Material + Fabrication Under One Roof",
-      description: "We source premium steel and fabricate it in-house, ensuring consistent quality control from start to finish."
-    }
-  ];
-
   return (
-    <div className="space-y-8">
-      <div className="max-w-2xl">
-        <h3 className="text-3xl font-heading text-foreground mb-6">Why work with us?</h3>
-        <p className="text-base text-muted">
-          We bring structural integrity, transparent pricing, and seamless execution to every project we undertake.
-        </p>
+    <section className="section-y-sm bg-galv-100">
+      <div className="container-wide">
+        <h2 className="type-h2 max-w-[14ch]">What you can expect from us</h2>
+        <ul className="mt-12 grid gap-x-10 border-t border-foreground sm:grid-cols-2 lg:grid-cols-4">
+          {benefits.map((b) => (
+            <li key={b.title} className="border-b border-zinc-line py-6 lg:border-b-0">
+              <h3 className="type-h4">{b.title}</h3>
+              <p className="mt-2 text-[0.9375rem] leading-relaxed text-steel-500">{b.description}</p>
+            </li>
+          ))}
+        </ul>
       </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        {benefits.map((benefit, index) => {
-          const Icon = benefit.icon;
-          return (
-            <div key={index} className="flex items-start gap-4">
-              <div className="w-10 h-10 shrink-0 rounded-full bg-surface flex items-center justify-center text-accent">
-                <Icon className="w-5 h-5" />
-              </div>
-              <div>
-                <h4 className="text-lg font-semibold text-foreground mb-2">{benefit.title}</h4>
-                <p className="text-sm text-muted leading-relaxed">{benefit.description}</p>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </div>
+    </section>
   );
 }

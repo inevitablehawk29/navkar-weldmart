@@ -1,10 +1,9 @@
 import { Metadata } from "next";
 import { Hero } from "@/components/sections/hero";
-import { CapabilityMarquee } from "@/components/sections/capability-marquee";
-import { TrustMetrics } from "@/components/sections/trust-metrics";
 import { FeaturedProjects } from "@/components/sections/featured-projects";
 import { ServicesOverview } from "@/components/sections/services-overview";
-import { SteelBeamProcess } from "@/components/sections/steel-beam-process";
+import { ShedAssembly } from "@/components/sections/shed-assembly";
+import { MaterialsOverview } from "@/components/sections/materials-overview";
 import { ClientsPartners } from "@/components/sections/clients-partners";
 import { ScrollToTop } from "@/components/layout/scroll-to-top";
 
@@ -28,11 +27,10 @@ export default function HomePage() {
     <>
       <ScrollToTop />
       <Hero />
-      <TrustMetrics />
       <ServicesOverview />
-      <SteelBeamProcess />
+      <ShedAssembly />
       <FeaturedProjects />
-      <CapabilityMarquee />
+      <MaterialsOverview />
       <ClientsPartners />
     </>
   );

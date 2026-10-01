@@ -1,205 +1,249 @@
 "use client";
 
-import { useState, useRef, useCallback, memo } from "react";
+import { useState, useRef, useCallback, useEffect, memo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useScroll } from "@/hooks/use-scroll";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { navigation, contactInfo } from "@/content";
+import { navigation, contactInfo, services } from "@/content";
 import { MobileNav } from "./mobile-nav";
 import { QuoteModal } from "./quote-modal";
-import { Menu, Phone, ArrowRight, ChevronDown } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ChevronDown } from "lucide-react";
 import logoHeader from "../../../public/images/logo_header.webp";
+import logoHeaderLight from "../../../public/images/logo_header_light.webp";
+
+const primaryNav = navigation.filter((item) => item.href !== "/");
 
 export const Navbar = memo(function Navbar() {
-  const { scrolled, hidden } = useScroll(50);
   const pathname = usePathname();
+  const isHome = pathname === "/";
+
+  // On the home page the header floats over the dark hero until it's passed.
+  const [heroEdge, setHeroEdge] = useState(600);
+  useEffect(() => {
+    const measure = () => setHeroEdge(Math.max(window.innerHeight - 120, 300));
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
+
+  const { scrolled, hidden } = useScroll(isHome ? heroEdge : 8);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [headerFocused, setHeaderFocused] = useState(false);
   const hamburgerRef = useRef<HTMLButtonElement>(null);
 
-  // Keep the header in view while it's being interacted with.
+  const overHero = isHome && !scrolled;
   const hideHeader = hidden && !mobileOpen && !openDropdown && !headerFocused;
 
-  const handleMobileClose = useCallback(() => {
-    setMobileOpen(false);
-  }, []);
+  const handleMobileClose = useCallback(() => setMobileOpen(false), []);
+
+  const phone = contactInfo.phones[0];
 
   return (
     <>
       <header
-      onFocusCapture={() => setHeaderFocused(true)}
-      onBlurCapture={(e) => {
-        if (!e.currentTarget.contains(e.relatedTarget)) setHeaderFocused(false);
-      }}
-      className={cn(
-        "fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border/70 transition-[transform,background-color,border-color,box-shadow] duration-300 ease-[var(--ease-out-expo)] motion-reduce:transition-none will-change-transform",
-        scrolled
-          ? "shadow-sm"
-          : "shadow-none",
-        hideHeader ? "-translate-y-full" : "translate-y-0"
-      )}
-    >
-      <nav className="container-wide flex items-center justify-between h-16 lg:h-20">
-        {/* Logo */}
-        <Link href="/" className="flex flex-shrink-0 items-center">
-          <Image
-            src={logoHeader}
-            alt="Navkar Weldmart Logo"
-            className="!h-9 lg:!h-[42px] !w-auto object-contain"
-            priority
-          />
-        </Link>
+        onFocusCapture={() => setHeaderFocused(true)}
+        onBlurCapture={(e) => {
+          if (!e.currentTarget.contains(e.relatedTarget)) setHeaderFocused(false);
+        }}
+        className={cn(
+          "fixed inset-x-0 top-0 z-50 transition-[transform,background-color,border-color,color] duration-500 ease-[var(--ease-out-expo)] motion-reduce:transition-none",
+          overHero
+            ? "border-b border-white/10 bg-transparent text-white"
+            : "border-b border-zinc-line bg-galv-100/92 text-foreground backdrop-blur-md",
+          hideHeader ? "-translate-y-full" : "translate-y-0"
+        )}
+      >
+        {/* Legibility scrim over the photo, fades away with the transparent state */}
+        <div
+          aria-hidden
+          className={cn(
+            "pointer-events-none absolute inset-x-0 top-0 -z-10 h-[160%] bg-gradient-to-b from-mill-950/70 to-transparent transition-opacity duration-500",
+            overHero ? "opacity-100" : "opacity-0"
+          )}
+        />
 
-        {/* Desktop Navigation */}
-        <div className="hidden lg:flex items-center gap-1">
-          {navigation.map((item) => {
-            const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
-            
-            return item.children ? (
-              <div 
-                key={item.label} 
-                className="relative group z-50"
-                onMouseEnter={() => setOpenDropdown(item.label)}
-                onMouseLeave={() => setOpenDropdown(null)}
-                onFocus={() => setOpenDropdown(item.label)}
-                onBlur={(e) => {
-                  if (!e.currentTarget.contains(e.relatedTarget)) {
-                    setOpenDropdown(null);
-                  }
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === "Escape") {
-                    setOpenDropdown(null);
-                    (document.activeElement as HTMLElement)?.blur();
-                  }
-                }}
-              >
-                <div className="flex items-center">
-                  <Link
-                    href={item.href || "#"} 
-                    className={cn(
-                      "inline-flex items-center h-9 pl-4 pr-1 py-2 text-sm font-medium transition-colors rounded-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-primary",
-                      isActive 
-                        ? "text-primary" 
-                        : scrolled
-                          ? "text-foreground group-hover:text-primary focus-within:text-primary"
-                          : "text-foreground/90 group-hover:text-foreground focus-within:text-foreground"
-                    )}
+        <nav className="container-wide flex h-[var(--header-h)] items-center justify-between gap-6">
+          <Link href="/" className="relative flex shrink-0 items-center" aria-label="Navkar Weldmart home">
+            <Image
+              src={logoHeader}
+              alt=""
+              className={cn(
+                "!h-9 !w-auto object-contain transition-opacity duration-300 lg:!h-11",
+                overHero ? "opacity-0" : "opacity-100"
+              )}
+              priority
+            />
+            <Image
+              src={logoHeaderLight}
+              alt=""
+              className={cn(
+                "absolute left-0 top-0 !h-9 !w-auto object-contain transition-opacity duration-300 lg:!h-11",
+                overHero ? "opacity-100" : "opacity-0"
+              )}
+              priority
+            />
+          </Link>
+
+          {/* Desktop navigation */}
+          <ul className="hidden items-center gap-1 lg:flex">
+            {primaryNav.map((item) => {
+              const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
+
+              if (item.children) {
+                const open = openDropdown === item.label;
+                return (
+                  <li
+                    key={item.label}
+                    className="relative"
+                    onMouseEnter={() => setOpenDropdown(item.label)}
+                    onMouseLeave={() => setOpenDropdown(null)}
+                    onBlur={(e) => {
+                      if (!e.currentTarget.contains(e.relatedTarget)) setOpenDropdown(null);
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Escape") {
+                        setOpenDropdown(null);
+                        (e.currentTarget.querySelector("button") as HTMLElement | null)?.focus();
+                      }
+                    }}
                   >
+                    <div className="flex items-center">
+                      <NavLink href={item.href} active={isActive} overHero={overHero}>
+                        {item.label}
+                      </NavLink>
+                      <button
+                        type="button"
+                        aria-expanded={open}
+                        aria-controls="services-menu"
+                        aria-label={`${item.label} menu`}
+                        onClick={() => setOpenDropdown(open ? null : item.label)}
+                        className="-ml-2 inline-flex h-10 w-7 items-center justify-center"
+                      >
+                        <ChevronDown
+                          className={cn("h-3.5 w-3.5 opacity-70 transition-transform duration-300", open && "rotate-180")}
+                        />
+                      </button>
+                    </div>
+
+                    <div
+                      id="services-menu"
+                      className={cn(
+                        "absolute left-1/2 top-full w-[440px] -translate-x-1/2 pt-3 transition-[opacity,transform,visibility] duration-300 ease-[var(--ease-out-expo)]",
+                        open ? "visible translate-y-0 opacity-100" : "invisible -translate-y-1 opacity-0"
+                      )}
+                    >
+                      <div className="border border-zinc-line bg-galv-50 p-2 text-foreground shadow-[0_24px_48px_-24px_rgba(20,23,27,0.35)]">
+                        {services
+                          .filter((s) => s.slug !== "material-supply")
+                          .map((s) => {
+                            const href = `/services/${s.slug}`;
+                            return (
+                              <Link
+                                key={s.slug}
+                                href={href}
+                                onClick={() => setOpenDropdown(null)}
+                                className={cn(
+                                  "group/item flex flex-col gap-0.5 px-4 py-3 transition-colors hover:bg-galv-200 focus-visible:bg-galv-200",
+                                  pathname === href && "bg-galv-200"
+                                )}
+                              >
+                                <span className="type-h4 text-[1.0625rem] group-hover/item:text-arc">{s.title}</span>
+                                <span className="text-sm leading-snug text-steel-500">{s.description}</span>
+                              </Link>
+                            );
+                          })}
+                        <Link
+                          href="/services"
+                          onClick={() => setOpenDropdown(null)}
+                          className="mt-1 flex items-center justify-between border-t border-zinc-line px-4 pb-2 pt-3 text-sm font-medium text-steel-500 hover:text-arc"
+                        >
+                          All services
+                        </Link>
+                      </div>
+                    </div>
+                  </li>
+                );
+              }
+
+              return (
+                <li key={item.href}>
+                  <NavLink href={item.href} active={isActive} overHero={overHero}>
                     {item.label}
-                  </Link>
-                  <button
-                    type="button"
-                    aria-expanded={openDropdown === item.label ? "true" : "false"}
-                    aria-haspopup="true"
-                    aria-label={`Toggle ${item.label} submenu`}
-                    onClick={() => setOpenDropdown(openDropdown === item.label ? null : item.label)}
-                    className={cn(
-                      "inline-flex items-center justify-center h-9 pr-3 pl-1 transition-colors rounded-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-primary",
-                      isActive 
-                        ? "text-primary" 
-                        : scrolled
-                          ? "text-foreground group-hover:text-primary focus-within:text-primary"
-                          : "text-foreground/90 group-hover:text-foreground focus-within:text-foreground"
-                    )}
-                  >
-                    <ChevronDown className="w-3 h-3 opacity-70 transition-transform duration-200 group-hover:-rotate-180 group-focus-within:-rotate-180" />
-                  </button>
-                </div>
-                <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0 group-focus-within:translate-y-0">
-                  <ul className="w-[240px] p-2 bg-surface shadow-lg rounded-sm border border-border" role="menu">
-                    {item.children.map((child: { label: string; href: string }) => {
-                      const isChildActive = pathname === child.href;
-                      return (
-                        <li key={child.href} role="none">
-                          <Link
-                            href={child.href}
-                            role="menuitem"
-                            className={cn(
-                              "block w-full select-none rounded-sm px-4 py-2 text-sm transition-colors focus:outline-none focus:bg-muted/10",
-                              isChildActive
-                                ? "text-primary bg-muted/10 font-medium"
-                                : "text-muted hover:text-primary hover:bg-muted/10 focus:text-primary"
-                            )}
-                          >
-                            {child.label}
-                          </Link>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-              </div>
-            ) : (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={cn(
-                  "px-4 py-2 text-sm font-medium transition-colors rounded-sm",
-                  isActive
-                    ? "text-primary"
-                    : scrolled
-                      ? "text-foreground hover:text-primary"
-                      : "text-foreground/90 hover:text-foreground"
-                )}
-              >
-                {item.label}
-              </Link>
-            )
-          })}
-        </div>
+                  </NavLink>
+                </li>
+              );
+            })}
+          </ul>
 
-        {/* Right Side */}
-        <div className="flex items-center gap-4">
-          {/* Phone - Desktop only */}
-          <a
-            href={`tel:${contactInfo.phones[0].replace(/\s/g, "")}`}
-            className="hidden xl:flex items-center gap-2 text-sm text-foreground font-semibold hover:text-primary transition-colors"
-          >
-            <Phone className="w-4 h-4" />
-            <span>{contactInfo.phones[0]}</span>
-          </a>
-
-          {/* CTA Button */}
-          <QuoteModal>
-            <button
-              className="hidden md:inline-flex items-center gap-2 bg-primary text-white px-5 py-2.5 text-sm font-medium hover:bg-primary/90 transition-colors cursor-pointer rounded-sm"
+          <div className="flex items-center gap-2 sm:gap-5">
+            <a
+              href={`tel:${phone.replace(/\s/g, "")}`}
+              className={cn(
+                "hidden text-[0.9375rem] font-semibold tabular transition-colors xl:inline",
+                overHero ? "text-white/90 hover:text-white" : "text-foreground hover:text-arc"
+              )}
             >
-              Get A Quote
-              <ArrowRight className="w-4 h-4" />
+              {phone}
+            </a>
+
+            <QuoteModal>
+              <button className={cn("btn hidden min-h-11 md:inline-flex", overHero ? "btn-light" : "btn-primary")}>
+                Request a quote
+              </button>
+            </QuoteModal>
+
+            <button
+              ref={hamburgerRef}
+              type="button"
+              className="-mr-2 inline-flex h-11 w-11 flex-col items-center justify-center gap-[5px] lg:hidden"
+              onClick={() => setMobileOpen(true)}
+              aria-label="Open menu"
+              aria-expanded={mobileOpen}
+              aria-controls="mobile-nav-drawer"
+            >
+              <span className="block h-[2px] w-6 bg-current" />
+              <span className="block h-[2px] w-6 bg-current" />
+              <span className="block h-[2px] w-6 bg-current" />
             </button>
-          </QuoteModal>
-
-          {/* Mobile Hamburger */}
-          <Button
-            ref={hamburgerRef}
-            variant="ghost"
-            size="icon"
-            className="lg:hidden text-foreground rounded-sm"
-            onClick={() => setMobileOpen(true)}
-            aria-label="Open navigation menu"
-            aria-expanded={mobileOpen}
-            aria-controls="mobile-nav-drawer"
-          >
-            <Menu className="w-6 h-6" />
-          </Button>
-        </div>
-      </nav>
-
+          </div>
+        </nav>
       </header>
 
-      {/* Mobile Navigation */}
-      <MobileNav 
-        open={mobileOpen} 
-        onClose={handleMobileClose} 
-        returnFocusRef={hamburgerRef}
-      />
+      <MobileNav open={mobileOpen} onClose={handleMobileClose} returnFocusRef={hamburgerRef} />
     </>
   );
 });
+
+function NavLink({
+  href,
+  active,
+  overHero,
+  children,
+}: {
+  href: string;
+  active: boolean;
+  overHero: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <Link
+      href={href}
+      aria-current={active ? "page" : undefined}
+      className={cn(
+        "relative inline-flex h-10 items-center px-3.5 text-[0.9375rem] font-medium transition-colors",
+        "after:absolute after:inset-x-3.5 after:bottom-1 after:h-[2px] after:origin-left after:bg-current after:transition-transform after:duration-300 after:ease-[var(--ease-out-expo)]",
+        active ? "after:scale-x-100" : "after:scale-x-0 hover:after:scale-x-100",
+        overHero
+          ? active ? "text-white" : "text-white/80 hover:text-white"
+          : active ? "text-arc" : "text-foreground hover:text-arc"
+      )}
+    >
+      {children}
+    </Link>
+  );
+}
 
 Navbar.displayName = "Navbar";

@@ -1,23 +1,14 @@
 "use client";
 
-import { useEffect, useRef, RefObject } from "react";
+import { useEffect, useRef, useState, RefObject } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { navigation, contactInfo } from "@/content";
-import {
-  X,
-  ChevronDown,
-  Phone,
-  Mail,
-  MapPin,
-  ArrowRight,
-} from "lucide-react";
-import { useState } from "react";
+import { navigation, contactInfo, companyInfo } from "@/content";
+import { X, Plus } from "lucide-react";
 import { QuoteModal } from "./quote-modal";
-import { Button } from "@/components/ui/button";
-import logoHeader from "../../../public/images/logo_header.webp";
+import logoHeaderLight from "../../../public/images/logo_header_light.webp";
 
 interface MobileNavProps {
   open: boolean;
@@ -31,13 +22,10 @@ export function MobileNav({ open, onClose, returnFocusRef }: MobileNavProps) {
   const drawerRef = useRef<HTMLDivElement>(null);
   const wasOpen = useRef(false);
 
-  // Lock body scroll when open and trap focus
   useEffect(() => {
     if (!open) {
       document.body.style.overflow = "";
-      if (wasOpen.current && returnFocusRef?.current) {
-        returnFocusRef.current.focus();
-      }
+      if (wasOpen.current && returnFocusRef?.current) returnFocusRef.current.focus();
       wasOpen.current = false;
       return;
     }
@@ -45,37 +33,29 @@ export function MobileNav({ open, onClose, returnFocusRef }: MobileNavProps) {
     wasOpen.current = true;
     document.body.style.overflow = "hidden";
 
-    const focusableElements = drawerRef.current?.querySelectorAll(
-      'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
-    ) as NodeListOf<HTMLElement> | undefined;
+    const getFocusable = () =>
+      drawerRef.current?.querySelectorAll<HTMLElement>(
+        'a[href]:not([inert] *), button:not([disabled]):not([inert] *)'
+      );
 
-    if (focusableElements && focusableElements.length > 0) {
-      focusableElements[0].focus();
-    }
+    getFocusable()?.[0]?.focus();
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         onClose();
         return;
       }
-
-      if (e.key === "Tab" && drawerRef.current) {
-        if (!focusableElements || focusableElements.length === 0) return;
-
-        const firstElement = focusableElements[0];
-        const lastElement = focusableElements[focusableElements.length - 1];
-
-        if (e.shiftKey) {
-          if (document.activeElement === firstElement) {
-            e.preventDefault();
-            lastElement.focus();
-          }
-        } else {
-          if (document.activeElement === lastElement) {
-            e.preventDefault();
-            firstElement.focus();
-          }
-        }
+      if (e.key !== "Tab") return;
+      const els = getFocusable();
+      if (!els || els.length === 0) return;
+      const first = els[0];
+      const last = els[els.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
       }
     };
 
@@ -86,165 +66,113 @@ export function MobileNav({ open, onClose, returnFocusRef }: MobileNavProps) {
     };
   }, [open, onClose, returnFocusRef]);
 
+  const phone = contactInfo.phones[0];
+  const links = navigation;
+
   return (
-    <>
-      {/* Overlay */}
-      <div
-        className={cn(
-          "fixed inset-0 bg-foreground/50 z-50 transition-opacity duration-300 lg:hidden",
-          open
-            ? "opacity-100 pointer-events-auto"
-            : "opacity-0 pointer-events-none"
-        )}
-        onClick={onClose}
-        aria-hidden="true"
-      />
+    <div
+      id="mobile-nav-drawer"
+      ref={drawerRef}
+      inert={!open}
+      aria-hidden={!open}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Menu"
+      className={cn(
+        "fixed inset-0 z-[60] flex flex-col bg-mill-900 text-white transition-[clip-path] duration-700 ease-[var(--ease-out-expo)] lg:hidden",
+        open ? "[clip-path:inset(0_0_0_0)]" : "[clip-path:inset(0_0_100%_0)]"
+      )}
+    >
+      <div className="container-wide flex h-[var(--header-h)] shrink-0 items-center justify-between border-b border-white/10">
+        <Image src={logoHeaderLight} alt="Navkar Weldmart" className="!h-9 !w-auto object-contain" />
+        <button
+          type="button"
+          onClick={onClose}
+          className="-mr-2 inline-flex h-11 w-11 items-center justify-center"
+          aria-label="Close menu"
+        >
+          <X className="h-6 w-6" />
+        </button>
+      </div>
 
-      {/* Drawer */}
-      <div
-        id="mobile-nav-drawer"
-        ref={drawerRef}
-        inert={!open}
-        aria-hidden={!open}
-        className={cn(
-          "fixed top-0 right-0 bottom-0 w-full max-w-sm bg-surface z-50 transition-transform duration-500 ease-[var(--ease-out-expo)] lg:hidden flex flex-col",
-          open ? "translate-x-0" : "translate-x-full"
-        )}
-        role="dialog"
-        aria-modal="true"
-        aria-label="Navigation menu"
-      >
-        {/* Header */}
-        <div className="flex items-center justify-between px-6 h-16 border-b border-border">
-          <Image
-            src={logoHeader}
-            alt="Navkar Weldmart Logo"
-            className="!h-9 !w-auto object-contain"
-          />
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onClose}
-            className="text-foreground hover:text-primary transition-colors"
-            aria-label="Close navigation menu"
-          >
-            <X className="w-6 h-6" />
-          </Button>
-        </div>
+      <nav className="container-wide flex-1 overflow-y-auto py-4">
+        <ul>
+          {links.map((item, i) => {
+            const isActive = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+            const rowClass = cn(
+              "flex w-full items-center justify-between border-b border-white/10 py-4 type-h3 text-[2rem] transition-[color,transform,opacity] duration-500 ease-[var(--ease-out-expo)]",
+              isActive ? "text-arc-light" : "text-white",
+              open ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+            );
+            const style = { transitionDelay: open ? `${120 + i * 45}ms` : "0ms" };
 
-        {/* Nav Links */}
-        <div className="flex-1 overflow-y-auto py-6">
-          <nav className="flex flex-col">
-            {navigation.map((item) => {
-              const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
-              
-              return item.children ? (
-                <div key={item.label}>
-                  <Button
-                    variant="ghost"
-                    onClick={() => setServicesExpanded(!servicesExpanded)}
-                    className={cn(
-                      "w-full flex items-center justify-between px-6 py-4 h-auto text-lg font-medium transition-colors hover:bg-transparent rounded-none",
-                      isActive ? "text-primary" : "text-foreground hover:text-primary"
-                    )}
+            if (item.children) {
+              return (
+                <li key={item.label}>
+                  <button
+                    type="button"
+                    onClick={() => setServicesExpanded((v) => !v)}
                     aria-expanded={servicesExpanded}
+                    className={rowClass}
+                    style={style}
                   >
                     {item.label}
-                    <ChevronDown
-                      className={cn(
-                        "w-5 h-5 transition-transform duration-200",
-                        servicesExpanded && "rotate-180"
-                      )}
-                    />
-                  </Button>
+                    <Plus className={cn("h-6 w-6 transition-transform duration-300", servicesExpanded && "rotate-45")} />
+                  </button>
                   <div
                     inert={!servicesExpanded}
-                    aria-hidden={!servicesExpanded}
                     className={cn(
-                      "overflow-hidden transition-all duration-300",
-                      servicesExpanded ? "max-h-96" : "max-h-0"
+                      "grid transition-[grid-template-rows] duration-500 ease-[var(--ease-out-expo)]",
+                      servicesExpanded ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
                     )}
                   >
-                    <Link
-                      href="/services"
-                      onClick={onClose}
-                      className="block pl-10 pr-6 py-3 text-base font-medium text-foreground hover:text-primary"
-                    >
-                      All Services
-                    </Link>
-                    {item.children.map((child: { label: string; href: string }) => {
-                      const isChildActive = pathname === child.href;
-                      return (
-                        <Link
-                          key={child.href}
-                          href={child.href}
-                          onClick={onClose}
-                          className={cn(
-                            "block pl-10 pr-6 py-3 text-base transition-colors",
-                            isChildActive
-                              ? "text-primary font-medium"
-                              : "text-muted hover:text-primary"
-                          )}
-                        >
-                          {child.label}
-                        </Link>
-                      );
-                    })}
+                    <ul className="overflow-hidden">
+                      {[{ label: "All services", href: "/services" }, ...item.children].map((child) => (
+                        <li key={child.href}>
+                          <Link
+                            href={child.href}
+                            onClick={onClose}
+                            className={cn(
+                              "block border-b border-white/5 py-3 pl-4 text-lg",
+                              pathname === child.href ? "text-arc-light" : "text-white/75"
+                            )}
+                          >
+                            {child.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                </div>
-              ) : (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={onClose}
-                  className={cn(
-                    "px-6 py-4 text-lg font-medium transition-colors",
-                    isActive ? "text-primary" : "text-foreground hover:text-primary"
-                  )}
-                >
+                </li>
+              );
+            }
+
+            return (
+              <li key={item.href}>
+                <Link href={item.href} onClick={onClose} className={rowClass} style={style}>
                   {item.label}
                 </Link>
-              )
-            })}
-          </nav>
-        </div>
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
 
-        {/* Bottom: Contact + CTA */}
-        <div className="border-t border-border px-6 py-6 space-y-4">
-          <div className="space-y-3 text-sm text-muted">
-            <a
-              href={`tel:${contactInfo.phones[0].replace(/\s/g, "")}`}
-              className="flex items-center gap-3 hover:text-primary transition-colors"
-            >
-              <Phone className="w-4 h-4" />
-              {contactInfo.phones[0]}
-            </a>
-            <a
-              href={`mailto:${contactInfo.email}`}
-              className="flex items-center gap-3 hover:text-primary transition-colors"
-            >
-              <Mail className="w-4 h-4" />
-              {contactInfo.email}
-            </a>
-            <div className="flex items-start gap-3">
-              <MapPin className="w-4 h-4 mt-0.5 shrink-0" />
-              <span>
-                {contactInfo.city}, {contactInfo.state}
-              </span>
-            </div>
-          </div>
-
-          <QuoteModal>
-            <button
-              onClick={onClose}
-              className="flex items-center justify-center gap-2 w-full bg-primary text-white py-3 text-sm font-medium hover:bg-primary-dark transition-colors rounded-sm"
-            >
-              Get A Quote
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          </QuoteModal>
+      <div className="container-wide shrink-0 border-t border-white/10 pb-[calc(1.25rem+env(safe-area-inset-bottom))] pt-5">
+        <div className="mb-4 grid grid-cols-2 gap-3 text-sm">
+          <a href={`tel:${phone.replace(/\s/g, "")}`} className="btn btn-outline min-h-12 text-white">
+            Call
+          </a>
+          <a href={companyInfo.social.whatsapp} target="_blank" rel="noopener noreferrer" className="btn btn-outline min-h-12 text-white">
+            WhatsApp
+          </a>
         </div>
+        <QuoteModal>
+          <button onClick={onClose} className="btn btn-primary w-full min-h-12">
+            Request a quote
+          </button>
+        </QuoteModal>
       </div>
-    </>
+    </div>
   );
 }

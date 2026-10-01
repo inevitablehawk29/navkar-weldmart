@@ -146,18 +146,7 @@ export function ServiceAreaMap() {
     <div ref={containerRef} className="relative w-full aspect-[4/3] max-w-[800px] mx-auto select-none">
       
       {/* Background Grid - Independent of viewBox scaling */}
-      <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.05]">
-        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern id="bg-grid" width="40" height="40" patternUnits="userSpaceOnUse">
-              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="0.5" className="text-foreground" />
-              <path d="M 0 40 L 40 40 40 0" fill="none" stroke="currentColor" strokeWidth="0.5" className="text-foreground" />
-              <circle cx="0" cy="0" r="1.5" fill="currentColor" className="text-foreground" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#bg-grid)" />
-        </svg>
-      </div>
+
 
       <svg 
         viewBox={viewBoxStr} 
@@ -262,10 +251,10 @@ export function ServiceAreaMap() {
                   x={coords.cx + (city.isHub ? 14 * scale : 8 * scale)}
                   y={coords.cy + 3 * scale}
                   className={cn(
-                    "city-label font-semibold fill-foreground tracking-widest uppercase transition-all duration-300",
+                    "city-label font-medium fill-foreground transition-all duration-300",
                     isHovered || city.isHub ? "opacity-100 font-bold" : "opacity-60"
                   )}
-                  style={{ fontSize: `${10 * scale}px` }}
+                  style={{ fontSize: `${12 * scale}px` }}
                 >
                   {city.name}
                 </text>

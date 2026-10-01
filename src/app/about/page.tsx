@@ -6,7 +6,6 @@ import { CompanyPhilosophy } from "@/components/sections/about/CompanyPhilosophy
 import { HowWeExecute } from "@/components/sections/about/HowWeExecute";
 import { WorkshopGallery } from "@/components/sections/about/WorkshopGallery";
 import { ClientCategories } from "@/components/sections/about/ClientCategories";
-import { AboutCTA } from "@/components/sections/about/AboutCTA";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -44,11 +43,10 @@ export default function AboutPage() {
       <AboutHero />
       <FounderStory />
       <JourneyTimeline />
-      <CompanyPhilosophy />
       <HowWeExecute />
       <WorkshopGallery />
       <ClientCategories />
-      <AboutCTA />
+      <CompanyPhilosophy />
     </>
   );
 }

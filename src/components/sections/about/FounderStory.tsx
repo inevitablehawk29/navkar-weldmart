@@ -1,54 +1,27 @@
-import { FadeIn } from "@/components/animations/fade-in";
-import { Quote } from "lucide-react";
-
 export function FounderStory() {
   return (
-    <section className="py-24 lg:py-32 bg-secondary/30">
-      <div className="container-wide">
-        <div className="max-w-4xl mx-auto">
-          <FadeIn
-            viewTrigger
-            direction="up"
-            className="mb-16 relative"
-          >
-            <Quote className="absolute -top-10 -left-6 lg:-left-12 w-20 h-20 text-primary/10 rotate-180" />
-            <h2 className="text-3xl md:text-4xl lg:text-5xl leading-tight font-heading text-foreground relative z-10">
-              &quot;What started as a hardware business grew into a full-service fabrication company built on uncompromising quality.&quot;
-            </h2>
-          </FadeIn>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
-            <FadeIn
-              viewTrigger
-              direction="up"
-              delay={0.2}
-              className="prose prose-lg prose-p:text-muted w-full"
-            >
-              <p>
-                When Navkar Hardware first opened its doors, our vision was simple: supply the best quality materials to the builders and fabricators of Madhya Pradesh. But as we worked closely with our clients, we noticed a recurring gap in the market. 
-              </p>
-              <p>
-                While good materials were available, consistent execution and reliable fabrication were hard to find. Projects were delayed, quality was compromised, and clients were often left frustrated.
-              </p>
-            </FadeIn>
-
-            <FadeIn
-              viewTrigger
-              direction="up"
-              delay={0.3}
-              className="prose prose-lg prose-p:text-muted w-full"
-            >
-              <p>
-                That realization marked a turning point. We didn&apos;t just want to supply the steel; we wanted to shape it. We set up our own fabrication workshop, bringing together skilled craftsmen and investing in modern equipment.
-              </p>
-              <p>
-                Today, as Navkar Weldmart, we handle end-to-end structural projects. From the initial material estimation to the final coat of paint, we take full ownership. It&apos;s not just about building structures; it&apos;s about building trust that lasts for generations.
-              </p>
-            </FadeIn>
-          </div>
+    <section className="section-y bg-galv-50">
+      <div className="container-wide grid gap-x-16 gap-y-12 lg:grid-cols-12">
+        <blockquote className="type-h2 max-w-[18ch] lg:col-span-6">
+          Good steel was easy to buy. Good fabrication, delivered on time, wasn&apos;t.
+        </blockquote>
+        <div className="max-w-[62ch] space-y-5 text-[1.0625rem] leading-relaxed text-steel-500 lg:col-span-5 lg:col-start-8">
+          <p>
+            When Navkar Hardware opened, the plan was simple: supply the best materials to the
+            builders and fabricators of Madhya Pradesh. Working that closely with clients, we kept
+            seeing the same gap. Materials were available; consistent execution wasn&apos;t.
+            Projects ran late and quality slipped.
+          </p>
+          <p>
+            So we stopped only supplying steel and started shaping it. We set up our own
+            workshop, brought in skilled fabricators and invested in equipment.
+          </p>
+          <p className="text-foreground">
+            As Navkar Weldmart, we now take full ownership of a job, from the first material
+            estimate to the final coat of paint.
+          </p>
         </div>
       </div>
     </section>
   );
 }
-

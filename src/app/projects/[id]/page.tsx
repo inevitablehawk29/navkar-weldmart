@@ -1,11 +1,9 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, MapPin } from "lucide-react";
 import { projects } from "@/content";
-import { SectionLabel } from "@/components/shared/section-label";
-import { ContactCTA } from "@/components/sections/contact/ContactCTA";
-import { FadeIn } from "@/components/animations/fade-in";
+import { PageHeader, FactTable } from "@/components/shared/page-header";
+import { QuoteModal } from "@/components/layout/quote-modal";
 
 interface ProjectPageProps {
   params: Promise<{ id: string }>;
@@ -57,6 +55,10 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
     notFound();
   }
 
+  const idx = projects.findIndex((p) => p.id === project.id);
+  const prev = projects[(idx - 1 + projects.length) % projects.length];
+  const next = projects[(idx + 1) % projects.length];
+
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -92,82 +94,75 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
           __html: JSON.stringify([breadcrumbSchema, projectSchema])
         }}
       />
-      <section className="pt-24 pb-16 lg:pt-32 lg:pb-24 bg-surface border-b border-border">
+      <PageHeader
+        crumbs={[{ label: "Home", href: "/" }, { label: "Projects", href: "/projects" }, { label: project.title }]}
+        title={project.title}
+        lead={<p>{project.description}</p>}
+        aside={
+          <FactTable
+            rows={[
+              ...(project.client ? [{ label: "Client", value: project.client }] : []),
+              { label: "Type", value: project.category },
+              ...(project.location ? [{ label: "Location", value: project.location }] : []),
+              ...(project.year ? [{ label: "Year", value: <span className="tabular">{project.year}</span> }] : []),
+              ...(project.specs ? [{ label: "Scale", value: project.specs }] : []),
+            ]}
+          />
+        }
+      />
+
+      <section className="bg-galv-100 pb-24 lg:pb-32">
         <div className="container-wide">
-          <Link 
-            href="/projects" 
-            className="inline-flex items-center gap-2 text-sm font-medium text-muted hover:text-foreground transition-colors mb-10"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Back to Projects
-          </Link>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-            {/* Left Column: Intro Text */}
-            <FadeIn className="lg:col-span-5 flex flex-col justify-start pt-2 lg:pt-4">
-              <SectionLabel className="mb-4">{project.category}</SectionLabel>
-              <h1 className="text-4xl lg:text-5xl font-heading text-foreground leading-[1.1] tracking-tight mb-6">
-                {project.title}
-              </h1>
-              <p className="text-lg text-muted leading-relaxed mb-10">
-                {project.description}
-              </p>
-              
-              <div className="pt-8 border-t border-border">
-                <h2 className="text-2xl font-heading text-foreground mb-4">Project Details</h2>
-                <div className="grid grid-cols-2 gap-y-6 gap-x-4">
-                  {project.client && (
-                    <div>
-                      <p className="text-xs text-muted uppercase tracking-wider mb-1">Client</p>
-                      <p className="text-base font-medium text-foreground">{project.client}</p>
-                    </div>
-                  )}
-                  {project.location && (
-                    <div>
-                      <p className="text-xs text-muted uppercase tracking-wider mb-1">Location</p>
-                      <p className="text-base font-medium text-foreground flex items-center gap-1.5">
-                        <MapPin className="w-3.5 h-3.5 text-accent" />
-                        {project.location}
-                      </p>
-                    </div>
-                  )}
-                  {project.year && (
-                    <div>
-                      <p className="text-xs text-muted uppercase tracking-wider mb-1">Year</p>
-                      <p className="text-base font-medium text-foreground">{project.year}</p>
-                    </div>
-                  )}
-                  {project.specs && (
-                    <div>
-                      <p className="text-xs text-muted uppercase tracking-wider mb-1">Scale</p>
-                      <p className="text-base font-medium text-foreground">{project.specs}</p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </FadeIn>
-            
-            {/* Right Column: Gallery */}
-            <FadeIn delay={0.2} className="lg:col-span-7">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
-                {project.gallery.map((img: string, index: number) => (
-                  <div key={index} className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden shadow-sm bg-muted/10 border border-border group">
-                    <Image
-                      src={img}
-                      alt={`${project.title} - View ${index + 1}`}
-                      fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
-                      sizes="(max-width: 1024px) 100vw, 60vw"
-                    />
-                  </div>
-                ))}
-              </div>
-            </FadeIn>
+          <ul className="grid gap-3 sm:grid-cols-2 lg:gap-4">
+            {project.gallery.map((img, index) => (
+              <li
+                key={img}
+                className={`relative overflow-hidden bg-galv-200 ${
+                  index === 0 || (index === project.gallery.length - 1 && project.gallery.length % 2 === 0)
+                    ? "aspect-[4/3] sm:col-span-2 sm:aspect-[16/9]"
+                    : "aspect-[4/3]"
+                }`}
+              >
+                <Image
+                  src={img}
+                  alt={`${project.title}, view ${index + 1}`}
+                  fill
+                  priority={index === 0}
+                  sizes={index === 0 ? "100vw" : "(min-width: 640px) 50vw, 100vw"}
+                  className="photo-grade object-cover"
+                />
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-16 flex flex-col gap-6 border-t border-foreground pt-8 sm:flex-row sm:items-center sm:justify-between">
+            <p className="type-h3 max-w-[22ch]">Planning something similar?</p>
+            <QuoteModal>
+              <button className="btn btn-primary self-start">Request a quote</button>
+            </QuoteModal>
           </div>
         </div>
       </section>
 
-      <ContactCTA />
+      <nav aria-label="More projects" className="bg-mill-900 text-white">
+        <div className="container-wide grid sm:grid-cols-2">
+          {[prev, next].map((p, i) => (
+            <Link
+              key={p.id + i}
+              href={`/projects/${p.id}`}
+              className={`group flex items-center gap-5 py-8 ${i === 1 ? "border-t border-white/10 sm:justify-end sm:border-l sm:border-t-0 sm:pl-8 sm:text-right" : "sm:pr-8"}`}
+            >
+              <div className={`relative h-20 w-28 shrink-0 overflow-hidden bg-mill-800 ${i === 1 ? "sm:order-2" : ""}`}>
+                <Image src={p.coverImage} alt="" fill sizes="112px" className="photo-grade object-cover" />
+              </div>
+              <div>
+                <span className="type-label text-steel-300">{i === 0 ? "Previous project" : "Next project"}</span>
+                <span className="type-h3 mt-1 block group-hover:text-arc-light">{p.title}</span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </nav>
     </>
   );
 }

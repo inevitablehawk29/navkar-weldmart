@@ -3,8 +3,7 @@ import { ContactHero } from "@/components/sections/contact/ContactHero";
 import { WhyWorkWithUs } from "@/components/sections/contact/WhyWorkWithUs";
 import { NextSteps } from "@/components/sections/contact/NextSteps";
 import { ServiceArea } from "@/components/sections/contact/ServiceArea";
-import { ContactFaq } from "@/components/sections/contact/ContactFaq";
-import { ContactCTA } from "@/components/sections/contact/ContactCTA";
+import { FaqSection } from "@/components/shared/faq-list";
 import { faqs } from "@/content/faq";
 
 export const metadata: Metadata = {
@@ -54,17 +53,10 @@ export default function ContactPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, faqSchema]) }}
       />
       <ContactHero />
-      
-      <section className="py-12 lg:py-16 bg-background border-t border-border" id="why-us">
-        <div className="container-wide">
-          <WhyWorkWithUs />
-        </div>
-      </section>
-
       <NextSteps />
+      <WhyWorkWithUs />
       <ServiceArea />
-      <ContactFaq />
-      <ContactCTA />
+      <FaqSection />
     </>
   );
 }
