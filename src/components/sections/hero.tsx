@@ -1,117 +1,104 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { CountUp } from "@/components/ui/count-up";
-import { FadeIn } from "@/components/animations/fade-in";
+import { QuoteModal } from "@/components/layout/quote-modal";
+
+const headline = ["Sheds, structures", "and steelwork,", "built to drawing."];
+
+const titleBlock = [
+  { label: "Established", value: "2012" },
+  { label: "Projects delivered", value: "900+" },
+  { label: "Cities served", value: "12+" },
+];
 
 export function Hero() {
   return (
     <section
       id="hero"
-      className="relative lg:min-h-screen flex items-center pt-24 pb-12 sm:pt-28 sm:pb-14 lg:pb-0 lg:pt-20 overflow-hidden"
+      className="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-mill-950 text-white"
     >
-      {/* Background Image */}
-      <FadeIn 
-        direction="none"
-        className="absolute inset-0 z-0 bg-[#111111] w-full h-full"
-      >
+      <div className="absolute inset-0 -z-10">
         <Image
-          src="/images/hero_indore_tennis_club.webp"
-          alt="Indore Tennis Club structural steel framework fabricated by Navkar Weldmart"
+          src="/images/homepage_hero_bg.webp"
+          alt="Steel portal frame of an industrial shed against the evening sky"
           fill
-          sizes="100vw"
-          className="object-cover object-center saturate-[80%]"
           priority
-          quality={75}
+          quality={85}
+          sizes="100vw"
+          className="animate-settle object-cover object-[62%_40%]"
         />
-        {/* Gradient Overlays */}
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/95 to-background/20 lg:via-background/80 lg:to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-background/30 lg:hidden" />
-      </FadeIn>
+        {/* Scrims sit only where text sits, so the sky on the right keeps its light.
+            Phones get an even wash because the text spans the full width there. */}
+        <div className="absolute inset-0 bg-mill-950/35 lg:bg-transparent lg:bg-gradient-to-r lg:from-mill-950/85 lg:via-mill-950/35 lg:via-45% lg:to-transparent lg:to-70%" />
+        <div className="absolute inset-x-0 bottom-0 h-[55%] bg-gradient-to-t from-mill-950/90 via-mill-950/45 to-transparent" />
+      </div>
 
-      <div className="container-wide relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
-          {/* Text Content */}
-          <FadeIn
-            direction="none"
-            className="max-w-xl"
-          >
-            <p className="text-sm md:text-base font-semibold uppercase tracking-[0.2em] text-primary mb-2">
-              Navkar Weldmart
-            </p>
-            <h1 className="text-[2.75rem] sm:text-5xl md:text-6xl lg:text-[4.5rem] leading-[1.02] tracking-tight text-foreground mb-4 sm:mb-3">
-              Precision steel
-              <br />
-              fabrication built
-              <br />
-              for strength
-              <br />
-              and scale<span className="text-primary">.</span>
-            </h1>
+      <div className="container-wide flex flex-1 flex-col justify-end pb-7 pt-[calc(var(--header-h)+2rem)] lg:pb-10">
+        <h1 className="type-display max-w-[14ch]">
+          {headline.map((line, i) => (
+            <span key={line} className="block overflow-hidden pb-[0.06em]">
+              <span className="animate-rise block" style={{ animationDelay: `${250 + i * 110}ms` }}>
+                {line}
+              </span>
+            </span>
+          ))}
+        </h1>
 
-            <p className="max-w-md text-base text-muted-foreground leading-relaxed mb-7 sm:mb-5">
-              Steel structures, custom metalwork, and material supply across Madhya Pradesh.
-            </p>
-
-            <div className="hidden sm:flex sm:flex-row gap-5 mb-6 text-xs font-medium text-foreground">
-              <div className="flex flex-col">
-                <CountUp target="13+" className="text-lg sm:text-xl font-bold text-primary" />
-                <span className="text-[10px] sm:text-xs text-muted leading-tight">Years Experience</span>
-              </div>
-              <div className="hidden sm:block w-px bg-border"></div>
-              <div className="flex flex-col">
-                <CountUp target="900+" className="text-lg sm:text-xl font-bold text-primary" />
-                <span className="text-[10px] sm:text-xs text-muted leading-tight">Projects Delivered</span>
-              </div>
-              <div className="hidden sm:block w-px bg-border"></div>
-              <div className="flex flex-col">
-                <CountUp target="12+" className="text-lg sm:text-xl font-bold text-primary" />
-                <span className="text-[10px] sm:text-xs text-muted leading-tight">Cities Served</span>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 sm:flex sm:flex-row sm:items-center flex-wrap gap-3 sm:gap-4">
-              <Link
-                href="/projects"
-                className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-3 sm:px-8 py-3.5 sm:py-4 text-[13px] sm:text-sm font-medium whitespace-nowrap hover:bg-primary/90 transition-colors duration-300 group rounded-md min-h-12"
-              >
-                View Our Projects
-                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-              </Link>
-              <Link
-                href="/contact"
-                className="inline-flex items-center justify-center gap-2 border border-input bg-background px-3 sm:px-8 py-3.5 sm:py-4 text-[13px] sm:text-sm font-medium whitespace-nowrap text-foreground hover:bg-accent hover:text-accent-foreground transition-colors duration-300 group rounded-md min-h-12"
-              >
-                Let&apos;s Talk
-                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-              </Link>
-            </div>
-          </FadeIn>
-
-          {/* Right side — Project label (visible on lg+) */}
-          <FadeIn
-            direction="left"
-            delay={0.3}
-            className="hidden lg:flex justify-end"
-          >
-            <div className="bg-surface/90 backdrop-blur-sm border border-border px-6 py-4 max-w-xs relative overflow-hidden group cursor-default">
-              <div className="absolute top-0 left-0 w-1 h-full bg-primary" />
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted mb-2">
-                Recently Completed
-              </p>
-              <p className="text-lg text-foreground font-semibold leading-tight mb-1">
-                Indore Tennis Club
-              </p>
-              <div className="flex items-center gap-2 text-sm text-muted">
-                <span>5,000 Sq.Ft</span>
-                <span className="w-1 h-1 rounded-full bg-accent"></span>
-                <span>Indore, MP</span>
-              </div>
-            </div>
-          </FadeIn>
+        <div
+          className="animate-fade mt-5 flex flex-col gap-6 sm:mt-7 lg:flex-row lg:items-end lg:justify-between lg:gap-8"
+          style={{ animationDelay: "750ms" }}
+        >
+          <p className="max-w-[46ch] text-base leading-relaxed text-white sm:type-lead sm:text-white/85">
+            Navkar Weldmart supplies, fabricates and installs steel for factories, warehouses,
+            hotels and homes across Madhya Pradesh, from our workshop in Indore.
+          </p>
+          <div className="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap">
+            <QuoteModal>
+              <button className="btn btn-primary px-3 sm:px-[1.375rem]">Request a quote</button>
+            </QuoteModal>
+            <Link href="/projects" className="btn btn-outline px-3 text-white sm:px-[1.375rem]">
+              See our projects
+            </Link>
+          </div>
         </div>
+      </div>
+
+      {/* Title block: the facts panel a fabrication drawing carries in its corner. */}
+      <div className="relative">
+        <div
+          aria-hidden
+          className="animate-rule absolute inset-x-0 top-0 h-px bg-white/25"
+          style={{ animationDelay: "900ms" }}
+        />
+        <dl
+          className="container-wide animate-fade grid grid-cols-3 lg:grid-cols-[1fr_1fr_1fr_1.6fr]"
+          style={{ animationDelay: "1100ms" }}
+        >
+          {titleBlock.map((item, i) => (
+            <div
+              key={item.label}
+              className={
+                "flex flex-col justify-between gap-1.5 py-4 lg:gap-2 lg:py-5 " +
+                (i > 0 ? "border-l border-white/15 pl-4 lg:pl-8" : "pr-4 lg:pr-8")
+              }
+            >
+              <dt className="type-label text-[0.75rem] text-white/60 sm:text-[0.8125rem]">{item.label}</dt>
+              <dd className="type-figure text-[1.75rem] sm:text-[2rem] lg:text-[2.5rem]">{item.value}</dd>
+            </div>
+          ))}
+          <div className="col-span-3 flex items-baseline justify-between gap-4 border-t border-white/15 py-3 lg:col-span-1 lg:flex-col lg:justify-start lg:gap-2 lg:border-l lg:border-t-0 lg:py-5 lg:pl-8">
+            <dt className="type-label shrink-0 text-[0.75rem] text-white/60 sm:text-[0.8125rem]">Latest handover</dt>
+            <dd className="min-w-0 text-right lg:text-left">
+              <Link
+                href="/projects/indore-tennis-club"
+                className="group inline-flex flex-col font-semibold leading-tight lg:text-xl"
+              >
+                <span className="link-rule self-end lg:self-start">Indore Tennis Club</span>
+                <span className="mt-1 hidden text-sm font-normal text-white/60 lg:block">Roof structure, 5,000 sq ft</span>
+              </Link>
+            </dd>
+          </div>
+        </dl>
       </div>
     </section>
   );
 }
-

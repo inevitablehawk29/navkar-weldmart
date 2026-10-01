@@ -60,10 +60,10 @@ export const projects: Project[] = [
     location: "Indore, MP",
     year: 2024,
     featured: true,
-    coverImage: "/images/portfolio/elevation-1.webp",
+    coverImage: "/images/portfolio/elevation-2.webp",
     gallery: [
-      "/images/portfolio/elevation-1.webp",
       "/images/portfolio/elevation-2.webp",
+      "/images/portfolio/elevation-1.webp",
       "/images/portfolio/elevation-3.webp",
       "/images/portfolio/elevation-4.webp",
     ],
@@ -106,4 +106,4 @@ export const projects: Project[] = [
 ];
 
 // ── Material Supply Categories ──────────────────────────────
-
+

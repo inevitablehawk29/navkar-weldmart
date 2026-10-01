@@ -1,9 +1,20 @@
-import { projects } from "@/content";
+import Image from "next/image";
+import Link from "next/link";
+import { projects, fabricationCategories } from "@/content";
 import { ProjectCard } from "@/components/cards/project-card";
-import { SectionLabel } from "@/components/shared/section-label";
-import { ContactCTA } from "@/components/sections/contact/ContactCTA";
-import { FadeIn } from "@/components/animations/fade-in";
-import { BlueprintToReality } from "@/components/sections/blueprint-to-reality";
+import { PageHeader } from "@/components/shared/page-header";
+
+const serviceFor: Record<string, string> = {
+  Gates: "residential-fabrication",
+  Grills: "residential-fabrication",
+  "Furniture & Interior": "residential-fabrication",
+  Gazebo: "architectural-metalwork",
+  Elevation: "architectural-metalwork",
+  Railings: "architectural-metalwork",
+  "Restoration & Retro Fitting": "architectural-metalwork",
+  Signboards: "architectural-metalwork",
+  "Warehouses & Factory Sheds": "structural-fabrication",
+};
 
 export const metadata = {
   title: "Our Projects",
@@ -38,30 +49,61 @@ export default function ProjectsPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
-      <section className="pt-24 pb-8 lg:pt-32 lg:pb-12 bg-surface border-b border-border">
-        <div className="container-wide">
-          <FadeIn className="max-w-5xl">
-            <SectionLabel className="mb-4">Our Portfolio</SectionLabel>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading text-foreground leading-tight tracking-tight">
-              Built on precision. <span className="text-muted whitespace-nowrap">Engineered to last.</span>
-            </h1>
-          </FadeIn>
+      <PageHeader
+        crumbs={[{ label: "Home", href: "/" }, { label: "Projects" }]}
+        title="Work we've fabricated and put up"
+        lead={
+          <p>
+            Sports roofs, warehouses, heritage restoration and homes. A selection of the 900+
+            jobs we&apos;ve delivered across Madhya Pradesh since 2012.
+          </p>
+        }
+      />
+
+      <section className="bg-galv-100 pb-24 lg:pb-32">
+        <div className="container-wide grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+          {projects.map((project, i) => (
+            <ProjectCard
+              key={project.id}
+              project={project}
+              priority={i < 3}
+              aspect="aspect-[4/3]"
+            />
+          ))}
         </div>
       </section>
 
-      <section className="py-12 lg:py-16 bg-background">
+      <section aria-labelledby="by-type" className="section-y-sm bg-galv-50">
         <div className="container-wide">
-          <FadeIn delay={0.2} className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6 w-full mx-auto">
-            {projects.map((project) => (
-              <ProjectCard key={project.id} project={project} className="w-full sm:w-full lg:w-full" />
+          <div className="grid gap-x-16 gap-y-6 lg:grid-cols-12">
+            <h2 id="by-type" className="type-h2 lg:col-span-5">Work by type</h2>
+            <p className="type-lead max-w-[46ch] self-end text-steel-500 lg:col-span-6 lg:col-start-7">
+              The smaller jobs that make up most of our week: gates, grills, railings, facades
+              and the rest.
+            </p>
+          </div>
+          <ul className="mt-12 grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:mt-16">
+            {fabricationCategories.map((c) => (
+              <li key={c.title}>
+                <Link href={`/services/${serviceFor[c.title] ?? "structural-fabrication"}`} className="group block">
+                  <div className="relative aspect-[4/3] overflow-hidden bg-galv-200">
+                    <Image
+                      src={c.image}
+                      alt=""
+                      fill
+                      sizes="(min-width: 640px) 33vw, 50vw"
+                      className="photo-grade object-cover transition-transform duration-[900ms] ease-[var(--ease-out-expo)] group-hover:scale-[1.035]"
+                    />
+                  </div>
+                  <p className="mt-3 flex items-baseline justify-between gap-3 border-t border-zinc-line pt-2.5">
+                    <span className="font-semibold group-hover:text-arc">{c.title}</span>
+                  </p>
+                </Link>
+              </li>
             ))}
-          </FadeIn>
+          </ul>
         </div>
       </section>
-
-      <BlueprintToReality />
-
-      <ContactCTA />
     </>
   );
 }

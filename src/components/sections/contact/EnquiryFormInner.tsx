@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { Check } from "lucide-react";
 import { contactFormSchema, ContactFormValues } from "@/lib/validations/contact";
 import { submitContactForm } from "@/actions/contact";
 import { Turnstile, TurnstileInstance } from "@marsidev/react-turnstile";
@@ -99,13 +99,11 @@ export function EnquiryFormInner({ onSuccess }: { onSuccess?: () => void }) {
 
   if (isSuccess) {
     return (
-      <div className="text-center flex flex-col items-center justify-center min-h-[250px] py-4">
-        <div className="w-16 h-16 bg-[#25D366]/10 rounded-full flex items-center justify-center mb-6 mx-auto">
-          <CheckCircle2 className="w-8 h-8 text-[#25D366]" />
-        </div>
-        <h3 className="text-2xl font-heading text-foreground mb-3">Thank you.</h3>
-        <p className="text-muted-foreground text-sm max-w-sm mx-auto mb-8">
-          Our team will review your enquiry and get in touch shortly.
+      <div className="flex min-h-[300px] flex-col items-start justify-center py-4">
+        <Check className="mb-5 h-9 w-9 text-arc" strokeWidth={2.5} />
+        <h3 className="type-h3 mb-2">Request sent</h3>
+        <p className="mb-8 max-w-sm text-steel-500">
+          Thanks. We&apos;ll call you on the number you gave us to talk through the job.
         </p>
         <Button 
           variant="outline" 
@@ -122,9 +120,9 @@ export function EnquiryFormInner({ onSuccess }: { onSuccess?: () => void }) {
 
   if (showTurnstile) {
     return (
-      <div className="text-center flex flex-col items-center justify-center min-h-[250px] py-4">
-        <h3 className="text-xl font-heading text-foreground mb-6">Security Check</h3>
-        <div className="flex justify-center mb-4">
+      <div className="flex min-h-[300px] flex-col items-start justify-center py-4">
+        <h3 className="type-h3 mb-6">One quick check</h3>
+        <div className="mb-4">
           <Turnstile
             ref={turnstileRef}
             siteKey={turnstileSiteKey}
@@ -133,11 +131,11 @@ export function EnquiryFormInner({ onSuccess }: { onSuccess?: () => void }) {
             onError={handleTurnstileError}
           />
         </div>
-        <p className="text-muted-foreground text-sm max-w-sm mx-auto mt-4">
-          {isSubmitting ? "Verifying and sending..." : "Please complete the security check to continue."}
+        <p className="mt-4 max-w-sm text-sm text-steel-500">
+          {isSubmitting ? "Verifying and sending..." : "Confirm you’re not a bot to send your request."}
         </p>
         {serverError && (
-          <div role="alert" className="mt-4 p-3 bg-red-50 text-red-600 rounded-md text-xs max-w-sm mx-auto">
+          <div role="alert" className="mt-4 p-3 bg-red-50 text-red-600 rounded-[2px] text-sm max-w-sm mx-auto">
             {serverError}
             <div className="mt-2">
               <Button variant="outline" size="sm" onClick={() => setShowTurnstile(false)}>
@@ -152,32 +150,32 @@ export function EnquiryFormInner({ onSuccess }: { onSuccess?: () => void }) {
 
   return (
     <>
-      <div className="mb-4 sm:mb-5">
-        <h3 className="text-lg font-heading text-foreground uppercase tracking-tight mb-0.5">Request a Project Estimate</h3>
-        <p className="text-muted-foreground text-xs leading-tight">
-          Please provide details about your project to help us understand your requirements.
+      <div className="mb-6">
+        <h2 className="type-h3">Request a quote</h2>
+        <p className="mt-1.5 text-[0.9375rem] text-steel-500">
+          A few details are enough. We&apos;ll call to fill in the rest.
         </p>
       </div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
             <FormField
               control={form.control}
               name="fullName"
               render={({ field }) => (
                 <FormItem className="col-span-1">
-                  <FormLabel className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1.5 block">
-                    Full Name <span className="text-red-500">*</span>
+                  <FormLabel className="text-sm font-medium text-foreground">
+                    Name
                   </FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Rahul Sharma"
                       autoComplete="name"
-                      className="bg-transparent border-input h-11 text-base sm:text-sm"
+                      className="h-12 rounded-[2px] border-input bg-white text-base focus-visible:border-arc focus-visible:ring-0"
                       {...field} 
                     />
                   </FormControl>
-                  <FormMessage className="text-xs" />
+                  <FormMessage className="text-sm" />
                 </FormItem>
               )}
             />
@@ -186,8 +184,8 @@ export function EnquiryFormInner({ onSuccess }: { onSuccess?: () => void }) {
               name="phoneNumber"
               render={({ field }) => (
                 <FormItem className="col-span-1">
-                  <FormLabel className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1.5 block">
-                    Phone Number <span className="text-red-500">*</span>
+                  <FormLabel className="text-sm font-medium text-foreground">
+                    Phone
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -195,11 +193,11 @@ export function EnquiryFormInner({ onSuccess }: { onSuccess?: () => void }) {
                       type="tel"
                       inputMode="tel"
                       autoComplete="tel"
-                      className="bg-transparent border-input h-11 text-base sm:text-sm"
+                      className="h-12 rounded-[2px] border-input bg-white text-base focus-visible:border-arc focus-visible:ring-0"
                       {...field} 
                     />
                   </FormControl>
-                  <FormMessage className="text-xs" />
+                  <FormMessage className="text-sm" />
                 </FormItem>
               )}
             />
@@ -208,19 +206,19 @@ export function EnquiryFormInner({ onSuccess }: { onSuccess?: () => void }) {
               name="emailAddress"
               render={({ field }) => (
                 <FormItem className="col-span-1 sm:col-span-2">
-                  <FormLabel className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1.5 block">
-                    Email Address
+                  <FormLabel className="text-sm font-medium text-foreground">
+                    Email <span className="font-normal text-steel-500">(optional)</span>
                   </FormLabel>
                   <FormControl>
                     <Input 
                       placeholder="rahul@example.com"
                       type="email"
                       autoComplete="email"
-                      className="bg-transparent border-input h-11 text-base sm:text-sm"
+                      className="h-12 rounded-[2px] border-input bg-white text-base focus-visible:border-arc focus-visible:ring-0"
                       {...field} 
                     />
                   </FormControl>
-                  <FormMessage className="text-xs" />
+                  <FormMessage className="text-sm" />
                 </FormItem>
               )}
             />
@@ -229,18 +227,18 @@ export function EnquiryFormInner({ onSuccess }: { onSuccess?: () => void }) {
               name="projectLocation"
               render={({ field }) => (
                 <FormItem className="col-span-1">
-                  <FormLabel className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1.5 block">
-                    Project Location <span className="text-red-500">*</span>
+                  <FormLabel className="text-sm font-medium text-foreground">
+                    Site location
                   </FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Indore, MP" 
                       autoComplete="address-level2"
-                      className="bg-transparent border-input h-11 text-base sm:text-sm"
+                      className="h-12 rounded-[2px] border-input bg-white text-base focus-visible:border-arc focus-visible:ring-0"
                       {...field} 
                     />
                   </FormControl>
-                  <FormMessage className="text-xs" />
+                  <FormMessage className="text-sm" />
                 </FormItem>
               )}
             />
@@ -249,12 +247,12 @@ export function EnquiryFormInner({ onSuccess }: { onSuccess?: () => void }) {
               name="projectType"
               render={({ field }) => (
                 <FormItem className="col-span-1">
-                  <FormLabel className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1.5 block">
-                    Project Type <span className="text-red-500">*</span>
+                  <FormLabel className="text-sm font-medium text-foreground">
+                    Type of work
                   </FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
-                      <SelectTrigger className="bg-transparent border-input h-11 text-base sm:text-sm">
+                      <SelectTrigger className="w-full data-[size=default]:h-12 h-12 rounded-[2px] border-input bg-white text-base focus-visible:border-arc focus-visible:ring-0">
                         <SelectValue placeholder="Select type" />
                       </SelectTrigger>
                     </FormControl>
@@ -268,7 +266,7 @@ export function EnquiryFormInner({ onSuccess }: { onSuccess?: () => void }) {
                       <SelectItem value="Other">Other</SelectItem>
                     </SelectContent>
                   </Select>
-                  <FormMessage className="text-xs" />
+                  <FormMessage className="text-sm" />
                 </FormItem>
               )}
             />
@@ -277,12 +275,12 @@ export function EnquiryFormInner({ onSuccess }: { onSuccess?: () => void }) {
               name="estimatedBudget"
               render={({ field }) => (
                 <FormItem className="col-span-1">
-                  <FormLabel className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1.5 block">
-                    Estimated Budget (Optional)
+                  <FormLabel className="text-sm font-medium text-foreground">
+                    Budget <span className="font-normal text-steel-500">(optional)</span>
                   </FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
-                      <SelectTrigger className="bg-transparent border-input h-11 text-base sm:text-sm">
+                      <SelectTrigger className="w-full data-[size=default]:h-12 h-12 rounded-[2px] border-input bg-white text-base focus-visible:border-arc focus-visible:ring-0">
                         <SelectValue placeholder="Select if known" />
                       </SelectTrigger>
                     </FormControl>
@@ -293,7 +291,7 @@ export function EnquiryFormInner({ onSuccess }: { onSuccess?: () => void }) {
                       <SelectItem value="₹10 Lakh+">₹10 Lakh+</SelectItem>
                     </SelectContent>
                   </Select>
-                  <FormMessage className="text-xs" />
+                  <FormMessage className="text-sm" />
                 </FormItem>
               )}
             />
@@ -302,12 +300,12 @@ export function EnquiryFormInner({ onSuccess }: { onSuccess?: () => void }) {
               name="source"
               render={({ field }) => (
                 <FormItem className="col-span-1">
-                  <FormLabel className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1.5 block">
-                    How did you hear about us?
+                  <FormLabel className="text-sm font-medium text-foreground">
+                    How did you hear about us? <span className="font-normal text-steel-500">(optional)</span>
                   </FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
-                      <SelectTrigger className="bg-transparent border-input h-11 text-base sm:text-sm">
+                      <SelectTrigger className="w-full data-[size=default]:h-12 h-12 rounded-[2px] border-input bg-white text-base focus-visible:border-arc focus-visible:ring-0">
                         <SelectValue placeholder="Select source" />
                       </SelectTrigger>
                     </FormControl>
@@ -321,7 +319,7 @@ export function EnquiryFormInner({ onSuccess }: { onSuccess?: () => void }) {
                       <SelectItem value="Other">Other</SelectItem>
                     </SelectContent>
                   </Select>
-                  <FormMessage className="text-xs" />
+                  <FormMessage className="text-sm" />
                 </FormItem>
               )}
             />
@@ -332,23 +330,23 @@ export function EnquiryFormInner({ onSuccess }: { onSuccess?: () => void }) {
             name="projectDetails"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1.5 block">
-                  Project Details <span className="text-red-500">*</span>
+                <FormLabel className="text-sm font-medium text-foreground">
+                  About the project
                 </FormLabel>
                 <FormControl>
                   <Textarea
-                    placeholder="Tell us about your requirements, dimensions, or specific materials needed..."
-                    className="bg-transparent border-input min-h-[60px] text-sm resize-none p-3"
+                    placeholder="What you need, rough size or tonnage, and when"
+                    className="min-h-28 resize-none rounded-[2px] border-input bg-white p-3 text-base focus-visible:border-arc focus-visible:ring-0"
                     {...field}
                   />
                 </FormControl>
-                <FormMessage className="text-xs" />
+                <FormMessage className="text-sm" />
               </FormItem>
             )}
           />
 
           {serverError && (
-            <div role="alert" className="p-3 bg-red-50 text-red-600 rounded-md text-xs">
+            <div role="alert" className="p-3 bg-red-50 text-red-600 rounded-[2px] text-sm">
               {serverError}
             </div>
           )}
@@ -365,16 +363,9 @@ export function EnquiryFormInner({ onSuccess }: { onSuccess?: () => void }) {
           <Button 
             type="submit" 
             disabled={isSubmitting}
-            className="w-full sm:w-auto h-9 px-6 text-sm font-medium bg-primary hover:bg-primary/90 text-primary-foreground group mt-2"
+            className="btn btn-primary h-auto w-full sm:w-auto"
           >
-            {isSubmitting ? (
-              "Submitting..."
-            ) : (
-              <>
-                Get Project Estimate
-                <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
-              </>
-            )}
+            {isSubmitting ? "Sending…" : "Send request"}
           </Button>
         </form>
       </Form>

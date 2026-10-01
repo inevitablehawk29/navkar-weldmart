@@ -1,103 +1,57 @@
-"use client";
-
-import { useRef } from "react";
 import Link from "next/link";
-import * as m from "framer-motion/m";
-import { useInView } from "framer-motion";
-import { SectionLabel } from "@/components/shared/section-label";
 import { ProjectCard } from "@/components/cards/project-card";
 import { projects } from "@/content";
-import { ArrowRight } from "lucide-react";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
+
+// Plate sizes chosen for the photos we have: wide shots get wide plates,
+// the one tall shot gets the tall plate. Two columns that run independently
+// on desktop, so a tall plate never leaves a hole beside a short one.
+const columns = [
+  {
+    className: "lg:col-span-7",
+    items: [
+      { id: "indore-tennis-club", aspect: "aspect-[16/10]", sizes: "(min-width: 1024px) 55vw, 100vw" },
+      { id: "industrial-warehouse", aspect: "aspect-[4/3]", sizes: "(min-width: 1024px) 40vw, 100vw", className: "lg:w-[72%]" },
+    ],
+  },
+  {
+    className: "lg:col-span-4 lg:col-start-9 lg:pt-28",
+    items: [
+      { id: "ahilya-fort-resort", aspect: "aspect-[4/5]", sizes: "(min-width: 1024px) 30vw, 100vw" },
+      { id: "residential-elevation", aspect: "aspect-[4/3]", sizes: "(min-width: 1024px) 30vw, 100vw" },
+    ],
+  },
+];
 
 export function FeaturedProjects() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const inView = useInView(sectionRef, { once: true, margin: "-100px" });
-
-  const featuredProjects = projects.filter((p) => p.featured);
-
   return (
-    <section
-      id="featured-projects"
-      className="py-16 lg:py-28 bg-background"
-      ref={sectionRef}
-    >
+    <section id="featured-projects" className="section-y bg-mill-900 text-white">
       <div className="container-wide">
-        <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
-          {/* Left Column — Text */}
-          <m.div
-            initial={false}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:w-[280px] lg:flex-shrink-0 flex flex-col justify-between"
-          >
-            <div>
-              <SectionLabel>Featured Projects</SectionLabel>
-              <h2 className="text-4xl sm:text-5xl lg:text-[3.5rem] text-foreground mt-4 mb-6 leading-[0.95]">
-                Projects that
-                <br />
-                speak for us<span className="text-primary">.</span>
-              </h2>
-              <p className="text-sm text-muted leading-relaxed max-w-xs">
-                Every structure we build reflects our commitment to precision,
-                quality and on-time delivery.
-              </p>
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+          <h2 className="type-h2 max-w-[14ch]">Recent work across Madhya Pradesh</h2>
+          <Link href="/projects" className="type-label shrink-0 text-[0.9375rem] text-white/80 hover:text-white">
+            <span className="link-rule">All {projects.length} projects</span>
+          </Link>
+        </div>
+
+        <div className="mt-14 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:mt-20 lg:grid-cols-12">
+          {columns.map((col, c) => (
+            <div key={c} className={`contents lg:flex lg:flex-col lg:gap-20 ${col.className}`}>
+              {col.items.map((item) => {
+                const project = projects.find((p) => p.id === item.id);
+                if (!project) return null;
+                return (
+                  <ProjectCard
+                    key={item.id}
+                    project={project}
+                    tone="dark"
+                    aspect={item.aspect}
+                    sizes={item.sizes}
+                    className={"className" in item ? item.className : undefined}
+                  />
+                );
+              })}
             </div>
-
-            <Link
-              href="/projects"
-              className="inline-flex items-center gap-2 text-sm font-medium text-foreground hover:text-primary transition-colors mt-8 group"
-            >
-              View All Projects
-              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-            </Link>
-          </m.div>
-
-          {/* Right Column — Scrollable Cards */}
-          <div className="flex-1 min-w-0 relative">
-            <m.div
-              initial={false}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{
-                duration: 0.8,
-                delay: 0.2,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-            >
-              <Carousel
-                opts={{ align: "start" }}
-                className="w-full"
-              >
-                <CarouselContent className="-ml-5 pb-4">
-                  {featuredProjects.map((project) => (
-                    <CarouselItem key={project.id} className="pl-5 basis-auto">
-                      <ProjectCard project={project} />
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-
-                <div className="flex items-center justify-between mt-3">
-                  <span className="text-xs text-muted lg:hidden">Swipe to explore projects</span>
-                  <div className="flex items-center gap-2 ml-auto">
-                    <CarouselPrevious
-                      variant="outline"
-                      className="static transform-none w-12 h-12 rounded-none border-border text-foreground hover:bg-foreground hover:text-background transition-all"
-                    />
-                    <CarouselNext
-                      variant="outline"
-                      className="static transform-none w-12 h-12 rounded-none border-border text-foreground hover:bg-foreground hover:text-background transition-all"
-                    />
-                  </div>
-                </div>
-              </Carousel>
-            </m.div>
-          </div>
+          ))}
         </div>
       </div>
     </section>

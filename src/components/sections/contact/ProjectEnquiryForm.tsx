@@ -1,17 +1,9 @@
-import {
-  Card,
-  CardContent,
-} from "@/components/ui/card";
 import { EnquiryFormInner } from "./EnquiryFormInner";
 
 export function ProjectEnquiryForm() {
   return (
-    <Card className="w-full bg-card rounded-2xl border border-border shadow-sm mx-auto">
-
-
-      <CardContent className="p-4 md:p-6">
-        <EnquiryFormInner />
-      </CardContent>
-    </Card>
+    <div className="w-full border border-zinc-line bg-galv-50 p-5 shadow-[0_32px_64px_-40px_rgba(20,23,27,0.45)] sm:p-8">
+      <EnquiryFormInner />
+    </div>
   );
 }

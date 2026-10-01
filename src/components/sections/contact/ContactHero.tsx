@@ -1,97 +1,77 @@
-"use client";
-
+import Link from "next/link";
+import { contactInfo, companyInfo } from "@/content";
 import { ProjectEnquiryForm } from "./ProjectEnquiryForm";
 
-import * as m from "framer-motion/m";
-import { Phone, MessageCircle, Mail, MapPin } from "lucide-react";
-import { contactInfo } from "@/content";
+const locations = [
+  { name: "Indore", href: "https://maps.google.com/?q=Navkar+Weldmart+Indore" },
+  { name: "Maheshwar", href: "https://maps.google.com/?q=Navkar+Weldmart+Maheshwar" },
+];
 
 export function ContactHero() {
   return (
-    <section className="pt-24 pb-8 lg:pt-32 lg:pb-10 overflow-hidden">
-      <div className="container-wide">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
-          {/* Left Content */}
-          <m.div 
-            initial={false}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="contents lg:block lg:w-full lg:max-w-3xl lg:pr-8"
-          >
-            <div className="order-1">
-            <p className="section-label mb-4">GET IN TOUCH</p>
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-heading text-foreground leading-[1] tracking-tight mb-6">
-              Let&apos;s discuss your project.
-            </h1>
-            <div className="accent-line mb-6" />
-            <p className="text-sm md:text-base text-muted mb-3 leading-relaxed max-w-2xl">
-              Whether you&apos;re planning a warehouse structure, architectural metalwork, residential fabrication, or material procurement, we&apos;re ready to help.
-            </p>
-            <p className="text-[11px] font-bold text-primary uppercase tracking-[0.15em] mb-6">
-              Trusted by contractors, builders, and manufacturers across Central India.
-            </p>
-            </div>
-            
-            <div className="order-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-x-4 gap-y-5 sm:gap-x-8 sm:gap-y-6 max-w-2xl">
-              <h2 className="col-span-full lg:hidden font-body text-sm font-semibold normal-case tracking-normal text-foreground">Prefer to speak with us?</h2>
-              <a href={`tel:${contactInfo.phones[0].replace(/\s/g, "")}`} className="group flex items-start gap-4">
-                <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center group-hover:bg-accent transition-colors duration-300 shrink-0 mt-1">
-                  <Phone className="w-4 h-4 text-accent group-hover:text-white transition-colors duration-300" />
-                </div>
-                <div className="min-w-0">
-                  <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mb-1">Direct Line</p>
-                  <p className="text-xs sm:text-sm font-medium text-foreground group-hover:text-accent transition-colors">{contactInfo.phones[0]}</p>
-                </div>
-              </a>
-              
-              <a href={`https://wa.me/${contactInfo.phones[0].replace(/\s/g, "").replace("+", "")}`} target="_blank" rel="noopener noreferrer" className="group flex items-start gap-4">
-                <div className="w-10 h-10 rounded-full bg-[#25D366]/10 flex items-center justify-center group-hover:bg-[#25D366] transition-colors duration-300 shrink-0 mt-1">
-                  <MessageCircle className="w-4 h-4 text-[#25D366] group-hover:text-white transition-colors duration-300" />
-                </div>
-                <div className="min-w-0">
-                  <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mb-1">WhatsApp</p>
-                  <p className="text-xs sm:text-sm font-medium text-foreground group-hover:text-[#25D366] transition-colors">{contactInfo.phones[0]}</p>
-                </div>
-              </a>
+    <section className="bg-galv-100">
+      <div className="container-wide pb-20 pt-[calc(var(--header-h)+3rem)] lg:pb-28 lg:pt-[calc(var(--header-h)+5rem)]">
+        <nav aria-label="Breadcrumb" className="text-sm text-steel-500">
+          <Link href="/" className="hover:text-arc">
+            Home
+          </Link>
+          <span aria-hidden className="mx-2 text-steel-300">/</span>
+          <span aria-current="page" className="text-foreground">
+            Contact
+          </span>
+        </nav>
 
-              <a href={`mailto:${contactInfo.email}`} className="group flex items-start gap-4">
-                <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center group-hover:bg-accent transition-colors duration-300 shrink-0 mt-1">
-                  <Mail className="w-4 h-4 text-accent group-hover:text-white transition-colors duration-300" />
-                </div>
-                <div className="min-w-0">
-                  <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mb-1">Email Support</p>
-                  <p className="text-sm font-medium text-foreground group-hover:text-accent transition-colors">{contactInfo.email}</p>
-                </div>
-              </a>
+        <div className="mt-8 grid gap-x-16 gap-y-14 lg:mt-10 lg:grid-cols-12">
+          <div className="lg:col-span-5">
+            <h1 className="type-h1 max-w-[11ch]">Tell us about your project</h1>
+            <p className="type-lead mt-6 max-w-[40ch] text-steel-500">
+              Warehouses, sheds, facades, gates or a material order. Fill in the form, or call
+              if it&apos;s quicker. Either way you&apos;ll speak to someone who knows steel.
+            </p>
 
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center shrink-0 mt-1">
-                  <MapPin className="w-4 h-4 text-accent" />
-                </div>
-                <div className="min-w-0">
-                  <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mb-1">Office Locations</p>
-                  <div className="flex flex-col gap-1">
-                    <a href="https://maps.google.com/?q=Navkar+Weldmart+Indore" target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-foreground hover:text-accent transition-colors block">
-                      Indore, MP
+            <dl className="mt-12 border-t border-foreground">
+              <div className="grid grid-cols-[7rem_1fr] gap-4 border-b border-zinc-line py-4">
+                <dt className="text-steel-500">Call</dt>
+                <dd className="space-y-1">
+                  {contactInfo.phones.map((p) => (
+                    <a key={p} href={`tel:${p.replace(/\s/g, "")}`} className="type-h4 block tabular hover:text-arc">
+                      {p}
                     </a>
-                    <a href="https://maps.google.com/?q=Navkar+Weldmart+Maheshwar" target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-foreground hover:text-accent transition-colors block">
-                      Maheshwar, MP
-                    </a>
-                  </div>
-                </div>
+                  ))}
+                </dd>
               </div>
-            </div>
-          </m.div>
+              <div className="grid grid-cols-[7rem_1fr] gap-4 border-b border-zinc-line py-4">
+                <dt className="text-steel-500">WhatsApp</dt>
+                <dd>
+                  <a href={companyInfo.social.whatsapp} target="_blank" rel="noopener noreferrer" className="font-medium hover:text-arc">
+                    {contactInfo.phones[0]}
+                  </a>
+                </dd>
+              </div>
+              <div className="grid grid-cols-[7rem_1fr] gap-4 border-b border-zinc-line py-4">
+                <dt className="text-steel-500">Email</dt>
+                <dd>
+                  <a href={`mailto:${contactInfo.email}`} className="break-all font-medium hover:text-arc">
+                    {contactInfo.email}
+                  </a>
+                </dd>
+              </div>
+              <div className="grid grid-cols-[7rem_1fr] gap-4 border-b border-zinc-line py-4">
+                <dt className="text-steel-500">Offices</dt>
+                <dd className="flex gap-5">
+                  {locations.map((l) => (
+                    <a key={l.name} href={l.href} target="_blank" rel="noopener noreferrer" className="link-rule font-medium">
+                      {l.name}, MP
+                    </a>
+                  ))}
+                </dd>
+              </div>
+            </dl>
+          </div>
 
-          {/* Right Form */}
-          <m.div 
-            initial={false}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="order-2 w-full max-w-xl mx-auto lg:ml-auto"
-          >
+          <div className="lg:col-span-6 lg:col-start-7">
             <ProjectEnquiryForm />
-          </m.div>
+          </div>
         </div>
       </div>
     </section>

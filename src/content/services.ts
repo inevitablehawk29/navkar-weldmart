@@ -7,7 +7,7 @@ export const services: Service[] = [
     description:
       "Structural steel, pipes, plates, channels, and all fabrication consumables.",
     icon: "Package",
-    image: "/images/portfolio/material-supply-2.webp",
+    image: "/images/portfolio/moq-2.webp",
     slug: "material-supply",
     features: [
       "Pipes — RHS, SHS, CHS, Profile",
@@ -39,7 +39,7 @@ export const services: Service[] = [
     description:
       "Railings, facades, elevation solutions, canopies and custom metalwork.",
     icon: "Ruler",
-    image: "/images/portfolio/elevation-1.webp",
+    image: "/images/portfolio/elevation-2.webp",
     slug: "architectural-metalwork",
     features: [
       "Building Elevation",

@@ -1,13 +1,26 @@
 import { notFound } from "next/navigation";
-
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, CheckCircle2 } from "lucide-react";
-import { services } from "@/content";
-import { SectionLabel } from "@/components/shared/section-label";
-import { ContactCTA } from "@/components/sections/contact/ContactCTA";
-import { SteelBeamProcess } from "@/components/sections/steel-beam-process";
-import { Card, CardContent } from "@/components/ui/card";
-import { FadeIn } from "@/components/animations/fade-in";
+import { services, projects, processSteps } from "@/content";
+import { PageHeader } from "@/components/shared/page-header";
+import { ShedAssembly } from "@/components/sections/shed-assembly";
+import { ProjectCard } from "@/components/cards/project-card";
+import { QuoteModal } from "@/components/layout/quote-modal";
+
+const img = (name: string) => `/images/portfolio/${name}.webp`;
+
+// Photos from real jobs for each service, strongest first.
+const galleries: Record<string, string[]> = {
+  "structural-fabrication": ["warehouse-2", "warehouse-1", "warehouse-6", "warehouse-4", "warehouse-3", "warehouse-9"].map(img),
+  "architectural-metalwork": ["elevation-2", "elevation-1", "gazebo-3", "railings-3", "signboards-4", "elevation-3"].map(img),
+  "residential-fabrication": ["gates-2", "grills-3", "railings-2", "gates-3", "grills-2", "custom-3"].map(img),
+};
+
+const relatedCategories: Record<string, string[]> = {
+  "structural-fabrication": ["Industrial", "Sports Infrastructure", "Commercial"],
+  "architectural-metalwork": ["Architectural Metalwork", "Hospitality", "Restoration"],
+  "residential-fabrication": ["Residential", "Architectural Metalwork", "Hospitality"],
+};
 
 interface ServicePageProps {
   params: Promise<{ slug: string }>;
@@ -113,62 +126,119 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
     }
   };
 
+  const gallery = galleries[service.slug] ?? [];
+  const related = projects
+    .filter((p) => relatedCategories[service.slug]?.includes(p.category))
+    .slice(0, 3);
+  const others = services.filter((s) => s.slug !== service.slug);
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbSchema, serviceSchema]) }}
       />
-      <section className="pt-24 pb-16 lg:pt-32 lg:pb-24 bg-surface border-b border-border">
-        <div className="container-wide">
-          <Link 
-            href="/services" 
-            className="inline-flex items-center gap-2 text-sm font-medium text-muted hover:text-foreground transition-colors mb-10"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Back to Services
-          </Link>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-            {/* Left Column: Intro Text */}
-            <FadeIn className="lg:col-span-5 flex flex-col justify-start pt-2 lg:pt-4">
-              <SectionLabel className="mb-4">Our Expertise</SectionLabel>
-              <h1 className="text-4xl lg:text-5xl font-heading text-foreground leading-[1.1] tracking-tight mb-6">
-                {service.title}
-              </h1>
-              <p className="text-lg text-muted leading-relaxed mb-10">
-                {service.description}
-              </p>
-              
-              <div className="pt-8 border-t border-border">
-                <h2 className="text-2xl font-heading text-foreground mb-3">Service Capabilities</h2>
-                <p className="text-sm text-muted leading-relaxed">
-                  We specialize in delivering high-quality solutions tailored to your specific project requirements, ensuring safety and precision.
-                </p>
-              </div>
-            </FadeIn>
-            
-            {/* Right Column: Capabilities Grid */}
-            <FadeIn delay={0.2} className="lg:col-span-7">
-              <div className="flex flex-wrap gap-4 lg:gap-6">
-                {service.features.map((feature: string, index: number) => (
-                  <Card key={index} className="w-full sm:w-[280px] bg-background border border-border rounded-2xl hover:border-accent hover:shadow-md transition-all duration-300 p-0 gap-0">
-                    <CardContent className="p-6 flex flex-col items-start">
-                      <div className="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center text-accent mb-4 shrink-0">
-                        <CheckCircle2 className="w-6 h-6" />
-                      </div>
-                      <h3 className="text-base font-semibold text-foreground leading-snug">{feature}</h3>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </FadeIn>
+
+      <PageHeader
+        crumbs={[{ label: "Home", href: "/" }, { label: "Services", href: "/services" }, { label: service.title }]}
+        title={service.title}
+        lead={<p>{service.description}</p>}
+        imageLayout="side"
+        below={
+          <div className="flex flex-wrap gap-3">
+            <QuoteModal>
+              <button className="btn btn-primary">Request a quote</button>
+            </QuoteModal>
+            <Link href="/projects" className="btn btn-outline">
+              See projects
+            </Link>
           </div>
+        }
+        image={{ src: service.image, alt: `${service.title} by Navkar Weldmart` }}
+      />
+
+      <section className="section-y bg-galv-100">
+        <div className="container-wide grid gap-x-16 gap-y-10 lg:grid-cols-12">
+          <h2 className="type-h2 max-w-[10ch] lg:col-span-4">What we make</h2>
+          <ul className="border-t border-foreground lg:col-span-7 lg:col-start-6">
+            {service.features.map((f) => (
+              <li key={f} className="type-h3 border-b border-zinc-line py-5 text-[clamp(1.375rem,2.2vw,1.875rem)]">
+                {f}
+              </li>
+            ))}
+          </ul>
         </div>
+
+        {gallery.length > 0 && (
+          <div className="container-wide mt-20 lg:mt-28">
+            <h2 className="type-label text-steel-500">From recent jobs</h2>
+            <ul className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-3 lg:gap-4">
+              {gallery.map((src, i) => (
+                <li
+                  key={src}
+                  className={`relative overflow-hidden bg-galv-200 ${i === 0 ? "col-span-2 row-span-2 aspect-square lg:aspect-auto" : "aspect-square"}`}
+                >
+                  <Image
+                    src={src}
+                    alt={`${service.title}, photo ${i + 1}`}
+                    fill
+                    sizes={i === 0 ? "(min-width: 1024px) 66vw, 100vw" : "(min-width: 1024px) 33vw, 50vw"}
+                    className="photo-grade object-cover"
+                  />
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </section>
 
-      <SteelBeamProcess />
-      <ContactCTA />
+      {service.slug === "structural-fabrication" ? (
+        <ShedAssembly />
+      ) : (
+        <section className="section-y-sm bg-galv-50">
+          <div className="container-wide grid gap-x-16 gap-y-10 lg:grid-cols-12">
+            <h2 className="type-h2 max-w-[10ch] lg:col-span-4">How the job runs</h2>
+            <ol className="grid border-t border-foreground sm:grid-cols-2 lg:col-span-8 lg:grid-cols-3">
+              {processSteps.map((step) => (
+                <li key={step.number} className="border-b border-zinc-line py-6 pr-6">
+                  <span className="type-figure text-2xl text-steel-400">{step.number}</span>
+                  <h3 className="type-h4 mt-3">{step.title}</h3>
+                  <p className="mt-2 text-[0.9375rem] leading-relaxed text-steel-500">{step.description}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+      )}
+
+      {related.length > 0 && (
+        <section className="section-y-sm bg-mill-900 text-white">
+          <div className="container-wide">
+            <h2 className="type-h2">Related projects</h2>
+            <div className="mt-12 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+              {related.map((p) => (
+                <ProjectCard key={p.id} project={p} tone="dark" />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      <nav aria-label="Other services" className="bg-galv-100">
+        <ul className="container-wide grid border-t border-zinc-line sm:grid-cols-3">
+          {others.map((o) => (
+            <li key={o.slug} className="border-b border-zinc-line sm:border-b-0 sm:border-r sm:px-6 sm:first:pl-0 sm:last:border-r-0">
+              <Link
+                href={o.slug === "material-supply" ? "/material-supply" : `/services/${o.slug}`}
+                className="group block py-8"
+              >
+                <span className="type-label text-steel-500">Also from us</span>
+                <span className="type-h3 mt-2 block group-hover:text-arc">{o.title}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
     </>
   );
 }

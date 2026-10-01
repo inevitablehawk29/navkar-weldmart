@@ -1,51 +1,33 @@
 import Image from "next/image";
-import { FadeIn } from "@/components/animations/fade-in";
 
 const images = [
-  { src: "/images/portfolio/custom-8.webp", alt: "Custom structural steel fabrication workshop process in Indore" },
-  { src: "/images/portfolio/warehouse-6.webp", alt: "Industrial warehouse shed steel framework assembly" },
-  { src: "/images/portfolio/elevation-2.webp", alt: "Building elevation architectural metalwork fabrication" },
-  { src: "/images/portfolio/gates-2.webp", alt: "Heavy-duty residential gate precision welding and fabrication" },
-  { src: "/images/portfolio/railings-3.webp", alt: "Precision steel railings fabrication" },
-  { src: "/images/portfolio/grills-2.webp", alt: "Custom safety grills welding and assembly" },
+  { src: "/images/portfolio/intro-1.webp", alt: "Welding at night in the Navkar workshop", cls: "row-span-2" },
+  { src: "/images/portfolio/custom-4.webp", alt: "Decorative steel piece being finished in the workshop", cls: "" },
+  { src: "/images/portfolio/gates-2.webp", alt: "Fabricated residential gate", cls: "" },
+  { src: "/images/portfolio/railings-3.webp", alt: "Steel staircase railing", cls: "row-span-2" },
+  { src: "/images/portfolio/grills-1.webp", alt: "Fabricated grills stacked for dispatch", cls: "" },
+  { src: "/images/portfolio/warehouse-4.webp", alt: "Steel structure on a commercial roof", cls: "" },
 ];
 
 export function WorkshopGallery() {
   return (
-    <section className="py-24 bg-background">
+    <section className="section-y-sm bg-galv-100">
       <div className="container-wide">
-        <FadeIn
-          viewTrigger
-          direction="up"
-          className="mb-12"
-        >
-          <p className="section-label mb-4">Our Workshop</p>
-          <h2 className="text-4xl md:text-5xl font-heading text-foreground">
-            Where precision takes shape.
-          </h2>
-        </FadeIn>
-
-        <div className="grid grid-cols-2 md:grid-cols-6 gap-4 lg:gap-6 max-w-7xl mx-auto">
-          {images.map((img, index) => (
-            <FadeIn
-              key={index}
-              viewTrigger
-              direction="none"
-              delay={index * 0.1}
-              className="relative aspect-[4/5] w-full overflow-hidden bg-muted/10 rounded-sm"
-            >
+        <h2 className="type-h2">In the workshop and on site</h2>
+        <ul className="mt-12 grid auto-rows-[150px] grid-cols-2 gap-3 sm:auto-rows-[200px] lg:auto-rows-[240px] lg:grid-cols-4 lg:gap-4">
+          {images.map((img) => (
+            <li key={img.src} className={`relative overflow-hidden bg-galv-200 ${img.cls}`}>
               <Image
                 src={img.src}
                 alt={img.alt}
                 fill
-                className="object-cover hover:scale-105 transition-transform duration-700"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 16vw"
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                className="photo-grade object-cover"
               />
-            </FadeIn>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );
 }
-

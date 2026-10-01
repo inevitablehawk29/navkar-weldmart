@@ -1,84 +1,42 @@
 import Image from "next/image";
-import { FadeIn } from "@/components/animations/fade-in";
-import { ArrowRight } from "lucide-react";
+import { PageHeader } from "@/components/shared/page-header";
 import { companyInfo } from "@/content";
 
 export function AboutHero() {
   return (
-    <section className="relative pt-32 pb-16 lg:pt-40 lg:pb-24 overflow-hidden border-b border-border">
-      <div className="container-wide">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
-          {/* Text Content */}
-          <FadeIn
-            direction="none"
-            className="max-w-2xl"
+    <PageHeader
+      crumbs={[{ label: "Home", href: "/" }, { label: "About" }]}
+      title="From a hardware counter to a fabrication workshop"
+      lead={
+        <p>
+          Navkar started in 2012 selling iron and steel to Indore&apos;s builders and
+          fabricators. Today we supply the steel, fabricate it in our own workshop and erect it
+          on site, for factories, hotels, sports clubs and homes across Madhya Pradesh.
+        </p>
+      }
+      below={
+        <div className="flex max-w-md items-center gap-4 border-t border-foreground pt-4 text-[0.9375rem]">
+          <div>
+            <p className="font-semibold">Jinesh Jain</p>
+            <p className="text-steel-500">Founder</p>
+          </div>
+          <a
+            href={companyInfo.social.bni}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="ml-auto inline-flex items-center gap-2 text-sm text-steel-500 hover:text-foreground"
           >
-            <p className="section-label mb-6">About Navkar Weldmart</p>
-            
-            <h1 className="text-5xl sm:text-6xl lg:text-[5rem] leading-[0.95] tracking-tight text-foreground mb-8">
-              Built on trust.
-              <br />
-              <span className="text-muted">Engineered to last.</span>
-            </h1>
-
-            <div className="accent-line mb-8" />
-
-            <div className="prose prose-lg prose-p:text-muted prose-p:leading-relaxed">
-              <p className="text-lg md:text-xl text-foreground font-medium mb-4">
-                What started as Navkar Hardware has grown into one of Madhya Pradesh&apos;s most trusted names in structural steel and fabrication.
-              </p>
-              <p>
-                Through years of hands-on experience, expanding from a small fabrication workshop to executing large-scale industrial structures, we&apos;ve built our reputation on one simple principle: delivering exactly what we promise, without compromise.
-              </p>
-            </div>
-          </FadeIn>
-
-          {/* Image Content */}
-          <FadeIn
-            direction="left"
-            delay={0.2}
-            className="relative"
-          >
-            <div className="relative z-0 aspect-[4/5] w-full max-w-sm ml-auto lg:mr-0">
-              <Image
-                src="/images/jinesh-portrait-contact.jpg"
-                alt="Jinesh Jain, Founder of Navkar Weldmart"
-                fill
-                className="object-cover object-[center_10%] grayscale hover:grayscale-0 transition-all duration-700"
-                sizes="(max-width: 768px) 100vw, 50vw"
-                priority
-              />
-              {/* Founder Label */}
-              <div className="absolute -bottom-6 -left-6 md:-left-12 bg-surface p-6 border border-border shadow-xl">
-                <p className="font-heading text-2xl mb-1">Jinesh Jain</p>
-                <p className="text-sm text-muted uppercase tracking-widest font-medium mb-3">Founder, Navkar Weldmart</p>
-                <a
-                  href={companyInfo.social.bni}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-foreground transition-colors group/bni"
-                >
-                  <Image
-                    src="/images/bni-logo.png"
-                    alt="BNI"
-                    width={28}
-                    height={14}
-                    className="h-3 w-auto object-contain"
-                  />
-                  <span className="text-[10px] font-medium uppercase tracking-wider text-muted group-hover/bni:text-foreground transition-colors">
-                    Member
-                  </span>
-                  <ArrowRight className="w-3 h-3 text-muted group-hover/bni:text-foreground transition-transform duration-200 group-hover/bni:translate-x-0.5" />
-                </a>
-              </div>
-              
-              {/* Decorative elements */}
-              <div className="absolute -z-10 -top-4 -right-4 w-full h-full border border-primary/20" />
-            </div>
-          </FadeIn>
+            <Image src="/images/bni-logo.png" alt="BNI" width={40} height={25} className="h-4 w-auto" />
+            <span className="link-rule">Member profile</span>
+          </a>
         </div>
-      </div>
-    </section>
+      }
+      imageLayout="side"
+      image={{
+        src: "/images/jinesh-portrait-contact.jpg",
+        alt: "Jinesh Jain, founder of Navkar Weldmart, speaking at a BNI chapter meeting",
+        position: "center 20%",
+      }}
+    />
   );
 }
-

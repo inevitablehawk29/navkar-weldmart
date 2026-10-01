@@ -1,48 +1,57 @@
 import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { ArrowRight } from "lucide-react";
 import type { Project } from "@/types";
 
 interface ProjectCardProps {
   project: Project;
   className?: string;
+  /** Tailwind aspect class for the photo plate */
+  aspect?: string;
+  sizes?: string;
+  tone?: "light" | "dark";
+  priority?: boolean;
 }
 
-export function ProjectCard({ project, className }: ProjectCardProps) {
+export function ProjectCard({
+  project,
+  className,
+  aspect = "aspect-[4/3]",
+  sizes = "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw",
+  tone = "light",
+  priority,
+}: ProjectCardProps) {
+  const dark = tone === "dark";
   return (
-    <Link
-      href={`/projects/${project.id}`}
-      className={cn(
-        "group relative block overflow-hidden bg-foreground flex-shrink-0",
-        "w-[280px] sm:w-[320px] lg:w-[340px]",
-        className
-      )}
-    >
-      {/* Image */}
-      <div className="relative aspect-[3/4] overflow-hidden">
+    <Link href={`/projects/${project.id}`} className={cn("group block", className)}>
+      <div className={cn("relative overflow-hidden", aspect, dark ? "bg-mill-800" : "bg-galv-200")}>
         <Image
           src={project.coverImage}
           alt={project.title}
           fill
-          className="object-cover transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:scale-105"
-          sizes="(max-width: 640px) 280px, (max-width: 1024px) 320px, 340px"
+          priority={priority}
+          sizes={sizes}
+          className="photo-grade object-cover transition-transform duration-[900ms] ease-[var(--ease-out-expo)] group-hover:scale-[1.035]"
         />
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
       </div>
-
-      {/* Content */}
-      <div className="absolute bottom-0 left-0 right-0 p-5">
-        <h3 className="font-heading text-xl sm:text-2xl text-white leading-tight tracking-wide uppercase">
-          {project.title}
-        </h3>
-        <div className="flex items-center justify-between mt-2">
-          <span className="text-xs text-white/70 uppercase tracking-wider">
-            {project.category}
+      <div
+        className={cn(
+          "mt-4 grid grid-cols-[1fr_auto] items-baseline gap-x-4 gap-y-1 border-t pt-3",
+          dark ? "border-white/15" : "border-zinc-line"
+        )}
+      >
+        <h3 className="type-h4 text-[1.25rem]">
+          <span className="bg-[linear-gradient(currentColor,currentColor)] bg-[length:0%_1px] bg-left-bottom bg-no-repeat pb-0.5 transition-[background-size] duration-500 ease-[var(--ease-out-expo)] group-hover:bg-[length:100%_1px]">
+            {project.title}
           </span>
-          <ArrowRight className="w-4 h-4 text-white/70 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-white" />
-        </div>
+        </h3>
+        {project.year && (
+          <span className={cn("text-sm tabular", dark ? "text-steel-300" : "text-steel-500")}>{project.year}</span>
+        )}
+        <p className={cn("col-span-2 text-sm", dark ? "text-steel-300" : "text-steel-500")}>
+          {project.category}
+          {project.location ? `, ${project.location}` : ""}
+        </p>
       </div>
     </Link>
   );

@@ -4,7 +4,7 @@ import { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Turnstile, TurnstileInstance } from "@marsidev/react-turnstile";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { Check } from "lucide-react";
 
 import { footerFormSchema, FooterFormValues } from "@/lib/validations/contact";
 import { submitFooterForm } from "@/actions/contact";
@@ -86,17 +86,15 @@ export function FooterForm() {
 
   if (isSuccess) {
     return (
-      <div className="bg-white/5 border border-white/10 p-8 rounded-lg text-center flex flex-col items-center justify-center h-full min-h-[300px]">
-        <div className="w-12 h-12 bg-[#25D366]/20 rounded-full flex items-center justify-center mb-4">
-          <CheckCircle2 className="w-6 h-6 text-[#25D366]" />
-        </div>
-        <h3 className="text-xl font-heading mb-2">Message Sent</h3>
-        <p className="text-white/70 text-sm mb-6">
-          Thank you. We will get back to you shortly.
+      <div className="flex h-full min-h-[300px] flex-col items-start justify-center border border-white/15 p-8">
+        <Check className="mb-5 h-8 w-8 text-arc-light" strokeWidth={2.5} />
+        <h3 className="type-h3 mb-2">Enquiry sent</h3>
+        <p className="mb-6 text-steel-300">
+          Thanks. We&apos;ll call you back on the number you gave us.
         </p>
         <Button 
           variant="outline" 
-          className="bg-transparent border-white/20 hover:bg-white/10 hover:text-white text-white h-9 px-4 text-xs"
+          className="btn btn-outline h-auto rounded-[2px] bg-transparent text-white hover:bg-white/10 hover:text-white"
           onClick={() => {
             setIsSuccess(false);
             setShowTurnstile(false);
@@ -110,8 +108,8 @@ export function FooterForm() {
 
   if (showTurnstile) {
     return (
-      <div className="bg-white/5 border border-white/10 p-8 rounded-lg text-center flex flex-col items-center justify-center h-full min-h-[300px]">
-        <h3 className="text-xl font-heading mb-6">Security Check</h3>
+      <div className="flex h-full min-h-[300px] flex-col items-start justify-center border border-white/15 p-8">
+        <h3 className="type-h3 mb-6">One quick check</h3>
         <div className="flex justify-center mb-4">
           <Turnstile
             ref={turnstileRef}
@@ -122,16 +120,16 @@ export function FooterForm() {
           />
         </div>
         <p className="text-white/70 text-sm mb-4">
-          {isSubmitting ? "Verifying and sending..." : "Please complete the security check."}
+          {isSubmitting ? "Verifying and sending..." : "Confirm you’re not a bot to send your enquiry."}
         </p>
         {serverError && (
           <div className="w-full">
-            <div role="alert" className="p-3 bg-red-500/10 border border-red-500/20 text-red-400 rounded-md text-sm mb-3">
+            <div role="alert" className="p-3 bg-red-500/10 border border-red-500/20 text-red-400 rounded-[2px] text-sm mb-3">
               {serverError}
             </div>
             <Button 
               variant="outline" 
-              className="bg-transparent border-white/20 hover:bg-white/10 hover:text-white text-white h-9 px-4 text-xs"
+              className="btn btn-outline h-auto rounded-[2px] bg-transparent text-white hover:bg-white/10 hover:text-white"
               onClick={() => setShowTurnstile(false)}
             >
               Go Back
@@ -146,24 +144,24 @@ export function FooterForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-3"
+        className="space-y-5"
       >
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <FormField
             control={form.control}
             name="fullName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="sr-only">Your Name</FormLabel>
+                <FormLabel className="text-sm font-medium text-steel-300">Name</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Your Name"
+                    placeholder=""
                     autoComplete="name"
-                    className="h-12 bg-white/5 border-white/10 text-white placeholder:text-white/30 focus-visible:ring-accent rounded-sm"
+                    className="h-12 rounded-[2px] border-white/15 bg-white/[0.04] text-base text-white placeholder:text-white/30 focus-visible:border-arc-light focus-visible:ring-0"
                     {...field}
                   />
                 </FormControl>
-                <FormMessage className="text-xs text-red-400" />
+                <FormMessage className="text-sm text-red-300" />
               </FormItem>
             )}
           />
@@ -172,18 +170,18 @@ export function FooterForm() {
             name="phoneNumber"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="sr-only">Phone Number</FormLabel>
+                <FormLabel className="text-sm font-medium text-steel-300">Phone</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Phone Number"
+                    placeholder="+91"
                     type="tel"
                     inputMode="tel"
                     autoComplete="tel"
-                    className="h-12 bg-white/5 border-white/10 text-white placeholder:text-white/30 focus-visible:ring-accent rounded-sm"
+                    className="h-12 rounded-[2px] border-white/15 bg-white/[0.04] text-base text-white placeholder:text-white/30 focus-visible:border-arc-light focus-visible:ring-0"
                     {...field}
                   />
                 </FormControl>
-                <FormMessage className="text-xs text-red-400" />
+                <FormMessage className="text-sm text-red-300" />
               </FormItem>
             )}
           />
@@ -193,17 +191,17 @@ export function FooterForm() {
           name="emailAddress"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="sr-only">Email Address</FormLabel>
+              <FormLabel className="text-sm font-medium text-steel-300">Email <span className="font-normal text-steel-400">(optional)</span></FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Email Address (Optional)"
+                  placeholder=""
                   type="email"
                   autoComplete="email"
-                  className="h-12 bg-white/5 border-white/10 text-white placeholder:text-white/30 focus-visible:ring-accent rounded-sm"
+                  className="h-12 rounded-[2px] border-white/15 bg-white/[0.04] text-base text-white placeholder:text-white/30 focus-visible:border-arc-light focus-visible:ring-0"
                   {...field}
                 />
               </FormControl>
-              <FormMessage className="text-xs text-red-400" />
+              <FormMessage className="text-sm text-red-300" />
             </FormItem>
           )}
         />
@@ -212,16 +210,16 @@ export function FooterForm() {
           name="projectDetails"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="sr-only">Project Details</FormLabel>
+              <FormLabel className="text-sm font-medium text-steel-300">About the project</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="Tell us about your project"
+                  placeholder="Type of structure, size, location"
                   rows={3}
-                  className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus-visible:ring-accent resize-none rounded-sm"
+                  className="min-h-28 resize-none rounded-[2px] border-white/15 bg-white/[0.04] text-base text-white placeholder:text-white/30 focus-visible:border-arc-light focus-visible:ring-0"
                   {...field}
                 />
               </FormControl>
-              <FormMessage className="text-xs text-red-400" />
+              <FormMessage className="text-sm text-red-300" />
             </FormItem>
           )}
         />
@@ -236,7 +234,7 @@ export function FooterForm() {
         </div>
         
         {serverError && (
-          <div role="alert" className="p-3 bg-red-500/10 border border-red-500/20 text-red-400 rounded-md text-sm">
+          <div role="alert" className="p-3 bg-red-500/10 border border-red-500/20 text-red-400 rounded-[2px] text-sm">
             {serverError}
           </div>
         )}
@@ -244,10 +242,9 @@ export function FooterForm() {
         <Button
           type="submit"
           disabled={isSubmitting}
-          className="gap-2 bg-accent text-white hover:bg-accent-dark rounded-sm group mt-2"
+          className="btn btn-primary h-auto w-full sm:w-auto"
         >
-          {isSubmitting ? "Sending..." : "Send Enquiry"}
-          {!isSubmitting && <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />}
+          {isSubmitting ? "Sending…" : "Send enquiry"}
         </Button>
       </form>
     </Form>

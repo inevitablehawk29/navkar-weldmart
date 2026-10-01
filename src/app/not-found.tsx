@@ -1,37 +1,40 @@
 import Link from "next/link";
-import { ArrowRight, AlertTriangle } from "lucide-react";
-import { SectionLabel } from "@/components/shared/section-label";
 
 export const metadata = {
-  title: "Page Not Found",
+  title: "Page not found",
   description: "The page you are looking for does not exist.",
 };
 
+const routes = [
+  { label: "Services", href: "/services" },
+  { label: "Projects", href: "/projects" },
+  { label: "Material supply", href: "/material-supply" },
+  { label: "Contact", href: "/contact" },
+];
+
 export default function NotFound() {
   return (
-    <section className="min-h-[80vh] flex flex-col items-center justify-center bg-surface border-b border-border py-24 text-center">
-      <div className="container-wide flex flex-col items-center">
-        <div className="w-20 h-20 bg-accent/10 rounded-full flex items-center justify-center text-accent mb-8">
-          <AlertTriangle className="w-10 h-10" />
+    <section className="bg-galv-100">
+      <div className="container-wide grid min-h-[80svh] content-center gap-12 pb-20 pt-[calc(var(--header-h)+4rem)] lg:grid-cols-12">
+        <div className="lg:col-span-7">
+          <p className="type-figure text-[clamp(5rem,14vw,11rem)] text-steel-300">404</p>
+          <h1 className="type-h1 mt-2 max-w-[13ch]">This page isn&apos;t on the drawing</h1>
+          <p className="type-lead mt-6 max-w-[44ch] text-steel-500">
+            The link may be old or mistyped. Try one of these, or go back to the home page.
+          </p>
+          <Link href="/" className="btn btn-primary mt-10">
+            Go to the home page
+          </Link>
         </div>
-        
-        <SectionLabel className="mb-4">Error 404</SectionLabel>
-        
-        <h1 className="text-5xl md:text-7xl font-heading text-foreground mb-6">
-          Page Not Found
-        </h1>
-        
-        <p className="text-lg md:text-xl text-muted max-w-lg mb-10">
-          The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.
-        </p>
-        
-        <Link 
-          href="/" 
-          className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 text-sm font-medium hover:bg-primary/90 transition-colors duration-300 rounded-md group"
-        >
-          Return to Homepage
-          <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-        </Link>
+        <ul className="self-end border-t border-foreground lg:col-span-4 lg:col-start-9">
+          {routes.map((r) => (
+            <li key={r.href} className="border-b border-zinc-line">
+              <Link href={r.href} className="type-h4 block py-4 hover:text-arc">
+                {r.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

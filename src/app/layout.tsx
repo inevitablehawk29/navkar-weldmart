@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Bebas_Neue } from "next/font/google";
+import { Archivo } from "next/font/google";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { MobileStickyQuote } from "@/components/layout/mobile-sticky-quote";
@@ -11,23 +11,17 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
+const archivo = Archivo({
+  variable: "--font-archivo",
   subsets: ["latin"],
-  display: "swap",
-});
-
-const bebasNeue = Bebas_Neue({
-  variable: "--font-bebas-neue",
-  weight: "400",
-  subsets: ["latin"],
+  axes: ["wdth"],
   display: "swap",
 });
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#111111",
+  themeColor: "#1B1F24",
 };
 
 export const metadata: Metadata = {
@@ -84,7 +78,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${bebasNeue.variable}`}>
+    <html lang="en" className={archivo.variable}>
       <head>
           <script
             type="application/ld+json"
@@ -145,12 +139,12 @@ export default function RootLayout({
         <FramerProvider>
           <MotionConfig reducedMotion="user">
             <NextTopLoader
-              color="#B48A4A"
-              height={3}
+              color="#0C5094"
+              height={2}
               showSpinner={false}
               easing="ease"
               speed={200}
-              shadow="0 0 10px #B48A4A,0 0 5px #B48A4A"
+              shadow={false}
             />
             <TooltipProvider>
               <Navbar />
