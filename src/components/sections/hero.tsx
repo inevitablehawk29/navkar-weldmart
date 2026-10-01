@@ -26,11 +26,13 @@ export function Hero() {
           sizes="100vw"
           className="animate-settle object-cover object-[62%_40%]"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-mill-950 via-mill-950/55 to-mill-950/10" />
-        <div className="absolute inset-0 bg-gradient-to-r from-mill-950/70 via-mill-950/20 to-transparent" />
+        {/* Scrims sit only where text sits, so the sky on the right keeps its light.
+            Phones get an even wash because the text spans the full width there. */}
+        <div className="absolute inset-0 bg-mill-950/35 lg:bg-transparent lg:bg-gradient-to-r lg:from-mill-950/85 lg:via-mill-950/35 lg:via-45% lg:to-transparent lg:to-70%" />
+        <div className="absolute inset-x-0 bottom-0 h-[55%] bg-gradient-to-t from-mill-950/90 via-mill-950/45 to-transparent" />
       </div>
 
-      <div className="container-wide flex flex-1 flex-col justify-end pb-10 pt-[calc(var(--header-h)+4rem)] lg:pb-14">
+      <div className="container-wide flex flex-1 flex-col justify-end pb-7 pt-[calc(var(--header-h)+2rem)] lg:pb-10">
         <h1 className="type-display max-w-[14ch]">
           {headline.map((line, i) => (
             <span key={line} className="block overflow-hidden pb-[0.06em]">
@@ -42,18 +44,18 @@ export function Hero() {
         </h1>
 
         <div
-          className="animate-fade mt-8 flex flex-col gap-8 lg:mt-10 lg:flex-row lg:items-end lg:justify-between"
+          className="animate-fade mt-5 flex flex-col gap-6 sm:mt-7 lg:flex-row lg:items-end lg:justify-between lg:gap-8"
           style={{ animationDelay: "750ms" }}
         >
-          <p className="type-lead max-w-[46ch] text-white/80">
+          <p className="max-w-[46ch] text-base leading-relaxed text-white sm:type-lead sm:text-white/85">
             Navkar Weldmart supplies, fabricates and installs steel for factories, warehouses,
             hotels and homes across Madhya Pradesh, from our workshop in Indore.
           </p>
-          <div className="flex flex-wrap gap-3">
+          <div className="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap">
             <QuoteModal>
-              <button className="btn btn-primary">Request a quote</button>
+              <button className="btn btn-primary px-3 sm:px-[1.375rem]">Request a quote</button>
             </QuoteModal>
-            <Link href="/projects" className="btn btn-outline text-white">
+            <Link href="/projects" className="btn btn-outline px-3 text-white sm:px-[1.375rem]">
               See our projects
             </Link>
           </div>
@@ -68,31 +70,30 @@ export function Hero() {
           style={{ animationDelay: "900ms" }}
         />
         <dl
-          className="container-wide animate-fade grid grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_1.6fr]"
+          className="container-wide animate-fade grid grid-cols-3 lg:grid-cols-[1fr_1fr_1fr_1.6fr]"
           style={{ animationDelay: "1100ms" }}
         >
           {titleBlock.map((item, i) => (
             <div
               key={item.label}
               className={
-                "flex flex-col gap-2 py-5 lg:py-6 " +
-                (i % 2 === 1 ? "border-l border-white/15 pl-5 lg:pl-8 " : "lg:pr-8 ") +
-                (i === 2 ? "border-t border-white/15 lg:border-l lg:border-t-0 lg:pl-8" : "")
+                "flex flex-col justify-between gap-1.5 py-4 lg:gap-2 lg:py-5 " +
+                (i > 0 ? "border-l border-white/15 pl-4 lg:pl-8" : "pr-4 lg:pr-8")
               }
             >
-              <dt className="type-label text-white/55">{item.label}</dt>
-              <dd className="type-figure text-[2rem] lg:text-[2.5rem]">{item.value}</dd>
+              <dt className="type-label text-[0.75rem] text-white/60 sm:text-[0.8125rem]">{item.label}</dt>
+              <dd className="type-figure text-[1.75rem] sm:text-[2rem] lg:text-[2.5rem]">{item.value}</dd>
             </div>
           ))}
-          <div className="flex flex-col gap-2 border-l border-t border-white/15 py-5 pl-5 lg:border-t-0 lg:py-6 lg:pl-8">
-            <dt className="type-label text-white/55">Latest handover</dt>
-            <dd>
+          <div className="col-span-3 flex items-baseline justify-between gap-4 border-t border-white/15 py-3 lg:col-span-1 lg:flex-col lg:justify-start lg:gap-2 lg:border-l lg:border-t-0 lg:py-5 lg:pl-8">
+            <dt className="type-label shrink-0 text-[0.75rem] text-white/60 sm:text-[0.8125rem]">Latest handover</dt>
+            <dd className="min-w-0 text-right lg:text-left">
               <Link
                 href="/projects/indore-tennis-club"
-                className="group inline-flex flex-col text-lg font-semibold leading-tight lg:text-xl"
+                className="group inline-flex flex-col font-semibold leading-tight lg:text-xl"
               >
-                <span className="link-rule self-start">Indore Tennis Club</span>
-                <span className="mt-1 text-sm font-normal text-white/55">Roof structure, 5,000 sq ft</span>
+                <span className="link-rule self-end lg:self-start">Indore Tennis Club</span>
+                <span className="mt-1 hidden text-sm font-normal text-white/60 lg:block">Roof structure, 5,000 sq ft</span>
               </Link>
             </dd>
           </div>

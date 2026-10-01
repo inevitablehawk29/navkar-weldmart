@@ -165,7 +165,9 @@ body[data-scroll-locked] header {
   font-stretch: 68%;
   font-variation-settings: "wdth" 68;
   font-weight: 750;
-  font-size: clamp(3rem, 8.4vw, 7.75rem);
+  /* Sized by width and height: short laptop viewports get a smaller headline
+     so the whole hero, facts strip included, fits on the first screen. */
+  font-size: clamp(2.75rem, min(8.4vw, 13.5svh), 7.75rem);
   line-height: 0.9;
   letter-spacing: -0.015em;
 }
@@ -320,7 +322,7 @@ body[data-scroll-locked] header {
 }
 
 @keyframes settle {
-  from { transform: scale(1.08); filter: brightness(0.55) saturate(0.7); }
+  from { transform: scale(1.06); filter: brightness(0.8) saturate(0.75); }
   to { transform: scale(1); filter: brightness(1) saturate(0.88); }
 }
 
